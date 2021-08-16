@@ -14,5 +14,10 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("TEST", "test");
         Log.d("TEST", "test");
+
+        // anjay
+        // nyobak
+        // rian
+        // lol sekali 9.25
     }
 }

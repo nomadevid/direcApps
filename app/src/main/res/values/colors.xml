@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Direc Color -->
+    <color name="direc_green_dark">#0EB29A</color>
+    <color name="direc_green_light">#4BE5CF</color>
+    <color name="direc_blue_light">#DDF4FF</color>
+    <color name="direc_blue_light_background">#F5FDFF</color>
+    <color name="direc_grey">#8C999A</color>
 </resources>

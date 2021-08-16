@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.search.SearchFragment">
+
+    <RelativeLayout
+        android:id="@+id/rl_action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="24dp">
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/ib_filter"
+            android:background="@drawable/rounded_edittext"
+            android:drawableStart="@drawable/search_icon_small"
+            android:drawablePadding="8dp"
+            android:hint="@string/search"
+            android:textSize="12sp" />
+
+        <ImageButton
+            android:id="@+id/ib_filter"
+            style="@style/IconActionBar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/filter_icon"
+            android:contentDescription="FILTER" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_search_info"
+        style="@style/TextCardViewContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_action_bar"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="maaf, pencarian tidak ditemukan" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_search_info"
+        android:layout_marginTop="16dp"
+        tools:listitem="@layout/item_search" />
+</RelativeLayout>

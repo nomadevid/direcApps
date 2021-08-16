@@ -14,10 +14,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("TEST", "test");
         Log.d("TEST", "test");
-        // firdaus weaboo
-    }
-
-    private void testMergeCommit() {
-
+        //firdaus weaboo
     }
 }

@@ -14,6 +14,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("TEST", "test");
         Log.d("TEST", "test");
-        //rian vs torik
+        //rian vs ekky bcs he is super ambis
     }
 }

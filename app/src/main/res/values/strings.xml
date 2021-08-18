@@ -16,4 +16,6 @@
     <string name="nomor_telepon">Nomor Telepon</string>
     <string name="alamat">Alamat</string>
     <string name="simpan">Simpan</string>
+    <string name="name_lengkap">Nama Lengkap</string>
+    <string name="gender">Jenis Kelamin</string>
 </resources>

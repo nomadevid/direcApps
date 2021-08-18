@@ -15,4 +15,6 @@
     <color name="direc_blue_light_dialog">#EFFFFD</color>
     <color name="direc_blue_light_background">#F5FDFF</color>
     <color name="direc_grey">#8C999A</color>
+    <color name="direc_green_light_cardview">#11D0B3</color>
+    <color name="direc_green_dark_cardview">#12B69E</color>
 </resources>

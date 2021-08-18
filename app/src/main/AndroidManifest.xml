@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DirecApps">
         <activity
+            android:name=".ui.home.dialogaddpasien.DialogAddPasienActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.home.HomeActivity"
             android:exported="true" />
         <activity

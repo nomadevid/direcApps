@@ -9,9 +9,7 @@
         android:id="@+id/rl_action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="24dp">
+        android:layout_marginBottom="16dp">
 
         <EditText
             android:id="@+id/et_search"
@@ -38,13 +36,11 @@
 
     <TextView
         android:id="@+id/tv_search_info"
-        style="@style/TextCardViewContent"
+        style="@style/TextCardViewContentBlack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_action_bar"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="8dp"
         android:text="maaf, pencarian tidak ditemukan" />
 
     <androidx.recyclerview.widget.RecyclerView

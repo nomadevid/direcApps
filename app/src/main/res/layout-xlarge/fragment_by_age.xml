@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/LayoutStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeActivity">
+    tools:context=".ui.home.byage.ByAgeFragment">
 
     <RelativeLayout
         android:id="@+id/rl_action_bar"
@@ -15,7 +13,7 @@
 
         <TextView
             android:id="@+id/tv_dashboard"
-            style="@style/TextActionBarTitle"
+            style="@style/TextActionBarTitle.xlarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dashboard" />
@@ -41,10 +39,18 @@
             android:background="@drawable/filter_icon" />
     </RelativeLayout>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_by_calendar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/rl_action_bar" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/riwayat_kosong"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_action_bar"
+        android:layout_marginTop="8dp"
+        tools:listitem="@layout/item_by_name" />
 
 </RelativeLayout>

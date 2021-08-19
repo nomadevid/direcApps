@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tv_time"
-        style="@style/TextTime"
+        style="@style/TextCardViewContentBlack"
         android:text="@string/time" />
 
     <RelativeLayout

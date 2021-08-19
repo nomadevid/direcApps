@@ -22,4 +22,11 @@
     <string name="username">Username</string>
     <string name="kata_sandi">Kata sandi</string>
     <string name="masuk">Masuk</string>
+    <string name="keluhan_title">Keluhan</string>
+    <string name="keluhan">Keluhan</string>
+    <string name="hasil_pemeriksaan_title">Hasil Pemeriksaan</string>
+    <string name="hasil_pemeriksaan">Hasil Pemeriksaan</string>
+    <string name="terapi_title">Terapi</string>
+    <string name="terapi">Terapi</string>
+    <string name="foto_title">Foto</string>
 </resources>

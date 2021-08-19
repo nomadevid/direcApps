@@ -81,7 +81,7 @@
 
                     <TextView
                         android:id="@+id/tv_usia"
-                        style="@style/TextCardViewContent"
+                        style="@style/TextCardViewContentWhite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -91,7 +91,7 @@
 
                     <TextView
                         android:id="@+id/tv_gender"
-                        style="@style/TextCardViewContent"
+                        style="@style/TextCardViewContentWhite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/gender"
@@ -111,7 +111,7 @@
 
                     <TextView
                         android:id="@+id/tv_telepon"
-                        style="@style/TextCardViewContent"
+                        style="@style/TextCardViewContentWhite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tv_data_diri"
@@ -128,7 +128,7 @@
 
                     <TextView
                         android:id="@+id/tv_alamat"
-                        style="@style/TextCardViewContent"
+                        style="@style/TextCardViewContentWhite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/alamat"/>

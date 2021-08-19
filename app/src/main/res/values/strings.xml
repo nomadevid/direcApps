@@ -18,6 +18,10 @@
     <string name="simpan">Simpan</string>
     <string name="name_lengkap">Nama Lengkap</string>
     <string name="gender">Jenis Kelamin</string>
+    <string name="logo">logo</string>
+    <string name="username">Username</string>
+    <string name="kata_sandi">Kata sandi</string>
+    <string name="masuk">Masuk</string>
     <string name="keluhan_title">Keluhan</string>
     <string name="keluhan">Keluhan</string>
     <string name="hasil_pemeriksaan_title">Hasil Pemeriksaan</string>

@@ -18,4 +18,11 @@
     <string name="simpan">Simpan</string>
     <string name="name_lengkap">Nama Lengkap</string>
     <string name="gender">Jenis Kelamin</string>
+    <string name="keluhan_title">Keluhan</string>
+    <string name="keluhan">Keluhan</string>
+    <string name="hasil_pemeriksaan_title">Hasil Pemeriksaan</string>
+    <string name="hasil_pemeriksaan">Hasil Pemeriksaan</string>
+    <string name="terapi_title">Terapi</string>
+    <string name="terapi">Terapi</string>
+    <string name="foto_title">Foto</string>
 </resources>

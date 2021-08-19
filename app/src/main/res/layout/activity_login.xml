@@ -71,12 +71,13 @@
 
     <EditText
         android:id="@+id/editTextTextPersonName"
+        style="@style/TextCardViewContentBlack"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:ems="10"
+        android:fontFamily="@font/lato_regular"
         android:hint="@string/username"
         android:inputType="textPersonName"
-        android:fontFamily="@font/lato_regular"
         app:layout_constraintDimensionRatio="125:25 "
         app:layout_constraintEnd_toEndOf="@id/guideline3"
         app:layout_constraintStart_toStartOf="@id/guideline2"
@@ -85,26 +86,26 @@
 
     <EditText
         android:id="@+id/editTextTextPersonName2"
+        style="@style/TextCardViewContentBlack"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:ems="10"
+        android:fontFamily="@font/lato_regular"
         android:hint="@string/kata_sandi"
         android:inputType="textPassword"
-        android:fontFamily="@font/lato_regular"
         app:layout_constraintDimensionRatio="125:25 "
         app:layout_constraintEnd_toEndOf="@id/guideline3"
         app:layout_constraintStart_toStartOf="@id/guideline2"
         app:layout_constraintTop_toBottomOf="@id/editTextTextPersonName"
         tools:ignore="Autofill" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button"
+        style="@style/ButtonStyle"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/gradient_button_masuk"
-        android:fontFamily="@font/lato_bold"
         android:text="@string/masuk"
-        android:textAllCaps="false"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintDimensionRatio="125:18"
         app:layout_constraintEnd_toEndOf="@id/guideline3"

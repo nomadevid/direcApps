@@ -6,52 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.bycalendar.ByCalendarFragment">
 
-    <RelativeLayout
-        android:id="@+id/rl_action_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
-
-        <TextView
-            android:id="@+id/tv_dashboard"
-            style="@style/TextActionBarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dashboard" />
-
-        <ImageButton
-            android:id="@+id/ib_search"
-            style="@style/IconActionBar"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_toStartOf="@+id/ib_filter"
-            android:background="@drawable/search_icon" />
-
-        <ImageButton
-            android:id="@+id/ib_filter"
-            style="@style/IconActionBar"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/filter_icon" />
-    </RelativeLayout>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Belum ada riwayat rekam data"
+        android:text="@string/riwayat_kosong"
         android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/ll_calendar"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:layout_below="@+id/rl_action_bar"
         android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"

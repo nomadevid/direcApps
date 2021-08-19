@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="8dp"
     tools:context=".ui.home.dialogaddpasien.DialogAddPasienActivity">
 
     <LinearLayout
+        style="@style/DialogStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        style="@style/DialogStyle">
+        android:orientation="vertical">
+
         <TextView
             style="@style/TextActionBarTitle"
             android:layout_width="wrap_content"
@@ -29,17 +30,21 @@
             style="@style/TextCardViewContentBlack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:text="@string/name" />
 
         <EditText
+            style="@style/TextCardViewContentBlack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/rounded_edittext" />
 
         <TextView
             style="@style/TextCardViewContentBlack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:text="@string/tanggal_lahir" />
 
         <LinearLayout
@@ -70,40 +75,50 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:text="@string/jenis_kelamin" />
 
         <EditText
+            style="@style/TextCardViewContentBlack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/rounded_edittext" />
 
         <TextView
             style="@style/TextCardViewContentBlack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:text="@string/nomor_telepon" />
 
         <EditText
+            style="@style/TextCardViewContentBlack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/rounded_edittext" />
 
         <TextView
             style="@style/TextCardViewContentBlack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:text="@string/alamat" />
 
         <EditText
+            style="@style/TextCardViewContentBlack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="36dp"/>
+            android:layout_marginBottom="36dp"
+            android:background="@drawable/rounded_edittext" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/simpan"
-            android:textAllCaps="false" />
+            android:background="@drawable/gradient_button_masuk"/>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

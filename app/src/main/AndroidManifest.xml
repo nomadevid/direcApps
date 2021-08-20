@@ -13,13 +13,22 @@
             android:name=".ui.search.SearchActivity"
             android:exported="true"
             android:theme="@style/Theme.DirecApps"/>
+      <activity
+            android:name=".ui.detail.dialogadddata.dialogAddData"
+            android:exported="true" />
         <activity
             android:name=".ui.home.dialogaddpasien.DialogAddPasienActivity"
             android:exported="true" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="true"
-            android:theme="@style/Theme.DirecApps">
+            android:theme="@style/Theme.DirecApps" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

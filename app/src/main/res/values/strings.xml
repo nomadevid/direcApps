@@ -31,6 +31,4 @@
     <string name="foto_title">Foto</string>
     <string name="tambah_data_title">Tambah Data</string>
     <string name="masukkan_rekam_data_pasien_anda">masukkan rekam data pasien anda</string>
-    <string name="keluhan_title">Keluhan</string>
-    <string name="hasil_pemeriksaan_title">Hasil Pemeriksaan</string>
 </resources>

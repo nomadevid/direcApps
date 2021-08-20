@@ -135,5 +135,11 @@
                 </RelativeLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            tools:listitem="@layout/item_hasil_periksa_pasien"/>
     </LinearLayout>
 </ScrollView>

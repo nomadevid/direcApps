@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
-    tools:context=".ui.home.dialogaddpasien.DialogAddPasienActivity">
+    tools:context=".ui.detail.dialogadddata.dialogAddData">
 
     <LinearLayout
         style="@style/DialogStyle"
@@ -17,27 +17,27 @@
             style="@style/TextActionBarTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tambah_pasien_baru" />
+            android:text="@string/tambah_data_title" />
 
         <TextView
             style="@style/TextCardViewContentGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="@string/masukkan_biodata_pasien_anda" />
+            android:text="@string/masukkan_rekam_data_pasien_anda" />
 
         <TextView
             style="@style/TextCardViewContentBlack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="@string/name" />
+            android:text="@string/keluhan_title" />
 
         <EditText
             style="@style/TextCardViewContentBlack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nama Lengkap"
+            android:hint="@string/keluhan_title"
             android:layout_marginBottom="12dp"
             android:background="@drawable/rounded_edittext" />
 
@@ -46,49 +46,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="@string/tanggal_lahir" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:autofillHints="day"
-                android:background="@drawable/style_spinner"/>
-
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:layout_weight="5"
-                android:background="@drawable/style_spinner" />
-
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:background="@drawable/style_spinner" />
-        </LinearLayout>
-
-        <TextView
-            style="@style/TextCardViewContentBlack"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="@string/jenis_kelamin" />
+            android:text="@string/hasil_pemeriksaan_title"/>
 
         <EditText
             style="@style/TextCardViewContentBlack"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Jenis Kelamin"
+            android:layout_height="68dp"
+            android:maxLines="50"
+            android:hint="@string/hasil_pemeriksaan"
+            android:gravity="top|left"
             android:layout_marginBottom="12dp"
             android:background="@drawable/rounded_edittext" />
 
@@ -97,32 +63,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="@string/nomor_telepon" />
-
-        <EditText
-            style="@style/TextCardViewContentBlack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nomor Telepon"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/rounded_edittext" />
-
-        <TextView
-            style="@style/TextCardViewContentBlack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="@string/alamat" />
+            android:text="@string/terapi_title" />
 
         <EditText
             style="@style/TextCardViewContentBlack"
             android:layout_width="match_parent"
             android:layout_height="96dp"
             android:maxLines="50"
-            android:hint="Alamat"
+            android:hint="@string/terapi"
             android:gravity="top|left"
-            android:layout_marginBottom="36dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/rounded_edittext" />
+
+        <TextView
+            style="@style/TextCardViewContentBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="@string/foto_title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="52dp"
+            tools:listitem="@layout/item_photo"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         <androidx.appcompat.widget.AppCompatButton
             style="@style/ButtonStyle"
@@ -132,4 +99,5 @@
             android:background="@drawable/gradient_button_masuk"/>
 
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

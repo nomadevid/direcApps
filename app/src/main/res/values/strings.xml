@@ -29,4 +29,6 @@
     <string name="terapi_title">Terapi</string>
     <string name="terapi">Terapi</string>
     <string name="foto_title">Foto</string>
+    <string name="filter">Filter</string>
+    <string name="pencarian_fail">maaf, pencarian tidak ditemukan</string>
 </resources>

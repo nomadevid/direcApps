@@ -2,6 +2,5 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/direc_blue_light_background"/>
     <item android:drawable="@drawable/logo"
-        android:gravity="center"
-        />
+        android:gravity="center"/>
 </layer-list>

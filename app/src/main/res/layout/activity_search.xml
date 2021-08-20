@@ -3,35 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.search.SearchFragment">
+    android:background="@color/direc_blue_light_background"
+    tools:context=".ui.search.SearchActivity">
 
     <RelativeLayout
         android:id="@+id/rl_action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="16dp">
 
         <EditText
             android:id="@+id/et_search"
+            style="@style/TextCardViewContentBlack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/ib_filter"
             android:background="@drawable/rounded_edittext"
             android:drawableStart="@drawable/search_icon_small"
             android:drawablePadding="8dp"
             android:hint="@string/search"
-            android:textSize="12sp" />
-
-        <ImageButton
-            android:id="@+id/ib_filter"
-            style="@style/IconActionBar"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="12dp"
-            android:background="@drawable/filter_icon"
-            android:contentDescription="FILTER" />
+            android:importantForAutofill="no"
+            android:inputType="text" />
     </RelativeLayout>
 
     <TextView
@@ -40,8 +32,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_action_bar"
+        android:layout_marginHorizontal="28dp"
         android:layout_marginTop="8dp"
-        android:text="maaf, pencarian tidak ditemukan" />
+        android:text="@string/pencarian_fail"
+        android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="wrap_content"

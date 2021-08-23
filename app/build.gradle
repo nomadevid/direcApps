@@ -56,4 +56,7 @@ dependencies {
     // https://firebase.google.com/docs/android/setup#available-libraries
     implementation 'com.google.firebase:firebase-database:20.0.1'
 
+    // Add Firebase Firestore
+    implementation 'com.google.firebase.firestore:23.0.3'
+
 }

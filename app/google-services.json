@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "17446765798",
+    "project_id": "direc-apps",
+    "storage_bucket": "direc-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17446765798:android:1bbce89101563d22036727",
+        "android_client_info": {
+          "package_name": "com.nomadev.direc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17446765798-496b5kt2jf0j26b8qastln4r9dljlkrl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ0_QbYVNosFfOHhpEKGURphp1EXSPE2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17446765798-496b5kt2jf0j26b8qastln4r9dljlkrl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

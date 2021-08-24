@@ -7,7 +7,6 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -43,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     private String telepon;
     private String alamat;
     private String tanggal_lahir;
+    private String usia;
     private DatePickerDialog datePickerDialog;
     private Button btnTanggalLahir;
     private Dialog dialog;
@@ -54,7 +54,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         db = FirebaseFirestore.getInstance();
-        initDatePicker();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -115,6 +114,8 @@ public class HomeActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void showDialog() {
+        initDatePicker();
+
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
         int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);
 
@@ -170,7 +171,10 @@ public class HomeActivity extends AppCompatActivity {
     private void initDatePicker() {
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
             month = month + 1;
-            btnTanggalLahir.setText(dayOfMonth + "/" + month + "/" + year);
+            String tanggalLahir = dayOfMonth + "/" + month + "/" + year;
+            btnTanggalLahir.setText(tanggalLahir);
+
+            calculateAge(year, month, dayOfMonth);
         };
         Calendar calendar = Calendar.getInstance();
         int tahun = calendar.get(Calendar.YEAR);
@@ -205,5 +209,21 @@ public class HomeActivity extends AppCompatActivity {
             Toast.makeText(HomeActivity.this, "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
+    }
+
+    private void calculateAge(int year, int month, int day) {
+        // HITUNG USIA
+        Calendar dob = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+
+        dob.set(year, month, day);
+
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+            age--;
+        }
+
+        String ageStr = String.valueOf(age);
+        Log.d("usia", ageStr);
     }
 }

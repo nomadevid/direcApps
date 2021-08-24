@@ -5,40 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.byage.ByAgeFragment">
 
-    <RelativeLayout
-        android:id="@+id/rl_action_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
-
-        <TextView
-            android:id="@+id/tv_dashboard"
-            style="@style/TextActionBarTitle.xlarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/dashboard" />
-
-        <ImageButton
-            android:id="@+id/ib_search"
-            style="@style/IconActionBar"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_toStartOf="@+id/ib_filter"
-            android:background="@drawable/search_icon" />
-
-        <ImageButton
-            android:id="@+id/ib_filter"
-            style="@style/IconActionBar"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/filter_icon" />
-    </RelativeLayout>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

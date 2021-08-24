@@ -29,6 +29,7 @@ import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.home.byage.ByAgeFragment;
 import com.nomadev.direc.ui.home.bycalendar.ByCalendarFragment;
 import com.nomadev.direc.ui.home.byname.ByNameFragment;
+import com.nomadev.direc.ui.home.dialogaddpasien.DialogAddPasienActivity;
 import com.nomadev.direc.ui.search.SearchActivity;
 
 import java.util.Calendar;
@@ -76,7 +77,10 @@ public class HomeActivity extends AppCompatActivity {
             overridePendingTransition(0, 0);
         });
 
-        binding.floatingActionButton.setOnClickListener(v -> showDialog());
+        binding.floatingActionButton.setOnClickListener(v -> {
+            DialogAddPasienActivity dialog = new DialogAddPasienActivity();
+            dialog.show(getSupportFragmentManager(), "DialogAddPasien");
+        });
     }
 
     @SuppressLint("NonConstantResourceId")

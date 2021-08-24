@@ -40,21 +40,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.27" />
+        app:layout_constraintGuide_percent="0.25" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.73" />
+        app:layout_constraintGuide_percent="0.70" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.46" />
+        app:layout_constraintGuide_percent="0.42" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.80" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -69,8 +76,8 @@
         app:srcCompat="@drawable/logo"
         tools:ignore="ImageContrastCheck" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/editTextTextUsername"
         style="@style/TextCardViewContentBlack"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -84,8 +91,8 @@
         app:layout_constraintTop_toBottomOf="@+id/guideline8"
         tools:ignore="Autofill" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName2"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/editTextPassword"
         style="@style/TextCardViewContentBlack"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -96,22 +103,36 @@
         app:layout_constraintDimensionRatio="125:25 "
         app:layout_constraintEnd_toEndOf="@id/guideline3"
         app:layout_constraintStart_toStartOf="@id/guideline2"
-        app:layout_constraintTop_toBottomOf="@id/editTextTextPersonName"
+        app:layout_constraintTop_toBottomOf="@id/editTextTextUsername"
         tools:ignore="Autofill" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
-        style="@style/ButtonStyle"
+        android:id="@+id/buttonMasuk"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/gradient_button_masuk"
         android:text="@string/masuk"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintDimensionRatio="125:18"
         app:layout_constraintEnd_toEndOf="@id/guideline3"
         app:layout_constraintStart_toStartOf="@id/guideline2"
-        app:layout_constraintTop_toBottomOf="@id/editTextTextPersonName2"
+        app:layout_constraintTop_toBottomOf="@id/editTextPassword"
         tools:ignore="TouchTargetSizeCheck" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guideline10"
+        app:layout_constraintTop_toBottomOf="@id/guideline7"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@id/guideline5"
+        app:layout_constraintStart_toStartOf="@id/guideline4"/>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

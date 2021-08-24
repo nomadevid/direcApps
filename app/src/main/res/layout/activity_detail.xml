@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,139 +8,163 @@
     android:layout_marginHorizontal="16dp"
     tools:context=".ui.detail.DetailActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_height="match_parent"
+        tools:context=".ui.detail.DetailActivity">
 
-        <RelativeLayout
-            android:id="@+id/rl_action_bar"
-            android:layout_marginVertical="12dp"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:orientation="vertical" >
 
-            <ImageButton
-                android:id="@+id/ib_back"
-                android:layout_width="10dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/back_icon"/>
-
-            <TextView
-                android:id="@+id/tv_dashboard"
-                style="@style/TextActionBarTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/dashboard"
-                android:layout_marginStart="20dp"
-                android:layout_toEndOf="@id/ib_back"/>
-        </RelativeLayout>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_data_diri"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp" >
-
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/rl_action_bar"
+                android:layout_marginVertical="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginBottom="16dp">
 
-                <RelativeLayout
+                <ImageButton
+                    android:id="@+id/ib_back"
+                    android:layout_width="10dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/back_icon"/>
+
+                <TextView
+                    android:id="@+id/tv_dashboard"
+                    style="@style/TextActionBarTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/dashboard"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@id/ib_back"/>
+            </RelativeLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_data_diri"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp" >
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:background="@color/direc_green_dark_cardview">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_data_diri"
-                        style="@style/TextCardViewName"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/name_lengkap" />
+                        android:padding="16dp"
+                        android:background="@color/direc_green_dark_cardview">
 
-                    <ImageButton
-                        android:id="@+id/ib_edit"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/icon_edit" />
+                        <TextView
+                            android:id="@+id/tv_data_diri"
+                            style="@style/TextCardViewName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/name_lengkap" />
 
-                    <ImageView
-                        android:id="@+id/iv_gender"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_below="@id/tv_data_diri"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:src="@drawable/icon_gender_kotak"/>
+                        <ImageButton
+                            android:id="@+id/ib_edit"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/icon_edit" />
 
-                    <TextView
-                        android:id="@+id/tv_usia"
-                        style="@style/TextCardViewContentWhite"
-                        android:layout_width="wrap_content"
+                        <ImageView
+                            android:id="@+id/iv_gender"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_below="@id/tv_data_diri"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/icon_gender_kotak"/>
+
+                        <TextView
+                            android:id="@+id/tv_usia"
+                            style="@style/TextCardViewContentWhite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_below="@id/tv_data_diri"
+                            android:layout_toEndOf="@id/iv_gender"
+                            android:text="@string/usia" />
+
+                        <TextView
+                            android:id="@+id/tv_gender"
+                            style="@style/TextCardViewContentWhite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gender"
+                            android:layout_below="@id/tv_usia"
+                            android:layout_toEndOf="@id/iv_gender"/>
+
+                        <ImageView
+                            android:id="@+id/iv_telepon"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_below="@id/tv_data_diri"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_toEndOf="@id/tv_gender"
+                            android:src="@drawable/icon_telepon_kotak" />
+
+                        <TextView
+                            android:id="@+id/tv_telepon"
+                            style="@style/TextCardViewContentWhite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_data_diri"
+                            android:layout_marginTop="16dp"
+                            android:layout_toEndOf="@id/iv_telepon"
+                            android:text="@string/nomor_telepon" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_below="@id/tv_data_diri"
-                        android:layout_toEndOf="@id/iv_gender"
-                        android:text="@string/usia" />
+                        android:padding="16dp"
+                        android:background="@color/direc_green_light_cardview">
 
-                    <TextView
-                        android:id="@+id/tv_gender"
-                        style="@style/TextCardViewContentWhite"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/gender"
-                        android:layout_below="@id/tv_usia"
-                        android:layout_toEndOf="@id/iv_gender"/>
+                        <TextView
+                            android:id="@+id/tv_alamat"
+                            style="@style/TextCardViewContentWhite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/alamat"/>
 
-                    <ImageView
-                        android:id="@+id/iv_telepon"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_below="@id/tv_data_diri"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_toEndOf="@id/tv_gender"
-                        android:src="@drawable/icon_telepon_kotak"/>
+                        <ImageView
+                            android:id="@+id/iv_map"
+                            android:layout_width="37dp"
+                            android:layout_height="55.24dp"
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/icon_map"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-                    <TextView
-                        android:id="@+id/tv_telepon"
-                        style="@style/TextCardViewContentWhite"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_data_diri"
-                        android:layout_marginTop="16dp"
-                        android:layout_toEndOf="@id/iv_telepon"
-                        android:text="@string/nomor_telepon" />
-                </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                tools:listitem="@layout/item_hasil_periksa_pasien"/>
+        </LinearLayout>
+    </ScrollView>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:background="@color/direc_green_light_cardview">
-
-                    <TextView
-                        android:id="@+id/tv_alamat"
-                        style="@style/TextCardViewContentWhite"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/alamat"/>
-                </RelativeLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            tools:listitem="@layout/item_hasil_periksa_pasien"/>
-    </LinearLayout>
-</ScrollView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_tambah_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        app:fabSize="normal"
+        android:src="@drawable/icon_add"
+        android:backgroundTint="@color/direc_green_dark"
+        android:contentDescription="@string/tambah_data_pasien" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

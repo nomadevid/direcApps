@@ -29,6 +29,7 @@ import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.home.byage.ByAgeFragment;
 import com.nomadev.direc.ui.home.bycalendar.ByCalendarFragment;
 import com.nomadev.direc.ui.home.byname.ByNameFragment;
+import com.nomadev.direc.ui.home.dialogaddpasien.DialogAddPasienActivity;
 import com.nomadev.direc.ui.search.SearchActivity;
 
 import java.util.Calendar;
@@ -41,7 +42,8 @@ public class HomeActivity extends AppCompatActivity {
     private String kelamin;
     private String telepon;
     private String alamat;
-    private String tanggalLahir;
+    private String tanggal_lahir;
+    private String usia;
     private DatePickerDialog datePickerDialog;
     private Button btnTanggalLahir;
     private Dialog dialog;
@@ -53,7 +55,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         db = FirebaseFirestore.getInstance();
-        initDatePicker();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -76,7 +77,10 @@ public class HomeActivity extends AppCompatActivity {
             overridePendingTransition(0, 0);
         });
 
-        binding.floatingActionButton.setOnClickListener(v -> showDialog());
+        binding.floatingActionButton.setOnClickListener(v -> {
+            DialogAddPasienActivity dialog = new DialogAddPasienActivity();
+            dialog.show(getSupportFragmentManager(), "DialogAddPasien");
+        });
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -114,6 +118,8 @@ public class HomeActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void showDialog() {
+        initDatePicker();
+
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
         int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);
 
@@ -161,15 +167,18 @@ public class HomeActivity extends AppCompatActivity {
             kelamin = String.valueOf(spinnerGender.getSelectedItem());
             telepon = String.valueOf(etNomorTelepon.getText());
             alamat = String.valueOf(etAlamat.getText());
-            tanggalLahir = String.valueOf(btnTanggalLahir.getText());
-            postData(nama, kelamin, telepon, alamat, tanggalLahir);
+            tanggal_lahir = String.valueOf(btnTanggalLahir.getText());
+            postData(nama, kelamin, telepon, alamat, tanggal_lahir);
         });
     }
 
     private void initDatePicker() {
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
             month = month + 1;
-            btnTanggalLahir.setText(dayOfMonth + "/" + month + "/" + year);
+            String tanggalLahir = dayOfMonth + "/" + month + "/" + year;
+            btnTanggalLahir.setText(tanggalLahir);
+
+            calculateAge(year, month, dayOfMonth);
         };
         Calendar calendar = Calendar.getInstance();
         int tahun = calendar.get(Calendar.YEAR);
@@ -189,15 +198,36 @@ public class HomeActivity extends AppCompatActivity {
         // adding our data to our courses object class.
         PasienModel pasienModel = new PasienModel(nama, kelamin, telepon, alamat, tanggalLahir);
 
-        // below method is use to add data to Firebase Firestore.
+        // POST TO "pasien" COLLECTION
         dbPasien.add(pasienModel).addOnSuccessListener(documentReference -> {
             Log.d("SUCCESS", "Data terkirim: " + nama + kelamin + telepon + alamat);
             Toast.makeText(HomeActivity.this, "Data terkirim.", Toast.LENGTH_SHORT).show();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setReorderingAllowed(true)
+                    .replace(R.id.fragment_home, ByNameFragment.class, null)
+                    .commit();
             dialog.dismiss();
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
             Toast.makeText(HomeActivity.this, "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
+    }
+
+    private void calculateAge(int year, int month, int day) {
+        // HITUNG USIA
+        Calendar dob = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+
+        dob.set(year, month, day);
+
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+            age--;
+        }
+
+        String ageStr = String.valueOf(age);
+        Log.d("usia", ageStr);
     }
 }

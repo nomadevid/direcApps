@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     private String kelamin;
     private String telepon;
     private String alamat;
-    private String tanggalLahir;
+    private String tanggal_lahir;
     private DatePickerDialog datePickerDialog;
     private Button btnTanggalLahir;
     private Dialog dialog;
@@ -161,8 +162,8 @@ public class HomeActivity extends AppCompatActivity {
             kelamin = String.valueOf(spinnerGender.getSelectedItem());
             telepon = String.valueOf(etNomorTelepon.getText());
             alamat = String.valueOf(etAlamat.getText());
-            tanggalLahir = String.valueOf(btnTanggalLahir.getText());
-            postData(nama, kelamin, telepon, alamat, tanggalLahir);
+            tanggal_lahir = String.valueOf(btnTanggalLahir.getText());
+            postData(nama, kelamin, telepon, alamat, tanggal_lahir);
         });
     }
 
@@ -189,10 +190,15 @@ public class HomeActivity extends AppCompatActivity {
         // adding our data to our courses object class.
         PasienModel pasienModel = new PasienModel(nama, kelamin, telepon, alamat, tanggalLahir);
 
-        // below method is use to add data to Firebase Firestore.
+        // POST TO "pasien" COLLECTION
         dbPasien.add(pasienModel).addOnSuccessListener(documentReference -> {
             Log.d("SUCCESS", "Data terkirim: " + nama + kelamin + telepon + alamat);
             Toast.makeText(HomeActivity.this, "Data terkirim.", Toast.LENGTH_SHORT).show();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setReorderingAllowed(true)
+                    .replace(R.id.fragment_home, ByNameFragment.class, null)
+                    .commit();
             dialog.dismiss();
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());

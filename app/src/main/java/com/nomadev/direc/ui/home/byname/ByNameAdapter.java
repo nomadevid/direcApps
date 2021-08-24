@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nomadev.direc.databinding.ItemByNameBinding;
 import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.detail.DetailActivity;
-import com.nomadev.direc.ui.home.HomeActivity;
 
 import java.util.ArrayList;
 

@@ -7,7 +7,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.FragmentByNameBinding;
@@ -50,22 +53,37 @@ public class ByNameFragment extends Fragment {
         listPasien = new ArrayList<>();
         adapter = new ByNameAdapter(listPasien);
 
-        binding.rvByName.setHasFixedSize(true);
-        binding.rvByName.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binding.rvByName.setAdapter(adapter);
+        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        listPasien.clear();
+                        Log.d("listPasien: ", listPasien.toString());
+                        getPasienData();
+                        showRecyclerView();
+                    }
+                }, 2000);
+            }
+        });
 
         showProgressBar(true);
         getPasienData();
+        showRecyclerView();
     }
 
     private void getPasienData() {
         CollectionReference dbPasien = db.collection("pasien");
+        Query query = dbPasien.orderBy("nama", Query.Direction.ASCENDING);
 
-        dbPasien.get().addOnSuccessListener(queryDocumentSnapshots -> {
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
             showProgressBar(false);
+            Log.d("queryDocumentSnapshots", queryDocumentSnapshots.toString());
             if (!queryDocumentSnapshots.isEmpty()) {
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                 for (DocumentSnapshot d : list) {
+                    Log.d("SNAPSHOT", d.toString());
                     PasienModel pasienModel = d.toObject(PasienModel.class);
                     listPasien.add(pasienModel);
                 }
@@ -76,11 +94,19 @@ public class ByNameFragment extends Fragment {
                 Log.d("FEEDBACK", "Data Kosong.");
                 Toast.makeText(getActivity(), "Data Kosong.", Toast.LENGTH_SHORT).show();
             }
+            binding.refreshLayout.setRefreshing(false);
         }).addOnFailureListener(e -> {
             showProgressBar(false);
             Log.d("FEEDBACK", "Error: " + e.toString());
             Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+            binding.refreshLayout.setRefreshing(false);
         });
+    }
+
+    private void showRecyclerView() {
+        binding.rvByName.setHasFixedSize(true);
+        binding.rvByName.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rvByName.setAdapter(adapter);
     }
 
     private void showProgressBar(Boolean state) {

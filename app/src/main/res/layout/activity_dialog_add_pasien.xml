@@ -94,7 +94,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/style_spinner" />
+                android:background="@drawable/style_spinner"
+                android:popupBackground="@color/white"/>
 
             <TextView
                 style="@style/TextCardViewContentBlack"

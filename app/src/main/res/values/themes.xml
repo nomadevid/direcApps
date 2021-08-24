@@ -90,6 +90,14 @@
         <item name="fontFamily">@font/lato_bold</item>
     </style>
 
+    <style name="TextCardViewDate">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#7D7D7D</item>
+        <item name="fontFamily">@font/lato_bold</item>
+    </style>
+
     <style name="TextCardViewTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

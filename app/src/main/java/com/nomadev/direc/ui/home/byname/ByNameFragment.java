@@ -2,65 +2,92 @@ package com.nomadev.direc.ui.home.byname;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nomadev.direc.R;
+import com.nomadev.direc.databinding.FragmentByNameBinding;
+import com.nomadev.direc.model.PasienModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ByNameFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class ByNameFragment extends Fragment {
+    private FragmentByNameBinding binding;
+    private FirebaseFirestore db;
+    private ArrayList<PasienModel> listPasien;
+    private ByNameAdapter adapter;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ByNameFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ByNameFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ByNameFragment newInstance(String param1, String param2) {
-        ByNameFragment fragment = new ByNameFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentByNameBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        showProgressBar(true);
+        return view;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        db = FirebaseFirestore.getInstance();
+        listPasien = new ArrayList<>();
+        adapter = new ByNameAdapter(listPasien);
+
+        binding.rvByName.setHasFixedSize(true);
+        binding.rvByName.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rvByName.setAdapter(adapter);
+
+        showProgressBar(true);
+        getPasienData();
+    }
+
+    private void getPasienData() {
+        CollectionReference dbPasien = db.collection("pasien");
+
+        dbPasien.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            showProgressBar(false);
+            if (!queryDocumentSnapshots.isEmpty()) {
+                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                for (DocumentSnapshot d : list) {
+                    PasienModel pasienModel = d.toObject(PasienModel.class);
+                    listPasien.add(pasienModel);
+                }
+                adapter.notifyDataSetChanged();
+                Log.d("FEEDBACK", "Berhasil Mengambil Data.");
+                Toast.makeText(getActivity(), "Berhasil Mengambil Data.", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.d("FEEDBACK", "Data Kosong.");
+                Toast.makeText(getActivity(), "Data Kosong.", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(e -> {
+            showProgressBar(false);
+            Log.d("FEEDBACK", "Error: " + e.toString());
+            Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void showProgressBar(Boolean state) {
+        if (state) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            binding.progressBar.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_by_name, container, false);
     }
 }

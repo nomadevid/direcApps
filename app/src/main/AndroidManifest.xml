@@ -18,13 +18,16 @@
             android:exported="true"
             android:theme="@style/Theme.DirecApps" />
         <activity
-            android:name=".ui.detail.dialogadddata.dialogAddData"
+            android:name=".ui.detail.dialogadddata.DialogAddDataActivity"
             android:exported="true" />
 
         <activity
             android:name=".ui.detail.DetailActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".ui.detail.DetailActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.home.dialogaddpasien.DialogAddPasienActivity"
             android:exported="true" />

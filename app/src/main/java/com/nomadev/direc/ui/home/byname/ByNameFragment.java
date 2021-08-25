@@ -85,6 +85,7 @@ public class ByNameFragment extends Fragment {
                 for (DocumentSnapshot d : list) {
                     Log.d("SNAPSHOT", d.toString());
                     PasienModel pasienModel = d.toObject(PasienModel.class);
+                    pasienModel.setId(d.getId());
                     listPasien.add(pasienModel);
                 }
                 adapter.notifyDataSetChanged();

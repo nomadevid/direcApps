@@ -47,10 +47,11 @@ public class ByNameAdapter extends RecyclerView.Adapter<ByNameAdapter.ViewHolder
         private final String TELEPON = "telepon";
         private final String ALAMAT = "alamat";
         private final String TANGGAL_LAHIR = "tanggal_lahir";
+        private final String ID = "id";
 
         private final ItemByNameBinding binding;
 
-        private String nama, kelamin, telepon, alamat, tanggalLahir;
+        private String nama, kelamin, telepon, alamat, tanggalLahir, id;
 
         public ViewHolder(@NonNull ItemByNameBinding binding) {
             super(binding.getRoot());
@@ -63,6 +64,7 @@ public class ByNameAdapter extends RecyclerView.Adapter<ByNameAdapter.ViewHolder
             telepon = pasienModel.getTelepon();
             alamat = pasienModel.getAlamat();
             tanggalLahir = pasienModel.getTanggalLahir();
+            id = pasienModel.getId();
 
             binding.tvNama.setText(nama);
             binding.tvUsia.setText(kelamin);
@@ -77,6 +79,7 @@ public class ByNameAdapter extends RecyclerView.Adapter<ByNameAdapter.ViewHolder
             intent.putExtra(TELEPON, telepon);
             intent.putExtra(ALAMAT, alamat);
             intent.putExtra(TANGGAL_LAHIR, tanggalLahir);
+            intent.putExtra(ID, id);
             itemView.getContext().startActivity(intent);
         }
     }

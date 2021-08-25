@@ -1,6 +1,20 @@
 package com.nomadev.direc.model;
 
+import com.google.firebase.firestore.Exclude;
+
 public class PasienModel {
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Exclude
+    private String id;
+
     private String nama, kelamin, telepon, alamat, tanggal_lahir;
 
     public PasienModel() {

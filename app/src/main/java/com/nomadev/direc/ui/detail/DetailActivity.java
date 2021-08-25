@@ -16,14 +16,17 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDetailBinding;
 import com.nomadev.direc.model.HasilPeriksaModel;
 import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.detail.dialogadddata.DialogAddDataActivity;
+import com.nomadev.direc.ui.home.dialogaddpasien.DialogUpdatePasienActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,25 +55,16 @@ public class DetailActivity extends AppCompatActivity {
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        nama = getIntent().getStringExtra(NAMA);
-        kelamin = getIntent().getStringExtra(GENDER);
-        telepon = getIntent().getStringExtra(TELEPON);
-        alamat = getIntent().getStringExtra(ALAMAT);
-        tanggalLahir = getIntent().getStringExtra(TANGGAL_LAHIR);
         id = getIntent().getStringExtra(ID);
         //Log.d("ID", "Ini ID : " + id);
 
-        binding.tvDataDiri.setText(nama);
-        binding.tvUsia.setText(tanggalLahir);
-        binding.tvGender.setText(kelamin);
-        binding.tvTelepon.setText(telepon);
-        binding.tvAlamat.setText(alamat);
 
         //Recycle View Build Firebase
         hasilPeriksaModelArrayList = new ArrayList<>();
         hasilPeriksaAdapter = new HasilPeriksaAdapter(hasilPeriksaModelArrayList);
         db = FirebaseFirestore.getInstance();
 
+        getPasienData();
         getHasilPeriksaData();
         showRecyclerView();
 
@@ -80,6 +74,14 @@ public class DetailActivity extends AppCompatActivity {
             bundle.putString(ID, id);
             dialog.setArguments(bundle);
             dialog.show(getSupportFragmentManager(),"Dialog Add Data");
+        });
+
+        binding.ibEdit.setOnClickListener(v -> {
+            DialogUpdatePasienActivity dialog = new DialogUpdatePasienActivity();
+            Bundle bundle = new Bundle();
+            bundle.putString(ID, id);
+            dialog.setArguments(bundle);
+            dialog.show(getSupportFragmentManager(),"Dialog Edit Pasien");
         });
     }
 
@@ -108,11 +110,32 @@ public class DetailActivity extends AppCompatActivity {
         }).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());
     }
 
-//    private void showProgressBar(Boolean state) {
-//        if (state) {
-//            binding.progressBar.setVisibility(View.VISIBLE);
-//        } else {
-//            binding.progressBar.setVisibility(View.GONE);
-//        }
-//    }
+    private void getPasienData() {
+        DocumentReference dbPasien = db.collection("pasien").document(id);
+
+        dbPasien.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()){
+                    nama = documentSnapshot.getString("nama");
+                    tanggalLahir = documentSnapshot.getString("tanggalLahir");
+                    kelamin = documentSnapshot.getString("kelamin");
+                    telepon = documentSnapshot.getString("telepon");
+                    alamat = documentSnapshot.getString("alamat");
+
+                    binding.tvDataDiri.setText(nama);
+                    binding.tvUsia.setText(tanggalLahir);
+                    binding.tvGender.setText(kelamin);
+                    binding.tvTelepon.setText(telepon);
+                    binding.tvAlamat.setText(alamat);
+
+                    Log.d("FEEDBACK", "Berhasil Mengambil Data.");
+                }
+                else {
+                    Log.d("FEEDBACK", "Data Kosong.");
+                }
+            }
+        }).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());
+
+    }
 }

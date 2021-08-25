@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="16dp"
+    android:paddingHorizontal="16dp"
     tools:context=".ui.detail.DetailActivity">
 
     <ScrollView
@@ -16,13 +15,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/rl_action_bar"
-                android:layout_marginVertical="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
                 android:layout_marginBottom="16dp">
 
                 <ImageButton
@@ -31,7 +30,7 @@
                     android:layout_height="20dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/back_icon"/>
+                    android:background="@drawable/back_icon" />
 
                 <TextView
                     android:id="@+id/tv_dashboard"
@@ -39,16 +38,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/dashboard"
                     android:layout_marginStart="20dp"
-                    android:layout_toEndOf="@id/ib_back"/>
+                    android:layout_toEndOf="@id/ib_back"
+                    android:text="@string/detail_pasien" />
             </RelativeLayout>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_data_diri"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp" >
+                app:cardCornerRadius="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -58,8 +57,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:background="@color/direc_green_dark_cardview">
+                        android:background="@color/direc_green_dark_cardview"
+                        android:padding="16dp">
 
                         <TextView
                             android:id="@+id/tv_data_diri"
@@ -83,15 +82,15 @@
                             android:layout_below="@id/tv_data_diri"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
-                            android:src="@drawable/icon_gender_kotak"/>
+                            android:src="@drawable/icon_gender_kotak" />
 
                         <TextView
                             android:id="@+id/tv_usia"
                             style="@style/TextCardViewContentWhite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
                             android:layout_below="@id/tv_data_diri"
+                            android:layout_marginTop="8dp"
                             android:layout_toEndOf="@id/iv_gender"
                             android:text="@string/usia" />
 
@@ -100,9 +99,10 @@
                             style="@style/TextCardViewContentWhite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/gender"
                             android:layout_below="@id/tv_usia"
-                            android:layout_toEndOf="@id/iv_gender"/>
+                            android:layout_marginEnd="16dp"
+                            android:layout_toEndOf="@id/iv_gender"
+                            android:text="@string/gender" />
 
                         <ImageView
                             android:id="@+id/iv_telepon"
@@ -129,31 +129,32 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:background="@color/direc_green_light_cardview">
+                        android:background="@color/direc_green_light_cardview"
+                        android:padding="16dp">
 
                         <TextView
                             android:id="@+id/tv_alamat"
                             style="@style/TextCardViewContentWhite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/alamat"/>
+                            android:text="@string/alamat" />
 
                         <ImageView
                             android:id="@+id/iv_map"
                             android:layout_width="37dp"
                             android:layout_height="55.24dp"
                             android:layout_alignParentEnd="true"
-                            android:src="@drawable/icon_map"/>
+                            android:src="@drawable/icon_map" />
                     </RelativeLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_hasil_periksa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                tools:listitem="@layout/item_hasil_periksa_pasien"/>
+                tools:listitem="@layout/item_hasil_periksa_pasien" />
         </LinearLayout>
     </ScrollView>
 
@@ -163,8 +164,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        app:fabSize="normal"
-        android:src="@drawable/icon_add"
         android:backgroundTint="@color/direc_green_dark"
-        android:contentDescription="@string/tambah_data_pasien" />
+        android:contentDescription="@string/tambah_data_pasien"
+        android:src="@drawable/icon_add"
+        app:fabSize="normal" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

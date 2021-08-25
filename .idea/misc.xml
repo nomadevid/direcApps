@@ -13,8 +13,9 @@
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout-xlarge/activity_home.xml" value="0.275" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout-xlarge/fragment_by_age.xml" value="0.14" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_detail.xml" value="0.36666666666666664" />
+        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_dialog_add_data.xml" value="0.36666666666666664" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_dialog_add_pasien.xml" value="0.25" />
-        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_home.xml" value="0.5" />
+        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_home.xml" value="0.22" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_main.xml" value="0.21422101449275363" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_search.xml" value="0.25" />
@@ -22,10 +23,12 @@
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/fragment_by_calendar.xml" value="0.22" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/fragment_by_name.xml" value="0.18" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/fragment_search.xml" value="0.33" />
+        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/item_alphabet.xml" value="0.22" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/item_by_calendar.xml" value="0.21422101449275363" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/item_by_name.xml" value="0.22" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/item_date.xml" value="0.21422101449275363" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/item_search.xml" value="0.21422101449275363" />
+        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/item_tanggal_data_pasien.xml" value="0.36666666666666664" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/spinner_text_style.xml" value="0.190625" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/menu/filter_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Firdaus/KULIAH/#4 PROJECT/AndroidStudioProjects/direcApps/app/src/main/res/drawable/gradient_button_masuk.xml" value="0.2703125" />

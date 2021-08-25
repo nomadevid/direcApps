@@ -18,10 +18,11 @@
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/tv_search"
                 style="@style/TextCardViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/name" />
+                android:text="@string/search" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

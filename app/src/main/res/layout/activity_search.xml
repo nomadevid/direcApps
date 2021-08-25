@@ -22,6 +22,7 @@
             android:drawableStart="@drawable/search_icon_small"
             android:drawablePadding="8dp"
             android:hint="@string/search"
+            android:imeOptions="actionSearch"
             android:importantForAutofill="no"
             android:inputType="text" />
     </RelativeLayout>
@@ -35,9 +36,10 @@
         android:layout_marginHorizontal="28dp"
         android:layout_marginTop="8dp"
         android:text="@string/pencarian_fail"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_search_info"

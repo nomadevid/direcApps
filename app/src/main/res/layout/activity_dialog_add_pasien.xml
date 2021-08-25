@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
+    android:layout_marginVertical="16dp"
     tools:context=".ui.home.dialogaddpasien.DialogAddPasienActivity">
 
     <ScrollView
@@ -78,7 +79,8 @@
                 android:textAllCaps="false"
                 android:textOff=""
                 android:textOn=""
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textColor="@color/black"/>
 
             <TextView
                 style="@style/TextCardViewContentBlack"

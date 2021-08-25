@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.Index;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.nomadev.direc.R;
@@ -30,7 +32,15 @@ import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.home.HomeActivity;
 import com.nomadev.direc.ui.home.byname.ByNameFragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class DialogAddPasienActivity extends DialogFragment {
 
@@ -42,6 +52,9 @@ public class DialogAddPasienActivity extends DialogFragment {
     private String telepon;
     private String alamat;
     private String tanggal_lahir;
+    private String formattedDate;
+    private final String appid = "RUE1XIKN0I";
+    private final String adminApiKey = "df48fa4680030c0e87c123242c291e69";
 
 
     @Nullable
@@ -64,7 +77,7 @@ public class DialogAddPasienActivity extends DialogFragment {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(getDialog().getWindow().getAttributes());
         layoutParams.width = width;
-        layoutParams.height = height;
+        //layoutParams.height = height;
         getDialog().getWindow().setAttributes(layoutParams);
 
         String[] gender = {getString(R.string.gender_laki), getString(R.string.gender_perempuan)};
@@ -91,8 +104,10 @@ public class DialogAddPasienActivity extends DialogFragment {
             telepon = String.valueOf(binding.etNomorTelepon.getText());
             alamat = String.valueOf(binding.etAlamat.getText());
             tanggal_lahir = String.valueOf(binding.btnTanggalLahir.getText());
+            dateNow();
 
             postData(nama, kelamin, telepon, alamat, tanggal_lahir);
+            postAlgolia(nama, kelamin, telepon, alamat, tanggal_lahir);
         });
 
         return view;
@@ -101,9 +116,7 @@ public class DialogAddPasienActivity extends DialogFragment {
     private void initDatePicker() {
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
             month = month + 1;
-            String tanggalLahir = dayOfMonth + "/" + month + "/" + year;
-            binding.btnTanggalLahir.setText(tanggalLahir);
-
+            binding.btnTanggalLahir.setText(String.valueOf(dayOfMonth + "/" + month + "/" + year));
             calculateAge(year, month, dayOfMonth);
         };
         Calendar calendar = Calendar.getInstance();
@@ -140,6 +153,28 @@ public class DialogAddPasienActivity extends DialogFragment {
         });
     }
 
+    private void postAlgolia(String nama, String kelamin, String telepon, String alamat, String tanggalLahir) {
+        Client client = new Client(appid, adminApiKey);
+        Index index = client.getIndex("pasien");
+
+        ArrayList<JSONObject> array = new ArrayList<JSONObject>();
+
+        try {
+            array.add(
+                    new JSONObject()
+                            .put("nama", nama)
+                            .put("kelamin", kelamin)
+                            .put("tanggalLahir", tanggalLahir)
+                            .put("telepon", telepon)
+                            .put("alamat", alamat)
+            );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        index.addObjectsAsync(new JSONArray(array), null);
+    }
+
     private void calculateAge(int year, int month, int day) {
         // HITUNG USIA
         Calendar dob = Calendar.getInstance();
@@ -154,5 +189,13 @@ public class DialogAddPasienActivity extends DialogFragment {
 
         String ageStr = String.valueOf(age);
         Log.d("usia", ageStr);
+    }
+
+    private void dateNow() {
+        Date c = Calendar.getInstance().getTime();
+        Log.d("Current time", c.toString());
+
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        formattedDate = df.format(c);
     }
 }

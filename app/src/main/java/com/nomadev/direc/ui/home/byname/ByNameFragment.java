@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
@@ -16,14 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.FragmentByNameBinding;
 import com.nomadev.direc.model.PasienModel;
 
@@ -85,7 +80,6 @@ public class ByNameFragment extends Fragment {
                 for (DocumentSnapshot d : list) {
                     Log.d("SNAPSHOT", d.toString());
                     PasienModel pasienModel = d.toObject(PasienModel.class);
-                    pasienModel.setId(d.getId());
                     listPasien.add(pasienModel);
                 }
                 adapter.notifyDataSetChanged();
@@ -109,6 +103,7 @@ public class ByNameFragment extends Fragment {
         binding.rvByName.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvByName.setAdapter(adapter);
     }
+
 
     private void showProgressBar(Boolean state) {
         if (state) {

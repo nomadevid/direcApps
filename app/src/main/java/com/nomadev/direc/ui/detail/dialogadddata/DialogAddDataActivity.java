@@ -91,14 +91,12 @@ public class DialogAddDataActivity extends DialogFragment {
         dbData.add(hasilPeriksaModel).addOnSuccessListener(documentReference -> {
             Log.d("SUCCESS", "Data terkirim: " + hasil_periksa + keluhan + tanggal + terapi);
             Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .replace(R.id.fragment_home, ByNameFragment.class, null)
-                    .commit();
+            getActivity();
             getDialog().dismiss();
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
             Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+            getActivity();
             getDialog().dismiss();
         });
     }

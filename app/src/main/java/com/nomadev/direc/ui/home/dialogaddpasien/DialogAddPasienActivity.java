@@ -24,8 +24,13 @@ import android.widget.Toast;
 
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.Index;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDialogAddPasienBinding;
 import com.nomadev.direc.model.PasienModel;
@@ -40,6 +45,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class DialogAddPasienActivity extends DialogFragment {
@@ -47,14 +53,16 @@ public class DialogAddPasienActivity extends DialogFragment {
     private ActivityDialogAddPasienBinding binding;
     private DatePickerDialog datePickerDialog;
     private FirebaseFirestore db;
+    private final ArrayList<PasienModel> listPasien = new ArrayList<>();
     private String nama;
     private String kelamin;
     private String telepon;
     private String alamat;
     private String tanggal_lahir;
+    private String id;
     private String formattedDate;
-    private final String appid = "RUE1XIKN0I";
-    private final String adminApiKey = "df48fa4680030c0e87c123242c291e69";
+    private final String appid = "HLDBOC7XRI";
+    private final String adminApiKey = "1a40eab368fd30c1ce3333a8e4658ca0";
 
 
     @Nullable
@@ -107,7 +115,6 @@ public class DialogAddPasienActivity extends DialogFragment {
             dateNow();
 
             postData(nama, kelamin, telepon, alamat, tanggal_lahir);
-            postAlgolia(nama, kelamin, telepon, alamat, tanggal_lahir);
         });
 
         return view;
@@ -145,6 +152,7 @@ public class DialogAddPasienActivity extends DialogFragment {
                     .setReorderingAllowed(true)
                     .replace(R.id.fragment_home, ByNameFragment.class, null)
                     .commit();
+            getPasienData();
             getDialog().dismiss();
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
@@ -153,7 +161,47 @@ public class DialogAddPasienActivity extends DialogFragment {
         });
     }
 
-    private void postAlgolia(String nama, String kelamin, String telepon, String alamat, String tanggalLahir) {
+    private void getPasienData() {
+        CollectionReference dbPasien = db.collection("pasien");
+        Query query = dbPasien.orderBy("nama", Query.Direction.ASCENDING);
+
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            Log.d("queryDocumentSnapshots", queryDocumentSnapshots.toString());
+            if (!queryDocumentSnapshots.isEmpty()) {
+                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                for (DocumentSnapshot d : list) {
+                    Log.d("SNAPSHOT", d.toString());
+                    PasienModel pasienModel = d.toObject(PasienModel.class);
+                    id = pasienModel.setId(d.getId());
+                    listPasien.add(pasienModel);
+                }
+                postPasienId(id);
+                postAlgolia(nama, kelamin, telepon, alamat, tanggal_lahir, id);
+            } else {
+                Log.d("FEEDBACK", "Data Kosong.");
+            }
+        }).addOnFailureListener(e -> {
+            Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void postPasienId(String id) {
+        DocumentReference dbData = db.collection("pasien").document(id);
+        dbData.update("id", id)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("id", id);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("GAGAL", "Error: " + e.toString());
+            }
+        });
+    }
+
+    private void postAlgolia(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, String id) {
         Client client = new Client(appid, adminApiKey);
         Index index = client.getIndex("pasien");
 
@@ -162,6 +210,7 @@ public class DialogAddPasienActivity extends DialogFragment {
         try {
             array.add(
                     new JSONObject()
+                            .put("id", id)
                             .put("nama", nama)
                             .put("kelamin", kelamin)
                             .put("tanggalLahir", tanggalLahir)

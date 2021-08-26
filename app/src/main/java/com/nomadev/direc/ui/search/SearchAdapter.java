@@ -44,7 +44,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return searchList.size();
+        return idList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -61,9 +61,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         public void bind(PasienModel data, String id) {
             calculateAge(data.getTanggalLahir());
             binding.tvNama.setText(data.getNama());
-            binding.tvUsia.setText(itemView.getContext().getString(R.string.usia_terisi, ageString));
-            binding.tvGender.setText(data.getKelamin());
             binding.tvTelepon.setText(data.getTelepon());
+            binding.tvAlamat.setText(data.getAlamat());
             binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

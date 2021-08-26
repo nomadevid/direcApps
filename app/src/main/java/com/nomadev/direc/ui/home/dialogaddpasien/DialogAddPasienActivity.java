@@ -175,8 +175,8 @@ public class DialogAddPasienActivity extends DialogFragment {
                     id = pasienModel.setId(d.getId());
                     listPasien.add(pasienModel);
                 }
-                postPasienId(id);
-                postAlgolia(nama, kelamin, telepon, alamat, tanggal_lahir, id);
+//                postPasienId(id);
+//                postAlgolia(nama, kelamin, telepon, alamat, tanggal_lahir, id);
             } else {
                 Log.d("FEEDBACK", "Data Kosong.");
             }

@@ -5,6 +5,7 @@
     <string name="time">00.00</string>
     <string name="name">Nama</string>
     <string name="usia">Usia</string>
+    <string name="usia_terisi">%s Tahun</string>
     <string name="search">Cari</string>
     <string name="date">Date</string>
     <string name="dashboard">Dasbor</string>

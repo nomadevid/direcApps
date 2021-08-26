@@ -18,12 +18,33 @@
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/tv_search"
+                android:id="@+id/tv_nama"
                 style="@style/TextCardViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/search" />
-
+                android:text="@string/search"
+                android:textSize="16dp"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:id="@+id/tv_usia"
+                style="@style/TextCardViewContentGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/usia"
+                android:layout_marginBottom="4dp"/>
+            <TextView
+                android:id="@+id/tv_gender"
+                style="@style/TextCardViewContentGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gender"
+                android:layout_marginBottom="4dp"/>
+            <TextView
+                android:id="@+id/tv_telepon"
+                style="@style/TextCardViewContentGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nomor_telepon" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

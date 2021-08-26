@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.Index;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -33,7 +35,13 @@ import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.home.HomeActivity;
 import com.nomadev.direc.ui.home.byname.ByNameFragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class DialogUpdatePasienActivity extends DialogFragment {
 
@@ -169,13 +177,13 @@ public class DialogUpdatePasienActivity extends DialogFragment {
             public void onSuccess(Void unused) {
                 Log.d("SUCCESS", "Data terkirim: " + nama + kelamin + telepon + alamat + tanggalLahir);
                 Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
-                getActivity();
+                updateAlgolia(nama, kelamin, telepon, alamat, tanggalLahir);
                 getDialog().dismiss();
+                getActivity().recreate();
             }
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
             Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
-            getActivity();
             getDialog().dismiss();
         });
     }
@@ -186,7 +194,7 @@ public class DialogUpdatePasienActivity extends DialogFragment {
         dbPasien.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()){
+                if (documentSnapshot.exists()) {
                     nama = documentSnapshot.getString("nama");
                     tanggal_lahir = documentSnapshot.getString("tanggalLahir");
                     telepon = documentSnapshot.getString("telepon");
@@ -202,8 +210,7 @@ public class DialogUpdatePasienActivity extends DialogFragment {
                     binding.spinnerJenisKelamin.setSelection(setSpinner);
 
                     Log.d("FEEDBACK", "Berhasil Mengambil Data.");
-                }
-                else {
+                } else {
                     Log.d("FEEDBACK", "Data Kosong.");
                 }
             }
@@ -225,5 +232,31 @@ public class DialogUpdatePasienActivity extends DialogFragment {
 
         String ageStr = String.valueOf(age);
         Log.d("usia", ageStr);
+    }
+
+    private void updateAlgolia(String nama, String kelamin, String telepon, String alamat, String tanggalLahir) {
+        String appid = "HLDBOC7XRI";
+        String adminApiKey = "1a40eab368fd30c1ce3333a8e4658ca0";
+
+        Client client = new Client(appid, adminApiKey);
+        Index index = client.getIndex("pasien");
+
+        List<JSONObject> array = new ArrayList<JSONObject>();
+
+        try {
+            array.add(
+                    new JSONObject()
+                            .put("objectID", id)
+                            .put("nama", nama)
+                            .put("kelamin", kelamin)
+                            .put("telepon", telepon)
+                            .put("alamat", alamat)
+                            .put("tanggalLahir", tanggalLahir)
+            );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        index.partialUpdateObjectsAsync(new JSONArray(array), null);
     }
 }

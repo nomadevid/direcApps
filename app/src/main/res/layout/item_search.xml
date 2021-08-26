@@ -8,8 +8,8 @@
         style="@style/CardViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginHorizontal="24dp">
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="16dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -22,30 +22,24 @@
                 style="@style/TextCardViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="@string/search"
-                android:textSize="16dp"
-                android:layout_marginBottom="8dp"/>
-            <TextView
-                android:id="@+id/tv_usia"
-                style="@style/TextCardViewContentGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/usia"
-                android:layout_marginBottom="4dp"/>
-            <TextView
-                android:id="@+id/tv_gender"
-                style="@style/TextCardViewContentGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/gender"
-                android:layout_marginBottom="4dp"/>
+                android:textSize="16dp" />
+
             <TextView
                 android:id="@+id/tv_telepon"
                 style="@style/TextCardViewContentGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
                 android:text="@string/nomor_telepon" />
+
+            <TextView
+                android:id="@+id/tv_alamat"
+                style="@style/TextCardViewContentGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alamat" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
 </RelativeLayout>

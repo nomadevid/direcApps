@@ -103,22 +103,6 @@ public class ByNameFragment extends Fragment {
         });
     }
 
-    private void postPasienId(String id) {
-        DocumentReference dbData = db.collection("pasien").document(id);
-        dbData.update("id", id)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d("id", id);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("GAGAL", "Error: " + e.toString());
-            }
-        });
-    }
-
     private void showRecyclerView() {
         adapter = new ByNameAdapter(listPasien);
         binding.rvByName.setHasFixedSize(true);

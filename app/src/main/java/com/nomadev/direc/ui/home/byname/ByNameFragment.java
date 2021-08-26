@@ -33,6 +33,7 @@ public class ByNameFragment extends Fragment {
     private FirebaseFirestore db;
     private ArrayList<PasienModel> listPasien;
     private ByNameAdapter adapter;
+    private String id;
 
     @Nullable
     @Override
@@ -49,7 +50,6 @@ public class ByNameFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
         listPasien = new ArrayList<>();
-        adapter = new ByNameAdapter(listPasien);
 
         binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -84,6 +84,7 @@ public class ByNameFragment extends Fragment {
                 for (DocumentSnapshot d : list) {
                     Log.d("SNAPSHOT", d.toString());
                     PasienModel pasienModel = d.toObject(PasienModel.class);
+                    id = pasienModel.setId(d.getId());
                     listPasien.add(pasienModel);
                 }
                 adapter.notifyDataSetChanged();
@@ -102,7 +103,24 @@ public class ByNameFragment extends Fragment {
         });
     }
 
+    private void postPasienId(String id) {
+        DocumentReference dbData = db.collection("pasien").document(id);
+        dbData.update("id", id)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("id", id);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("GAGAL", "Error: " + e.toString());
+            }
+        });
+    }
+
     private void showRecyclerView() {
+        adapter = new ByNameAdapter(listPasien);
         binding.rvByName.setHasFixedSize(true);
         binding.rvByName.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvByName.setAdapter(adapter);

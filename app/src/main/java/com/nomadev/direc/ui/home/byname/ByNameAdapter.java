@@ -2,6 +2,7 @@ package com.nomadev.direc.ui.home.byname;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,10 +69,13 @@ public class ByNameAdapter extends RecyclerView.Adapter<ByNameAdapter.ViewHolder
 
             binding.tvNama.setText(nama);
             binding.tvUsia.setText(kelamin);
-            binding.cvPasien.setOnClickListener(v -> intentToDetail());
+            binding.cvPasien.setOnClickListener(v -> {
+                Log.d("ID_ADAPTER", id);
+                intentToDetail(nama, kelamin, telepon, alamat, tanggalLahir, id);
+            });
         }
 
-        private void intentToDetail() {
+        private void intentToDetail(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, String id) {
             Toast.makeText(itemView.getContext(), "Ini Fungsi Intent", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
             intent.putExtra(NAMA, nama);

@@ -10,8 +10,6 @@ import android.view.MenuItem;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import com.algolia.search.saas.Client;
-import com.algolia.search.saas.Index;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityHomeBinding;
 import com.nomadev.direc.ui.home.byage.ByAgeFragment;

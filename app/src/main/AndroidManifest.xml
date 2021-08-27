@@ -13,6 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
+            android:name=".ui.detail.dialogdeletedata.DialogDeleteDataActiivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.detail.dialogadddata.DialogUpdateDataActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.home.dialogaddpasien.DialogUpdatePasienActivity"
             android:exported="true" />
         <activity
@@ -47,9 +53,7 @@
             android:exported="true" />
         <activity
             android:name=".ui.login.LoginActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

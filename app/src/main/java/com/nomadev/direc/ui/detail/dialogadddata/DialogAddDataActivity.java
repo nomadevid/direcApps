@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDialogAddDataBinding;
@@ -28,7 +29,9 @@ import com.nomadev.direc.ui.home.byname.ByNameFragment;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class DialogAddDataActivity extends DialogFragment {
 
@@ -52,7 +55,7 @@ public class DialogAddDataActivity extends DialogFragment {
 
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getDialog().setContentView(R.layout.activity_dialog_add_pasien);
+        getDialog().setContentView(R.layout.activity_dialog_add_data);
         getDialog().show();
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
@@ -82,22 +85,30 @@ public class DialogAddDataActivity extends DialogFragment {
         String tanggal = df.format(c);
         // creating a collection reference
         // for our Firebase Firetore database.
-        CollectionReference dbData = db.collection("pasien").document(id).collection("history");
+        DocumentReference dbData = db.collection("pasien").document(id).collection("history").document();
 
         // adding our data to our courses object class.
-        HasilPeriksaModel hasilPeriksaModel = new HasilPeriksaModel(hasil_periksa, keluhan, tanggal, terapi);
+        //HasilPeriksaModel hasilPeriksaModel = new HasilPeriksaModel(hasil_periksa, keluhan, tanggal, terapi);
+
+        Map map = new HashMap<>();
+        map.put("id", id);
+        map.put("hasil_periksa", hasil_periksa);
+        map.put("keluhan", keluhan);
+        map.put("terapi", terapi);
+        map.put("tanggal", tanggal);
 
         // POST TO "pasien" COLLECTION
-        dbData.add(hasilPeriksaModel).addOnSuccessListener(documentReference -> {
+        dbData.set(map).addOnSuccessListener(documentReference -> {
             Log.d("SUCCESS", "Data terkirim: " + hasil_periksa + keluhan + tanggal + terapi);
             Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
-            getActivity();
             getDialog().dismiss();
+            getActivity().recreate();
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
             Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
             getActivity();
             getDialog().dismiss();
+            getActivity().recreate();
         });
     }
 }

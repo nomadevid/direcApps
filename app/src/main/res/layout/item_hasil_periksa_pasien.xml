@@ -21,6 +21,17 @@
         style="@style/CardViewStyle"
         android:layout_toEndOf="@id/iv_line">
 
+        <ImageButton
+            android:id="@+id/ib_edit_down"
+            style="@style/IconActionBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:padding="8dp"
+            android:src="@drawable/icon_dropdown_button_small"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="top|right"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

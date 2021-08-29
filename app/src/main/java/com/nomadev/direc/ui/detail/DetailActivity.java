@@ -72,6 +72,8 @@ public class DetailActivity extends AppCompatActivity {
             DialogAddDataActivity dialog = new DialogAddDataActivity();
             Bundle bundle = new Bundle();
             bundle.putString(ID, id);
+            bundle.putString(NAMA, nama);
+            bundle.putString(TANGGAL_LAHIR, tanggalLahir);
             dialog.setArguments(bundle);
             dialog.show(getSupportFragmentManager(),"Dialog Add Data");
         });

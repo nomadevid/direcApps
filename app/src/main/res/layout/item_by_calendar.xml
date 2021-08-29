@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
+    android:layout_marginHorizontal="32dp"
     android:orientation="horizontal">
 
     <TextView
@@ -22,12 +21,12 @@
             android:id="@+id/circle_icon"
             android:layout_width="8dp"
             android:layout_height="8dp"
-            android:layout_marginTop="4dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
             android:src="@color/direc_grey" />
 
         <ImageView
-            android:layout_width="0.5dp"
+            android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:src="@color/direc_grey" />
@@ -48,15 +47,18 @@
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/tv_nama"
                 style="@style/TextCardViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/name" />
 
             <TextView
+                android:id="@+id/tv_usia"
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="@string/usia" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

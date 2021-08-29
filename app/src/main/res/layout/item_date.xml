@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_background"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@drawable/rectangle_box_datepick"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingRight="8dp"
     android:paddingLeft="8dp"
-    android:gravity="center_horizontal">
+    android:paddingRight="8dp">
 
     <TextView
+        android:id="@+id/tv_hari"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sen"
-        android:textSize="12sp"
-        android:textColor="@color/direc_grey"/>
+        android:textColor="@color/direc_grey"
+        android:textSize="12sp" />
 
     <TextView
+        android:id="@+id/tv_tanggal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="12"
-        android:textSize="20sp"
         android:textColor="@color/black"
-        android:textStyle="bold"/>
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

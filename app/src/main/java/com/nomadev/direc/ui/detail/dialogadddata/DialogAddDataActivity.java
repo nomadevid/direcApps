@@ -23,6 +23,7 @@ import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDialogAddDataBinding;
 import com.nomadev.direc.databinding.ActivityDialogAddPasienBinding;
 import com.nomadev.direc.model.HasilPeriksaModel;
+import com.nomadev.direc.model.HistoryModel;
 import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.home.byname.ByNameFragment;
 
@@ -39,7 +40,9 @@ public class DialogAddDataActivity extends DialogFragment {
     private FirebaseFirestore db;
 
     private final String ID = "id";
-    private String keluhan, hasil_periksa, terapi, id;
+    private final String NAMA = "nama";
+    private final String TANGGAL_LAHIR = "tanggal_lahir";
+    private String keluhan, hasil_periksa, terapi, id, nama, tanggalLahir;
 
     @Nullable
     @Override
@@ -49,6 +52,8 @@ public class DialogAddDataActivity extends DialogFragment {
 
         db = FirebaseFirestore.getInstance();
         id = getArguments().getString(ID);
+        nama = getArguments().getString(NAMA);
+        tanggalLahir = getArguments().getString(TANGGAL_LAHIR);
 
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
         int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);
@@ -101,6 +106,7 @@ public class DialogAddDataActivity extends DialogFragment {
         dbData.set(map).addOnSuccessListener(documentReference -> {
             Log.d("SUCCESS", "Data terkirim: " + hasil_periksa + keluhan + tanggal + terapi);
             Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
+            postHistoryData(nama, id, tanggal, tanggalLahir);
             getDialog().dismiss();
             getActivity().recreate();
         }).addOnFailureListener(e -> {
@@ -109,6 +115,27 @@ public class DialogAddDataActivity extends DialogFragment {
             getActivity();
             getDialog().dismiss();
             getActivity().recreate();
+        });
+    }
+
+    private void postHistoryData(String nama, String idPasien, String addDate, String tanggalLahir) {
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat tf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        String time = tf.format(c);
+
+        // creating a collection reference
+        // for our Firebase Firetore database.
+        CollectionReference dbData = db.collection("history_pasien");
+
+        // adding our data to our courses object class.
+        HistoryModel historyModel = new HistoryModel(idPasien, nama, addDate, time, tanggalLahir);
+
+        // POST TO COLLECTION
+        dbData.add(historyModel).addOnSuccessListener(documentReference -> {
+            Log.d("postHistoryData", "Data terkirim.");
+
+        }).addOnFailureListener(e -> {
+            Log.d("postHistoryData", "Error: " + e.toString());
         });
     }
 }

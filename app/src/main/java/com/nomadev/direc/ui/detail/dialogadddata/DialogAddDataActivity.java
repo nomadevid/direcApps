@@ -42,7 +42,7 @@ public class DialogAddDataActivity extends DialogFragment {
     private final String ID = "id";
     private final String NAMA = "nama";
     private final String TANGGAL_LAHIR = "tanggal_lahir";
-    private String keluhan, hasil_periksa, terapi, id, nama, tanggalLahir;
+    private String keluhan, hasil_periksa, terapi, id, nama, tanggalLahir, idHistory;
 
     @Nullable
     @Override
@@ -86,11 +86,12 @@ public class DialogAddDataActivity extends DialogFragment {
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
 
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         String tanggal = df.format(c);
         // creating a collection reference
         // for our Firebase Firetore database.
         DocumentReference dbData = db.collection("pasien").document(id).collection("history").document();
+        idHistory = dbData.getId();
 
         // adding our data to our courses object class.
         //HasilPeriksaModel hasilPeriksaModel = new HasilPeriksaModel(hasil_periksa, keluhan, tanggal, terapi);
@@ -125,13 +126,20 @@ public class DialogAddDataActivity extends DialogFragment {
 
         // creating a collection reference
         // for our Firebase Firetore database.
-        CollectionReference dbData = db.collection("history_pasien");
+        DocumentReference dbPasien = db.collection("history_pasien").document(addDate).collection(addDate).document(idHistory);
 
         // adding our data to our courses object class.
         HistoryModel historyModel = new HistoryModel(idPasien, nama, addDate, time, tanggalLahir);
+        Map map = new HashMap<>();
+        map.put("idHistory", idHistory);
+        map.put("idPasien", idPasien);
+        map.put("nama", nama);
+        map.put("addDate", addDate);
+        map.put("addTime", time);
+        map.put("tanggalLahir", tanggalLahir);
 
         // POST TO COLLECTION
-        dbData.add(historyModel).addOnSuccessListener(documentReference -> {
+        dbPasien.set(map).addOnSuccessListener(documentReference -> {
             Log.d("postHistoryData", "Data terkirim.");
 
         }).addOnFailureListener(e -> {

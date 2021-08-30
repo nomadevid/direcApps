@@ -8,6 +8,7 @@ import androidx.fragment.app.DialogFragment;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,8 @@ public class DialogDeleteDataActiivity extends DialogFragment {
     private FirebaseFirestore db;
     private final String ID_PASIEN = "id_pasien";
     private final String ID_DATA = "id_data";
-    private String id_data, id_pasien;
+    private final String TANGGAL_DATA = "tanggal_data";
+    private String id_data, id_pasien, tanggal_data;
 
     @Nullable
     @Override
@@ -40,6 +42,7 @@ public class DialogDeleteDataActiivity extends DialogFragment {
         db = FirebaseFirestore.getInstance();
         id_data = getArguments().getString(ID_DATA);
         id_pasien = getArguments().getString(ID_PASIEN);
+        tanggal_data = getArguments().getString(TANGGAL_DATA);
 
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
         //int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);
@@ -66,14 +69,27 @@ public class DialogDeleteDataActiivity extends DialogFragment {
         dbPasien.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isComplete()){
+                if (task.isComplete()) {
                     Toast.makeText(getActivity(), "Data telah dihapus", Toast.LENGTH_SHORT).show();
+                    deleteHistory();
                     getDialog().dismiss();
                     getActivity().recreate();
                 } else {
                     Toast.makeText(getActivity(), "Data gagal dihapus", Toast.LENGTH_SHORT).show();
                     getDialog().dismiss();
                 }
+            }
+        });
+    }
+
+    private void deleteHistory() {
+        DocumentReference dbHistory = db.collection("history_pasien").document(tanggal_data).collection(tanggal_data).document(id_data);
+
+        dbHistory.delete().addOnCompleteListener(task -> {
+            if (task.isComplete()) {
+                Log.d("deleteHistory", "Data terhapus.");
+            } else {
+                Log.d("deleteHistory", "Gagal.");
             }
         });
     }

@@ -49,9 +49,12 @@
     <string name="action_settings">Settings</string>
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
-
-
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="ubah">Ubah</string>
+    <string name="hapus">Hapus</string>
+    <string name="anda_yakin_akan_menghapus_data_ini">Anda yakin akan menghapus data ini ?</string>
+    <string name="item_akan_dihapus_secara_permanen">item akan dihapus secara permanen</string>
+    <string name="tidak">Tidak</string>
 </resources>

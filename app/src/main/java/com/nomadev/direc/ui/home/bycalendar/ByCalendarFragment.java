@@ -1,66 +1,147 @@
 package com.nomadev.direc.ui.home.bycalendar;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.nomadev.direc.R;
+import com.nomadev.direc.databinding.FragmentByCalendarBinding;
+import com.nomadev.direc.model.HistoryModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ByCalendarFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 public class ByCalendarFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentByCalendarBinding binding;
+    private FirebaseFirestore db;
+    private ArrayList<HistoryModel> listHistory;
+    private ArrayList<String> listDate;
+    private ArrayList<String> listDay;
+    private ByCalendarAdapter adapter;
+    private DatePickAdapter adapterDate;
+    private DatePickerDialog datePickerDialog;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ByCalendarFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ByCalendarFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ByCalendarFragment newInstance(String param1, String param2) {
-        ByCalendarFragment fragment = new ByCalendarFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentByCalendarBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        return view;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // init
+        db = FirebaseFirestore.getInstance();
+        listHistory = new ArrayList<>();
+        listDate = new ArrayList<>();
+        listDay = new ArrayList<>();
+        adapter = new ByCalendarAdapter(listHistory);
+        adapterDate = new DatePickAdapter(listDay, listDate);
+        initDateRangePicker();
+
+        getHistoryData();
+        showRecyclerView();
+        showDateRecyclerView();
+
+        binding.ibCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_by_calendar, container, false);
+    private void getHistoryData() {
+        CollectionReference dbPasien = db.collection("history_pasien");
+        Query query = dbPasien.orderBy("addTime", Query.Direction.ASCENDING);
+
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            Log.d("queryDocumentSnapshots", queryDocumentSnapshots.toString());
+            if (!queryDocumentSnapshots.isEmpty()) {
+                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                for (DocumentSnapshot d : list) {
+                    Log.d("SNAPSHOT", d.toString());
+                    HistoryModel historyModel = d.toObject(HistoryModel.class);
+                    listHistory.add(historyModel);
+                }
+                adapter.notifyDataSetChanged();
+                Log.d("FEEDBACK", "Berhasil Mengambil Data.");
+                Toast.makeText(getActivity(), "Berhasil Mengambil Data.", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.d("FEEDBACK", "Data Kosong.");
+                Toast.makeText(getActivity(), "Data Kosong.", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(e -> {
+            Log.d("FEEDBACK", "Error: " + e.toString());
+            Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void initDateRangePicker() {
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                listDay.clear();
+                listDate.clear();
+                Calendar cld = Calendar.getInstance();
+                for (int i = 0; i < 6; i++) {
+                    cld.set(year, month, dayOfMonth);
+                    cld.add(Calendar.DATE, i);
+                    SimpleDateFormat formatDay = new SimpleDateFormat("EEE", Locale.getDefault());
+                    SimpleDateFormat formatDate = new SimpleDateFormat("dd", Locale.getDefault());
+                    String day = formatDay.format(cld.getTime());
+                    String date = formatDate.format(cld.getTime());
+                    listDay.add(day);
+                    listDate.add(date);
+                }
+                Log.d("listDate", listDay.toString() + listDate.toString());
+                showDateRecyclerView();
+            }
+        };
+        Calendar calendar = Calendar.getInstance();
+        int tahun = calendar.get(Calendar.YEAR);
+        int bulan = calendar.get(Calendar.MONTH);
+        int hari = calendar.get(Calendar.DAY_OF_MONTH);
+
+        datePickerDialog = new DatePickerDialog(getActivity(), R.style.DialogTheme, dateSetListener, tahun, bulan, hari);
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.getWindow().setBackgroundDrawableResource(R.drawable.rounded_box_white);
+
+    }
+
+    private void showRecyclerView() {
+        binding.rvByCalendar.setHasFixedSize(true);
+        binding.rvByCalendar.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rvByCalendar.setAdapter(adapter);
+    }
+
+    private void showDateRecyclerView() {
+        binding.rvDate.setHasFixedSize(true);
+        binding.rvDate.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        binding.rvDate.setAdapter(adapterDate);
     }
 }

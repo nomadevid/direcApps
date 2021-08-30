@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    tools:context=".ui.detail.dialogadddata.DialogUpdateDataActivity">
+
+    <LinearLayout
+        style="@style/DialogStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            style="@style/TextActionBarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tambah_data_title" />
+
+        <TextView
+            style="@style/TextCardViewContentGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/masukkan_rekam_data_pasien_anda" />
+
+        <TextView
+            style="@style/TextCardViewContentBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="@string/keluhan_title" />
+
+        <EditText
+            android:id="@+id/et_keluhan"
+            style="@style/TextCardViewContentBlack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/keluhan_title"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/rounded_edittext" />
+
+        <TextView
+            style="@style/TextCardViewContentBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="@string/hasil_pemeriksaan_title"/>
+
+        <EditText
+            android:id="@+id/et_hasil_periksa"
+            style="@style/TextCardViewContentBlack"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:maxLines="50"
+            android:hint="@string/hasil_pemeriksaan"
+            android:gravity="top|left"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/rounded_edittext" />
+
+        <TextView
+            style="@style/TextCardViewContentBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="@string/terapi_title" />
+
+        <EditText
+            android:id="@+id/et_terapi"
+            style="@style/TextCardViewContentBlack"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:maxLines="50"
+            android:hint="@string/terapi"
+            android:gravity="top|left"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/rounded_edittext" />
+
+        <TextView
+            style="@style/TextCardViewContentBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="@string/foto_title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="52dp"
+            tools:listitem="@layout/item_photo"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_simpan"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/simpan"
+            android:background="@drawable/gradient_button_masuk"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

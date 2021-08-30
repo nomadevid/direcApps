@@ -1,8 +1,22 @@
 package com.nomadev.direc.model;
 
+import com.google.firebase.firestore.Exclude;
+
 public class HasilPeriksaModel {
 
-    private String hasil_periksa, keluhan, tanggal, terapi;
+    public String getId_data() {
+        return id_data;
+    }
+
+    public String setId_data(String id_data) {
+        this.id_data = id_data;
+        return id_data;
+    }
+
+    @Exclude
+    private String id_data;
+
+    private String hasil_periksa, keluhan, tanggal, terapi, id;
 
     public HasilPeriksaModel(){
 
@@ -46,4 +60,13 @@ public class HasilPeriksaModel {
     public void setTerapi(String terapi) {
         this.terapi = terapi;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }

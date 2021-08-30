@@ -16,10 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ItemHasilPeriksaPasienBinding;
 import com.nomadev.direc.model.HasilPeriksaModel;
-import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.detail.dialogadddata.DialogUpdateDataActivity;
 import com.nomadev.direc.ui.detail.dialogdeletedata.DialogDeleteDataActiivity;
-import com.nomadev.direc.ui.home.dialogaddpasien.DialogUpdatePasienActivity;
 
 import java.util.ArrayList;
 
@@ -50,9 +48,10 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<HasilPeriksaAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
         private final ItemHasilPeriksaPasienBinding binding;
-        private String id_pasien, id_data;
+        private String id_pasien, id_data, tanggal_data;
         private final String ID_PASIEN = "id_pasien";
         private final String ID_DATA = "id_data";
+        private final String TANGGAL_DATA = "tanggal_data";
         private FragmentActivity fragmentActivity;
         private FragmentManager fragmentManager;
 
@@ -68,6 +67,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<HasilPeriksaAdapte
             binding.tvTerapi.setText(hasilPeriksaModel.getTerapi());
             id_pasien = hasilPeriksaModel.getId();
             id_data = hasilPeriksaModel.getId_data();
+            tanggal_data = hasilPeriksaModel.getTanggal();
         }
 
         @Override
@@ -96,6 +96,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<HasilPeriksaAdapte
                     Bundle bundle = new Bundle();
                     bundle.putString(ID_DATA, id_data);
                     bundle.putString(ID_PASIEN, id_pasien);
+                    bundle.putString(TANGGAL_DATA, tanggal_data);
                     dialog.setArguments(bundle);
                     dialog.show(fragmentManager,"Dialog Edit Data");
                     return true;
@@ -105,6 +106,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<HasilPeriksaAdapte
                     Bundle bundle1 = new Bundle();
                     bundle1.putString(ID_DATA, id_data);
                     bundle1.putString(ID_PASIEN, id_pasien);
+                    bundle1.putString(TANGGAL_DATA, tanggal_data);
                     dialogDeleteDataActiivity.setArguments(bundle1);
                     dialogDeleteDataActiivity.show(fragmentManager, "Dialog Delete Data");
                     return true;

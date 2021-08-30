@@ -2,11 +2,15 @@ package com.nomadev.direc.ui.home;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -14,18 +18,22 @@ import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityHomeBinding;
 import com.nomadev.direc.ui.home.byage.ByAgeFragment;
 import com.nomadev.direc.ui.home.bycalendar.ByCalendarFragment;
+import com.nomadev.direc.ui.home.bycalendar.DatePickAdapter;
 import com.nomadev.direc.ui.home.byname.ByNameFragment;
 import com.nomadev.direc.ui.home.dialogaddpasien.DialogAddPasienActivity;
 import com.nomadev.direc.ui.search.SearchActivity;
 
-import org.json.JSONObject;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
+    private DatePickerDialog datePickerDialog;
+    private ArrayList<String> listDate;
+    private DatePickAdapter adapterDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +41,20 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        listDate = new ArrayList<>();
+        adapterDate = new DatePickAdapter(listDate);
+        setListCurrentDate();
+
         if (savedInstanceState == null) {
+            setListCurrentDate();
+            initDateRangePicker();
+            showDateRecyclerView();
+            showCalendarLayout(true);
+
             getSupportFragmentManager()
                     .beginTransaction()
                     .setReorderingAllowed(true)
-                    .add(R.id.fragment_home, ByNameFragment.class, null)
+                    .add(R.id.fragment_home, ByCalendarFragment.class, null)
                     .commit();
         }
 
@@ -58,6 +75,8 @@ public class HomeActivity extends AppCompatActivity {
             DialogAddPasienActivity dialog = new DialogAddPasienActivity();
             dialog.show(getSupportFragmentManager(), "DialogAddPasien");
         });
+
+        binding.ibCalendar.setOnClickListener(v -> datePickerDialog.show());
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -66,6 +85,9 @@ public class HomeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.date:
                 Toast.makeText(this, "date selected", Toast.LENGTH_SHORT).show();
+                initDateRangePicker();
+                showDateRecyclerView();
+                showCalendarLayout(true);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .setReorderingAllowed(true)
@@ -74,6 +96,7 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             case R.id.nama:
                 Toast.makeText(this, "nama selected", Toast.LENGTH_SHORT).show();
+                showCalendarLayout(false);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .setReorderingAllowed(true)
@@ -82,6 +105,7 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             case R.id.usia:
                 Toast.makeText(this, "usia selected", Toast.LENGTH_SHORT).show();
+                showCalendarLayout(false);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .setReorderingAllowed(true)
@@ -90,6 +114,55 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             default:
                 return false;
+        }
+    }
+
+    private void initDateRangePicker() {
+        DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
+            listDate.clear();
+            Calendar cld = Calendar.getInstance();
+            for (int i = 0; i < 6; i++) {
+                cld.set(year, month, dayOfMonth);
+                cld.add(Calendar.DATE, i);
+                SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                String date = formatDate.format(cld.getTime());
+                listDate.add(date);
+            }
+            Log.d("listDate", listDate.toString());
+            showDateRecyclerView();
+        };
+        Calendar calendar = Calendar.getInstance();
+        int tahun = calendar.get(Calendar.YEAR);
+        int bulan = calendar.get(Calendar.MONTH);
+        int hari = calendar.get(Calendar.DAY_OF_MONTH);
+
+        datePickerDialog = new DatePickerDialog(this, R.style.DialogTheme, dateSetListener, tahun, bulan, hari);
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.getWindow().setBackgroundDrawableResource(R.drawable.rounded_box_white);
+    }
+
+    private void setListCurrentDate() {
+        listDate.clear();
+        for (int i = 0; i < 6; i++) {
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+            c.add(Calendar.DATE, i);
+            String date = formatDate.format(c.getTime());
+            listDate.add(date);
+        }
+    }
+
+    private void showDateRecyclerView() {
+        binding.rvDate.setHasFixedSize(true);
+        binding.rvDate.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.rvDate.setAdapter(adapterDate);
+    }
+
+    private void showCalendarLayout(boolean state) {
+        if (state) {
+            binding.layoutCalendar.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutCalendar.setVisibility(View.GONE);
         }
     }
 }

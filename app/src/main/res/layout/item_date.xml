@@ -8,14 +8,14 @@
     android:focusable="true"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp">
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="12dp">
 
     <TextView
         android:id="@+id/tv_hari"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sen"
+        android:text="@string/hari"
         android:textColor="@color/direc_grey"
         android:textSize="12sp" />
 
@@ -23,7 +23,7 @@
         android:id="@+id/tv_tanggal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12"
+        android:text="@string/date"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />

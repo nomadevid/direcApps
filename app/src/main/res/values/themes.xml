@@ -30,8 +30,10 @@
         <!-- year-->
         <item name="android:textColorSecondaryInverse">#948C8C</item>
         <!-- Ok Cancel Color-->
-        <item name="android:buttonBarPositiveButtonStyle">@style/AppTheme.Alert.Button.Positive</item>
-        <item name="android:buttonBarNegativeButtonStyle">@style/AppTheme.Alert.Button.Negative</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/AppTheme.Alert.Button.Positive
+        </item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/AppTheme.Alert.Button.Negative
+        </item>
     </style>
 
     <style name="AppTheme.Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
@@ -69,7 +71,7 @@
         <item name="cornerRadius">8dp</item>
     </style>
 
-    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView" >
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="android:textSize">14sp</item>
     </style>
 
@@ -145,5 +147,14 @@
         <item name="android:textSize">42sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="splashScreenTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="splashScreenTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="splashScreenTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

@@ -28,7 +28,7 @@ import com.nomadev.direc.model.PasienModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ByNameFragment extends Fragment {
+public class  ByNameFragment extends Fragment {
     private FragmentByNameBinding binding;
     private FirebaseFirestore db;
     private ArrayList<PasienModel> listPasien;

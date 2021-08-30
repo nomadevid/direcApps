@@ -62,7 +62,8 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(view.VISIBLE);
 
                 //autentikasi firebase
-                firebaseAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                firebaseAuth.signInWithEmailAndPassword(username,password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){

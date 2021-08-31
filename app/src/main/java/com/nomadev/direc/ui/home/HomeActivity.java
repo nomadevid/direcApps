@@ -40,33 +40,27 @@ public class HomeActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private ArrayList<String> listDate;
     private DatePickAdapter adapterDate;
-    public DrawerLayout drawerLayout;
-    public ActionBarDrawerToggle actionBarDrawerToggle;
-    FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
-    MenuItem logOut;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private MenuItem logOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Menu navmenu = null;
-        getMenuInflater().inflate(R.menu.navigation_menu,navmenu);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
         listDate = new ArrayList<>();
         adapterDate = new DatePickAdapter(listDate);
         setListCurrentDate();
-        drawerLayout = findViewById(R.id.my_drawer_layout);
-        logOut = navmenu.findItem(R.id.nav_logout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
+        logOut = binding.navView.getMenu().findItem(R.id.nav_logout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.myDrawerLayout, R.string.nav_open, R.string.nav_close);
 
-
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        binding.myDrawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-
-        firebaseAuth=FirebaseAuth.getInstance();
-        firebaseUser=firebaseAuth.getCurrentUser();
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,15 +79,15 @@ public class HomeActivity extends AppCompatActivity {
                     .commit();
         }
 
-        logOut.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
+        logOut.setOnMenuItemClickListener(menuItem -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            finish();
+            startActivity(intent);
+
+            return true;
         });
 
 

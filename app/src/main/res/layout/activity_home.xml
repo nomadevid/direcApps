@@ -1,124 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/direc_blue_light_background"
     tools:context=".ui.home.HomeActivity">
 
     <RelativeLayout
-        android:id="@+id/rl_action_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/direc_blue_light_background"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="16dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_dashboard"
-            style="@style/TextActionBarTitle"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rl_action_bar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/dashboard" />
+            android:background="@color/direc_blue_light_background"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp">
 
-        <ImageButton
-            android:id="@+id/ib_search"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tv_dashboard"
+                style="@style/TextActionBarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/dashboard" />
+
+            <ImageButton
+                android:id="@+id/ib_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:layout_toStartOf="@+id/ib_filter"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/search"
+                android:padding="8dp"
+                android:src="@drawable/search_icon_small" />
+
+            <ImageButton
+                android:id="@+id/ib_filter"
+                style="@style/IconActionBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/filter"
+                android:padding="8dp"
+                android:src="@drawable/filter_icon_small" />
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_calendar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="8dp"
-            android:layout_toStartOf="@+id/ib_filter"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/search"
-            android:padding="8dp"
-            android:src="@drawable/search_icon_small" />
+            android:layout_below="@id/rl_action_bar"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/ib_filter"
-            style="@style/IconActionBar"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ib_calendar"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/item_date" />
+
+            <ImageButton
+                android:id="@+id/ib_calendar"
+                android:layout_width="21.6dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/calendar_icon"
+                android:contentDescription="@string/kalender"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/layout_calendar" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_button"
+            style="@style/Widget.MaterialComponents.FloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/filter"
-            android:padding="8dp"
-            android:src="@drawable/filter_icon_small" />
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="@color/direc_green_dark"
+            android:contentDescription="@string/add_pasien"
+            android:src="@drawable/ic_icons_person_add_24"
+            app:tint="@null" />
     </RelativeLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_calendar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_below="@id/rl_action_bar">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ib_calendar"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_date" />
-
-        <ImageButton
-            android:id="@+id/ib_calendar"
-            android:layout_width="21.6dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/calendar_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_home"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/layout_calendar" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:backgroundTint="@color/direc_green_dark"
-        android:contentDescription="@string/add_pasien"
-        android:src="@drawable/ic_icons_person_add_24"
-        app:tint="@null" />
-
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/my_drawer_layout"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity"
-        tools:ignore="HardcodedText">
-
-        <com.google.android.material.navigation.NavigationView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:menu="@menu/navigation_menu" />
-
-    </androidx.drawerlayout.widget.DrawerLayout>
-
-</RelativeLayout>
+        android:layout_gravity="start"
+        app:menu="@menu/navigation_menu" />
+</androidx.drawerlayout.widget.DrawerLayout>

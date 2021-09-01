@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.nomadev.direc.R;
@@ -23,7 +24,7 @@ import com.nomadev.direc.ui.home.HomeActivity;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
-    TextInputEditText editTextUsername, editTextPassword;
+    TextInputLayout editTextUsername, editTextPassword;
     Button buttonMasuk;
     ProgressBar progressBar;
     FirebaseAuth firebaseAuth;
@@ -45,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String username;
                 username = "admin@gmail.com";
-                String password= Objects.requireNonNull(editTextPassword.getText()).toString().trim();
+                String password= Objects.requireNonNull(editTextPassword.getEditText().getText()).toString().trim();
 
                 if(TextUtils.isEmpty(username)){
                     editTextUsername.setError("Masukkan Username anda");
@@ -68,7 +69,10 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(LoginActivity.this,"Berhasil Masuk",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
                         }
                         else {
                             Toast.makeText(LoginActivity.this,"Error ! "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();

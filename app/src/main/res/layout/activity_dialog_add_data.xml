@@ -86,14 +86,38 @@
             android:layout_marginBottom="4dp"
             android:text="@string/foto_title" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_photo"
+        <LinearLayout
+            android:id="@+id/sv_foto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="52dp"
-            tools:listitem="@layout/item_photo"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_foto"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <ImageButton
+                android:id="@+id/ib_add_photo"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/icon_add_photo"
+                android:background="@drawable/bg_add_photo_button"/>
+
+        </LinearLayout>
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/rv_photo"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="52dp"-->
+<!--            tools:listitem="@layout/item_photo"-->
+<!--            android:orientation="horizontal"-->
+<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>-->
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_simpan"

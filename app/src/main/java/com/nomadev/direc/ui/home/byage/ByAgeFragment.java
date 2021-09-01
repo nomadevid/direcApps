@@ -1,66 +1,176 @@
 package com.nomadev.direc.ui.home.byage;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.os.Handler;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.nomadev.direc.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ByAgeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.nomadev.direc.databinding.FragmentByAgeBinding;
+import com.nomadev.direc.model.PasienModel;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 public class ByAgeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentByAgeBinding binding;
+    private FirebaseFirestore db;
+    private ArrayList<PasienModel> listPasien;
+    private ArrayList<PasienModel> listPasienSection;
+    private ByAgeAdapter adapter;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ByAgeFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ByAgeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ByAgeFragment newInstance(String param1, String param2) {
-        ByAgeFragment fragment = new ByAgeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentByAgeBinding.inflate(inflater, container, false);
+        showProgressBar(true);
+        return binding.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        db = FirebaseFirestore.getInstance();
+        listPasien = new ArrayList<>();
+        listPasienSection = new ArrayList<>();
+        adapter = new ByAgeAdapter(listPasienSection);
+
+        binding.refreshLayout.setOnRefreshListener(() -> new Handler().postDelayed(() -> {
+            listPasien.clear();
+            Log.d("listPasien: ", listPasien.toString());
+            getPasienData();
+            showRecyclerView();
+        }, 2000));
+
+        showProgressBar(true);
+        getPasienData();
+        showRecyclerView();
+    }
+
+    private void getPasienData() {
+        CollectionReference dbPasien = db.collection("pasien");
+        Query query = dbPasien.orderBy("nama", Query.Direction.ASCENDING);
+
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            showProgressBar(false);
+            Log.d("queryDocumentSnapshots", queryDocumentSnapshots.toString());
+            if (!queryDocumentSnapshots.isEmpty()) {
+                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                for (DocumentSnapshot d : list) {
+                    Log.d("SNAPSHOT", d.toString());
+                    PasienModel pasienModel = d.toObject(PasienModel.class);
+                    if (pasienModel != null) {
+                        pasienModel.setId(d.getId());
+                        pasienModel.isSection = false;
+
+                        String tanggalLahir = pasienModel.getTanggalLahir();
+
+                        // KONVERSI STRING KE DATE
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                        try {
+                            Date date = format.parse(tanggalLahir);
+
+                            // HITUNG USIA
+                            Calendar dob = Calendar.getInstance();
+                            Calendar today = Calendar.getInstance();
+
+                            if (date != null) {
+                                dob.setTime(date);
+                                int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+                                if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+                                    age--;
+                                }
+
+                                String ageString = String.valueOf(age);
+                                Log.d("usia", ageString);
+                                pasienModel.setTanggalLahir(ageString);
+                            }
+                        } catch (Exception e) {
+                            Log.d("Exception", e.toString());
+                        }
+                        listPasien.add(pasienModel);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                getHeaderList(listPasien);
+                showInfo(false);
+                Log.d("FEEDBACK", "Berhasil Mengambil Data.");
+                Toast.makeText(getActivity(), "Berhasil Mengambil Data.", Toast.LENGTH_SHORT).show();
+            } else {
+                showInfo(true);
+                Log.d("FEEDBACK", "Data Kosong.");
+                Toast.makeText(getActivity(), "Data Kosong.", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(e -> {
+            showProgressBar(true);
+            Log.d("FEEDBACK", "Error: " + e.toString());
+        });
+    }
+
+    private void getHeaderList(ArrayList<PasienModel> usersList) {
+        Collections.sort(usersList, new Comparator<PasienModel>() {
+            @Override
+            public int compare(PasienModel user1, PasienModel user2) {
+                return String.valueOf(user1.getTanggalLahir()).compareTo(String.valueOf(user2.getTanggalLahir()));
+            }
+        });
+
+        String lastHeader = "";
+        int size = usersList.size();
+        listPasienSection.clear();
+
+        for (int i = 0; i < size; i++) {
+            PasienModel user = usersList.get(i);
+            Log.d("getHeader", user.getTanggalLahir());
+            String header = String.valueOf(user.getTanggalLahir());
+
+            if (!TextUtils.equals(lastHeader, header)) {
+                lastHeader = header;
+                listPasienSection.add(new PasienModel("", "", "", "", header, true));
+            }
+            listPasienSection.add(user);
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_by_age, container, false);
+    private void showRecyclerView() {
+        binding.rvByAge.setHasFixedSize(true);
+        binding.rvByAge.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rvByAge.setAdapter(adapter);
+    }
+
+    private void showProgressBar(Boolean state) {
+        if (state) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            binding.progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    private void showInfo(Boolean state) {
+        if (state) {
+            binding.tvKeterangan.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvKeterangan.setVisibility(View.GONE);
+        }
     }
 }

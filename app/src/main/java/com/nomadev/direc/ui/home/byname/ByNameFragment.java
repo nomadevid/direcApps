@@ -33,15 +33,13 @@ public class ByNameFragment extends Fragment {
     private ArrayList<PasienModel> listPasien;
     private ArrayList<PasienModel> listPasienSection;
     private ByNameAdapter adapter;
-    private List<AlphabetItem> mAlphabetItems;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentByNameBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
         showProgressBar(true);
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -62,7 +60,6 @@ public class ByNameFragment extends Fragment {
 
         showProgressBar(true);
         getPasienData();
-
         showRecyclerView();
     }
 
@@ -86,9 +83,11 @@ public class ByNameFragment extends Fragment {
                 }
                 adapter.notifyDataSetChanged();
                 getHeaderListLatter(listPasien);
+                showInfo(false);
                 Log.d("FEEDBACK", "Berhasil Mengambil Data.");
                 Toast.makeText(getActivity(), "Berhasil Mengambil Data.", Toast.LENGTH_SHORT).show();
             } else {
+                showInfo(true);
                 Log.d("FEEDBACK", "Data Kosong.");
                 Toast.makeText(getActivity(), "Data Kosong.", Toast.LENGTH_SHORT).show();
             }
@@ -128,7 +127,7 @@ public class ByNameFragment extends Fragment {
     }
 
     private void generateAlphabetItem(ArrayList<PasienModel> usersList) {
-        mAlphabetItems = new ArrayList<>();
+        List<AlphabetItem> mAlphabetItems = new ArrayList<>();
         List<String> strAlphabets = new ArrayList<>();
         for (int i = 0; i < usersList.size(); i++) {
             String name = usersList.get(i).getNama().toUpperCase();
@@ -158,6 +157,14 @@ public class ByNameFragment extends Fragment {
             binding.progressBar.setVisibility(View.VISIBLE);
         } else {
             binding.progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    private void showInfo(Boolean state) {
+        if (state) {
+            binding.tvKeterangan.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvKeterangan.setVisibility(View.GONE);
         }
     }
 }

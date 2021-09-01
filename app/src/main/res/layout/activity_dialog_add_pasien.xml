@@ -15,7 +15,7 @@
         <LinearLayout
             style="@style/DialogStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
@@ -52,7 +52,8 @@
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/rounded_edittext"
                 android:hint="@string/name_lengkap"
-                android:inputType="text"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
                 android:lines="1"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -119,6 +120,7 @@
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/rounded_edittext"
                 android:hint="@string/nomor_telepon"
+                android:importantForAutofill="no"
                 android:inputType="phone"
                 android:lines="1"
                 android:maxLines="1"
@@ -142,6 +144,7 @@
                 android:background="@drawable/rounded_edittext"
                 android:gravity="top|left"
                 android:hint="@string/alamat"
+                android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLines="50" />
 

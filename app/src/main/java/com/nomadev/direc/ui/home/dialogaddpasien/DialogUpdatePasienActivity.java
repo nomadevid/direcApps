@@ -163,7 +163,7 @@ public class DialogUpdatePasienActivity extends DialogFragment {
         DocumentReference dbPasien = db.collection("pasien").document(id);
 
         // adding our data to our courses object class.
-        PasienModel updatedPasienModel = new PasienModel(nama, kelamin, telepon, alamat, tanggalLahir);
+        PasienModel updatedPasienModel = new PasienModel(nama, kelamin, telepon, alamat, tanggalLahir, false);
 
         // UPDATE TO "id" DOCUMENT
         dbPasien.update(

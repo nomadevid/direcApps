@@ -10,15 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nomadev.direc.databinding.ItemByNameBinding;
+import com.nomadev.direc.databinding.ItemByNameHeaderBinding;
 import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.detail.DetailActivity;
 import com.viethoa.RecyclerViewFastScroller;
 
 import java.util.ArrayList;
 
-public class ByNameAdapter extends RecyclerView.Adapter<ByNameAdapter.ViewHolder> implements RecyclerViewFastScroller.BubbleTextGetter {
+public class ByNameAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements RecyclerViewFastScroller.BubbleTextGetter {
 
-    private ArrayList<PasienModel> listPasien = new ArrayList<>();
+    public static final int SECTION_VIEW = 0;
+    public static final int CONTENT_VIEW = 1;
+
+    private ArrayList<PasienModel> listPasien;
 
     public ByNameAdapter(ArrayList<PasienModel> listPasien) {
         this.listPasien = listPasien;
@@ -26,13 +30,35 @@ public class ByNameAdapter extends RecyclerView.Adapter<ByNameAdapter.ViewHolder
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(ItemByNameBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        if (viewType == SECTION_VIEW) {
+            return new HeaderViewHolder(ItemByNameHeaderBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        }
+
+        return new ItemViewHolder(ItemByNameBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(listPasien.get(position));
+    public int getItemViewType(int position) {
+        if (listPasien.get(position).isSection) {
+            return SECTION_VIEW;
+        } else {
+            return CONTENT_VIEW;
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+        if (SECTION_VIEW == getItemViewType(position)) {
+            HeaderViewHolder sectionHeaderViewHolder = (HeaderViewHolder) holder;
+            sectionHeaderViewHolder.bind(listPasien.get(position));
+            return;
+        }
+
+        ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+        itemViewHolder.bind(listPasien.get(position));
     }
 
     @Override
@@ -52,8 +78,22 @@ public class ByNameAdapter extends RecyclerView.Adapter<ByNameAdapter.ViewHolder
         return listPasien.get(pos).getNama().substring(0, 1);
     }
 
+    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final ItemByNameHeaderBinding binding;
+
+        public HeaderViewHolder(ItemByNameHeaderBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        public void bind(PasienModel headerItem) {
+            binding.headerTitleTextview.setText(headerItem.getNama());
+        }
+    }
+
+
+    public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private final String NAMA = "nama";
         private final String GENDER = "gender";
@@ -66,7 +106,7 @@ public class ByNameAdapter extends RecyclerView.Adapter<ByNameAdapter.ViewHolder
 
         private String nama, kelamin, telepon, alamat, tanggalLahir, id;
 
-        public ViewHolder(@NonNull ItemByNameBinding binding) {
+        public ItemViewHolder(@NonNull ItemByNameBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

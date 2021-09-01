@@ -2,6 +2,7 @@ package com.nomadev.direc.ui.home.byname;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,16 +20,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.nomadev.direc.databinding.FragmentByNameBinding;
 import com.nomadev.direc.model.PasienModel;
-import com.viethoa.RecyclerViewFastScroller;
 import com.viethoa.models.AlphabetItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ByNameFragment extends Fragment {
     private FragmentByNameBinding binding;
     private FirebaseFirestore db;
     private ArrayList<PasienModel> listPasien;
+    private ArrayList<PasienModel> listPasienSection;
     private ByNameAdapter adapter;
     private List<AlphabetItem> mAlphabetItems;
 
@@ -47,6 +50,8 @@ public class ByNameFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
         listPasien = new ArrayList<>();
+        listPasienSection = new ArrayList<>();
+        adapter = new ByNameAdapter(listPasienSection);
 
         binding.refreshLayout.setOnRefreshListener(() -> new Handler().postDelayed(() -> {
             listPasien.clear();
@@ -73,11 +78,14 @@ public class ByNameFragment extends Fragment {
                 for (DocumentSnapshot d : list) {
                     Log.d("SNAPSHOT", d.toString());
                     PasienModel pasienModel = d.toObject(PasienModel.class);
-                    pasienModel.setId(d.getId());
-                    listPasien.add(pasienModel);
+                    if (pasienModel != null) {
+                        pasienModel.setId(d.getId());
+                        pasienModel.isSection = false;
+                        listPasien.add(pasienModel);
+                    }
                 }
                 adapter.notifyDataSetChanged();
-                generateAlphabetItem();
+                getHeaderListLatter(listPasien);
                 Log.d("FEEDBACK", "Berhasil Mengambil Data.");
                 Toast.makeText(getActivity(), "Berhasil Mengambil Data.", Toast.LENGTH_SHORT).show();
             } else {
@@ -93,19 +101,37 @@ public class ByNameFragment extends Fragment {
         });
     }
 
-    private void showRecyclerView() {
-        adapter = new ByNameAdapter(listPasien);
-        binding.rvByName.setHasFixedSize(true);
-        binding.rvByName.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binding.rvByName.setAdapter(adapter);
+    private void getHeaderListLatter(ArrayList<PasienModel> usersList) {
+        Collections.sort(usersList, new Comparator<PasienModel>() {
+            @Override
+            public int compare(PasienModel user1, PasienModel user2) {
+                return String.valueOf(user1.getNama().charAt(0)).toUpperCase().compareTo(String.valueOf(user2.getNama().charAt(0)).toUpperCase());
+            }
+        });
+
+        String lastHeader = "";
+        int size = usersList.size();
+        listPasienSection.clear();
+
+        for (int i = 0; i < size; i++) {
+            PasienModel user = usersList.get(i);
+            Log.d("getHeader", user.getNama());
+            String header = String.valueOf(user.getNama().charAt(0)).toUpperCase();
+
+            if (!TextUtils.equals(lastHeader, header)) {
+                lastHeader = header;
+                listPasienSection.add(new PasienModel(header, "", "", "", "", true));
+            }
+            generateAlphabetItem(listPasienSection);
+            listPasienSection.add(user);
+        }
     }
 
-    private void generateAlphabetItem() {
-        Log.d("generateAlphabet", listPasien.toString());
+    private void generateAlphabetItem(ArrayList<PasienModel> usersList) {
         mAlphabetItems = new ArrayList<>();
         List<String> strAlphabets = new ArrayList<>();
-        for (int i = 0; i < listPasien.size(); i++) {
-            String name = listPasien.get(i).getNama().toUpperCase();
+        for (int i = 0; i < usersList.size(); i++) {
+            String name = usersList.get(i).getNama().toUpperCase();
             Log.d("generateAlphabet", name);
             if (name.trim().isEmpty())
                 continue;
@@ -119,6 +145,12 @@ public class ByNameFragment extends Fragment {
 
         binding.fastScroller.setRecyclerView(binding.rvByName);
         binding.fastScroller.setUpAlphabet(mAlphabetItems);
+    }
+
+    private void showRecyclerView() {
+        binding.rvByName.setHasFixedSize(true);
+        binding.rvByName.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rvByName.setAdapter(adapter);
     }
 
     private void showProgressBar(Boolean state) {

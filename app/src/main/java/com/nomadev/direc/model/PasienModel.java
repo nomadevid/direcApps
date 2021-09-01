@@ -17,17 +17,19 @@ public class PasienModel {
     private String id;
 
     private String nama, kelamin, telepon, alamat, tanggal_lahir;
+    public boolean isSection;
 
     public PasienModel() {
 
     }
 
-    public PasienModel(String nama, String kelamin, String telepon, String alamat, String tanggal_lahir) {
+    public PasienModel(String nama, String kelamin, String telepon, String alamat, String tanggal_lahir, boolean isSection) {
         this.nama = nama;
         this.kelamin = kelamin;
         this.telepon = telepon;
         this.alamat = alamat;
         this.tanggal_lahir = tanggal_lahir;
+        this.isSection = isSection;
     }
 
     public String getNama() {

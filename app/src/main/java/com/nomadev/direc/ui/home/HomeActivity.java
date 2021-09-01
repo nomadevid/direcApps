@@ -1,24 +1,21 @@
 package com.nomadev.direc.ui.home;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityHomeBinding;
 import com.nomadev.direc.ui.home.byage.ByAgeFragment;
@@ -41,9 +38,6 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<String> listDate;
     private DatePickAdapter adapterDate;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
-    private MenuItem logOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +45,10 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
         listDate = new ArrayList<>();
         adapterDate = new DatePickAdapter(listDate);
         setListCurrentDate();
-        logOut = binding.navView.getMenu().findItem(R.id.nav_logout);
+        MenuItem logOut = binding.navView.getMenu().findItem(R.id.nav_logout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.myDrawerLayout, R.string.nav_open, R.string.nav_close);
 
         binding.myDrawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -75,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
             getSupportFragmentManager()
                     .beginTransaction()
                     .setReorderingAllowed(true)
-                    .add(R.id.fragment_home, ByCalendarFragment.class, null)
+                    .add(R.id.fragment_home, ByCalendarFragment.class, null, "FragmentDate")
                     .commit();
         }
 
@@ -127,7 +119,7 @@ public class HomeActivity extends AppCompatActivity {
                 getSupportFragmentManager()
                         .beginTransaction()
                         .setReorderingAllowed(true)
-                        .replace(R.id.fragment_home, ByCalendarFragment.class, null)
+                        .replace(R.id.fragment_home, ByCalendarFragment.class, null, "FragmentDate")
                         .commit();
                 return true;
             case R.id.nama:
@@ -136,7 +128,7 @@ public class HomeActivity extends AppCompatActivity {
                 getSupportFragmentManager()
                         .beginTransaction()
                         .setReorderingAllowed(true)
-                        .replace(R.id.fragment_home, ByNameFragment.class, null)
+                        .replace(R.id.fragment_home, ByNameFragment.class, null, "FragmentName")
                         .commit();
                 return true;
             case R.id.usia:
@@ -145,7 +137,7 @@ public class HomeActivity extends AppCompatActivity {
                 getSupportFragmentManager()
                         .beginTransaction()
                         .setReorderingAllowed(true)
-                        .replace(R.id.fragment_home, ByAgeFragment.class, null)
+                        .replace(R.id.fragment_home, ByAgeFragment.class, null, "FragmentAge")
                         .commit();
                 return true;
             default:

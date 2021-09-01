@@ -1,10 +1,8 @@
 package com.nomadev.direc.ui.home.byname;
 
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -14,10 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nomadev.direc.databinding.ItemByNameBinding;
 import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.detail.DetailActivity;
+import com.viethoa.RecyclerViewFastScroller;
 
 import java.util.ArrayList;
 
-public class ByNameAdapter extends RecyclerView.Adapter<ByNameAdapter.ViewHolder> {
+public class ByNameAdapter extends RecyclerView.Adapter<ByNameAdapter.ViewHolder> implements RecyclerViewFastScroller.BubbleTextGetter {
 
     private ArrayList<PasienModel> listPasien = new ArrayList<>();
 
@@ -40,6 +39,19 @@ public class ByNameAdapter extends RecyclerView.Adapter<ByNameAdapter.ViewHolder
     public int getItemCount() {
         return listPasien.size();
     }
+
+    @Override
+    public String getTextToShowInBubble(int pos) {
+        if (pos < 0 || pos >= listPasien.size())
+            return null;
+
+        String name = listPasien.get(pos).getNama();
+        if (name == null || name.length() < 1)
+            return null;
+
+        return listPasien.get(pos).getNama().substring(0, 1);
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 

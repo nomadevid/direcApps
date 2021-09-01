@@ -1,13 +1,6 @@
 package com.nomadev.direc.ui.home.byname;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,25 +8,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.nomadev.direc.databinding.FragmentByNameBinding;
 import com.nomadev.direc.model.PasienModel;
+import com.viethoa.RecyclerViewFastScroller;
+import com.viethoa.models.AlphabetItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class  ByNameFragment extends Fragment {
+public class ByNameFragment extends Fragment {
     private FragmentByNameBinding binding;
     private FirebaseFirestore db;
     private ArrayList<PasienModel> listPasien;
     private ByNameAdapter adapter;
-    private String id;
+    private List<AlphabetItem> mAlphabetItems;
 
     @Nullable
     @Override
@@ -51,20 +48,12 @@ public class  ByNameFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         listPasien = new ArrayList<>();
 
-        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        listPasien.clear();
-                        Log.d("listPasien: ", listPasien.toString());
-                        getPasienData();
-                        showRecyclerView();
-                    }
-                }, 2000);
-            }
-        });
+        binding.refreshLayout.setOnRefreshListener(() -> new Handler().postDelayed(() -> {
+            listPasien.clear();
+            Log.d("listPasien: ", listPasien.toString());
+            getPasienData();
+            showRecyclerView();
+        }, 2000));
 
         showProgressBar(true);
         getPasienData();
@@ -84,10 +73,11 @@ public class  ByNameFragment extends Fragment {
                 for (DocumentSnapshot d : list) {
                     Log.d("SNAPSHOT", d.toString());
                     PasienModel pasienModel = d.toObject(PasienModel.class);
-                    id = pasienModel.setId(d.getId());
+                    pasienModel.setId(d.getId());
                     listPasien.add(pasienModel);
                 }
                 adapter.notifyDataSetChanged();
+                generateAlphabetItem();
                 Log.d("FEEDBACK", "Berhasil Mengambil Data.");
                 Toast.makeText(getActivity(), "Berhasil Mengambil Data.", Toast.LENGTH_SHORT).show();
             } else {
@@ -110,6 +100,26 @@ public class  ByNameFragment extends Fragment {
         binding.rvByName.setAdapter(adapter);
     }
 
+    private void generateAlphabetItem() {
+        Log.d("generateAlphabet", listPasien.toString());
+        mAlphabetItems = new ArrayList<>();
+        List<String> strAlphabets = new ArrayList<>();
+        for (int i = 0; i < listPasien.size(); i++) {
+            String name = listPasien.get(i).getNama().toUpperCase();
+            Log.d("generateAlphabet", name);
+            if (name.trim().isEmpty())
+                continue;
+
+            String word = name.substring(0, 1);
+            if (!strAlphabets.contains(word)) {
+                strAlphabets.add(word);
+                mAlphabetItems.add(new AlphabetItem(i, word, false));
+            }
+        }
+
+        binding.fastScroller.setRecyclerView(binding.rvByName);
+        binding.fastScroller.setUpAlphabet(mAlphabetItems);
+    }
 
     private void showProgressBar(Boolean state) {
         if (state) {

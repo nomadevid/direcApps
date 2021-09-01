@@ -59,4 +59,8 @@
     <string name="tidak">Tidak</string>
     <string name="hari">Hari</string>
     <string name="kalender">Kalender</string>
+    <string name="masukkan_nama_lengkap">Masukkan nama lengkap</string>
+    <string name="masukkan_nomor_telepon">Masukkan nomor telepon</string>
+    <string name="masukkan_alamat">Masukkan alamat</string>
+    <string name="masukkan_tanggal_lahir">Masukkan tanggal lahir</string>
 </resources>

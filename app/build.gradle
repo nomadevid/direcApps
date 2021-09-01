@@ -55,6 +55,9 @@ dependencies {
     //sliding root
     implementation 'com.yarolegovich:sliding-root-nav:1.1.1'
 
+    // alphabet scrollbar
+    implementation 'com.github.viethoa:fastscroller:1.2.0'
+
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
 

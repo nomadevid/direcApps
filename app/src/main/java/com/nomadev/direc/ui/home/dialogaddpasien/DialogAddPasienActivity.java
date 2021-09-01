@@ -1,15 +1,11 @@
 package com.nomadev.direc.ui.home.dialogaddpasien;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-
 import android.app.DatePickerDialog;
-import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,53 +13,45 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.Index;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDialogAddPasienBinding;
-import com.nomadev.direc.model.PasienModel;
-import com.nomadev.direc.ui.home.HomeActivity;
-import com.nomadev.direc.ui.home.byname.ByNameFragment;
+import com.nomadev.direc.ui.detail.DetailActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class DialogAddPasienActivity extends DialogFragment {
 
+    private final String NAMA = "nama";
+    private final String GENDER = "gender";
+    private final String TELEPON = "telepon";
+    private final String ALAMAT = "alamat";
+    private final String TANGGAL_LAHIR = "tanggal_lahir";
+    private final String ID = "id";
+
     private ActivityDialogAddPasienBinding binding;
     private DatePickerDialog datePickerDialog;
     private FirebaseFirestore db;
-    private final ArrayList<PasienModel> listPasien = new ArrayList<>();
     private String nama;
     private String kelamin;
     private String telepon;
     private String alamat;
     private String tanggal_lahir;
-    private String id;
-    private String formattedDate;
-
 
     @Nullable
     @Override
@@ -75,7 +63,6 @@ public class DialogAddPasienActivity extends DialogFragment {
         initDatePicker();
 
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
-        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);
 
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -85,7 +72,6 @@ public class DialogAddPasienActivity extends DialogFragment {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(getDialog().getWindow().getAttributes());
         layoutParams.width = width;
-        //layoutParams.height = height;
         getDialog().getWindow().setAttributes(layoutParams);
 
         String[] gender = {getString(R.string.gender_laki), getString(R.string.gender_perempuan)};
@@ -100,22 +86,34 @@ public class DialogAddPasienActivity extends DialogFragment {
             }
         });
 
-        binding.btnTanggalLahir.setOnClickListener(v -> {
-            datePickerDialog.show();
-        });
+        binding.btnTanggalLahir.setOnClickListener(v -> datePickerDialog.show());
 
         // BUTTON SIMPAN
         binding.btnSimpan.setOnClickListener(v -> {
-            Log.d("BUTTON", "Button Pressed.");
             nama = String.valueOf(binding.etNamaLengkap.getText());
             kelamin = String.valueOf(binding.spinnerJenisKelamin.getSelectedItem());
             telepon = String.valueOf(binding.etNomorTelepon.getText());
             alamat = String.valueOf(binding.etAlamat.getText());
             tanggal_lahir = String.valueOf(binding.btnTanggalLahir.getText());
 
-//            postData(nama, kelamin, telepon, alamat, tanggal_lahir);
+            if (TextUtils.isEmpty(nama)) {
+                binding.etNamaLengkap.setError(getString(R.string.masukkan_nama_lengkap));
+                return;
+            }
+            if (TextUtils.isEmpty(tanggal_lahir)) {
+                binding.btnTanggalLahir.setError(getString(R.string.masukkan_tanggal_lahir));
+                return;
+            }
+            if (TextUtils.isEmpty(telepon)) {
+                binding.etNomorTelepon.setError(getString(R.string.masukkan_nomor_telepon));
+                return;
+            }
+            if (TextUtils.isEmpty(alamat)) {
+                binding.etAlamat.setError(getString(R.string.masukkan_alamat));
+                return;
+            }
+
             postDataWithId(nama, kelamin, telepon, alamat, tanggal_lahir);
-//            updateAlgolia(nama);
         });
 
         return view;
@@ -125,7 +123,6 @@ public class DialogAddPasienActivity extends DialogFragment {
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
             month = month + 1;
             binding.btnTanggalLahir.setText(String.valueOf(dayOfMonth + "/" + month + "/" + year));
-            calculateAge(year, month, dayOfMonth);
         };
         Calendar calendar = Calendar.getInstance();
         int tahun = calendar.get(Calendar.YEAR);
@@ -150,23 +147,14 @@ public class DialogAddPasienActivity extends DialogFragment {
         map.put("alamat", alamat);
         map.put("tanggalLahir", tanggalLahir);
 
-        dbData.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Log.d("id", id);
-                postAlgolia(nama, kelamin, telepon, alamat, tanggal_lahir, id);
-                getDialog().dismiss();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .setReorderingAllowed(true)
-                        .replace(R.id.fragment_home, ByNameFragment.class, null)
-                        .commit();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("GAGAL", "Error: " + e.toString());
-                getDialog().dismiss();
-            }
+        dbData.set(map).addOnSuccessListener(unused -> {
+            Log.d("id", id);
+            postAlgolia(nama, kelamin, telepon, alamat, tanggal_lahir, id);
+            getDialog().dismiss();
+            intentToDetail(nama, kelamin, telepon, alamat, tanggalLahir, id);
+        }).addOnFailureListener(e -> {
+            Log.d("GAGAL", "Error: " + e.toString());
+            getDialog().dismiss();
         });
     }
 
@@ -177,7 +165,7 @@ public class DialogAddPasienActivity extends DialogFragment {
         Client client = new Client(appid, adminApiKey);
         Index index = client.getIndex("pasien");
 
-        ArrayList<JSONObject> array = new ArrayList<JSONObject>();
+        ArrayList<JSONObject> array = new ArrayList<>();
 
         try {
             array.add(
@@ -196,19 +184,14 @@ public class DialogAddPasienActivity extends DialogFragment {
         index.addObjectsAsync(new JSONArray(array), null);
     }
 
-    private void calculateAge(int year, int month, int day) {
-        // HITUNG USIA
-        Calendar dob = Calendar.getInstance();
-        Calendar today = Calendar.getInstance();
-
-        dob.set(year, month, day);
-
-        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
-            age--;
-        }
-
-        String ageStr = String.valueOf(age);
-        Log.d("usia", ageStr);
+    private void intentToDetail(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, String id) {
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(NAMA, nama);
+        intent.putExtra(GENDER, kelamin);
+        intent.putExtra(TELEPON, telepon);
+        intent.putExtra(ALAMAT, alamat);
+        intent.putExtra(TANGGAL_LAHIR, tanggalLahir);
+        intent.putExtra(ID, id);
+        startActivity(intent);
     }
 }

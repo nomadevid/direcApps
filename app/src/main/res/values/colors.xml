@@ -17,4 +17,10 @@
     <color name="direc_grey">#8C999A</color>
     <color name="direc_green_light_cardview">#11D0B3</color>
     <color name="direc_green_dark_cardview">#12B69E</color>
+
+    <!-- Alphabet Scroller -->
+    <color name="alphabet_text_color">#6D6969</color>
+    <color name="alphabet_text_selected_color">#000000</color>
+    <color name="alphabet_background_color">#00000000</color>
+    <color name="alphabet_background_border_color">#00000000</color>
 </resources>

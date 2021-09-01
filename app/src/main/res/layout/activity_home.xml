@@ -26,7 +26,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/dashboard" />
+                android:text="@string/dashboard"
+                android:layout_toStartOf="@id/ib_search"
+                android:layout_alignParentStart="true"/>
 
             <ImageButton
                 android:id="@+id/ib_search"

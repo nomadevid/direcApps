@@ -18,7 +18,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.nomadev.direc.R;
+import com.nomadev.direc.ui.CheckCurrentUser;
 import com.nomadev.direc.ui.home.HomeActivity;
 
 import java.util.Objects;
@@ -40,6 +42,13 @@ public class LoginActivity extends AppCompatActivity {
         buttonMasuk=findViewById(R.id.buttonMasuk);
         progressBar=findViewById(R.id.progressBar);
         firebaseAuth=FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        if(firebaseUser != null){
+            Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+        }
 
         buttonMasuk.setOnClickListener(new View.OnClickListener() {
             @Override

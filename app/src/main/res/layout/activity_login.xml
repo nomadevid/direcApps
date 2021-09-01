@@ -61,7 +61,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.80" />
+        app:layout_constraintGuide_percent="0.78" />
+
 
     <ImageView
         android:id="@+id/imageView"
@@ -76,35 +77,69 @@
         app:srcCompat="@drawable/logo"
         tools:ignore="ImageContrastCheck" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextTextUsername"
-        style="@style/TextCardViewContentBlack"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:ems="10"
-        android:fontFamily="@font/lato_regular"
-        android:hint="@string/username"
-        android:inputType="textPersonName"
+        android:background="@color/direc_blue_light_background"
+        android:textColorHint="@color/alphabet_text_color"
+        app:boxBackgroundColor="@color/direc_blue_light_background"
+        app:boxStrokeColor="@color/direc_green_dark"
+        app:endIconTint="@color/direc_green_dark"
+        app:helperTextTextColor="@color/alphabet_text_color"
+        app:hintTextColor="@color/direc_green_dark"
         app:layout_constraintDimensionRatio="125:25 "
         app:layout_constraintEnd_toEndOf="@id/guideline3"
         app:layout_constraintStart_toStartOf="@id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/guideline8"
-        tools:ignore="Autofill" />
+        app:passwordToggleTint="@color/alphabet_text_color"
+        app:placeholderTextColor="@color/alphabet_text_color"
+        app:prefixTextColor="@color/alphabet_text_color"
+        app:startIconTint="@color/direc_green_dark"
+        app:suffixTextColor="@color/alphabet_text_color">
 
-    <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/TextCardViewContentBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:fontFamily="@font/lato_regular"
+            android:hint="@string/username"
+            android:inputType="text"
+            android:textColorHighlight="@color/alphabet_text_selected_color"
+            android:textColorLink="@color/alphabet_text_selected_color"
+            tools:ignore="Autofill" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextPassword"
-        style="@style/TextCardViewContentBlack"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:ems="10"
-        android:fontFamily="@font/lato_regular"
-        android:hint="@string/kata_sandi"
-        android:inputType="textPassword"
-        app:layout_constraintDimensionRatio="125:25 "
+        android:background="@color/direc_blue_light_background"
+        android:textColorHint="@color/alphabet_text_color"
+        app:boxBackgroundColor="@color/direc_blue_light_background"
+        app:boxStrokeColor="@color/direc_green_dark"
+        app:endIconTint="@color/direc_green_dark"
+        app:hintTextColor="@color/direc_green_dark"
+        app:layout_constraintDimensionRatio="125:25"
         app:layout_constraintEnd_toEndOf="@id/guideline3"
         app:layout_constraintStart_toStartOf="@id/guideline2"
         app:layout_constraintTop_toBottomOf="@id/editTextTextUsername"
-        tools:ignore="Autofill" />
+        app:passwordToggleEnabled="true"
+        app:startIconTint="@color/direc_green_dark">
+
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/TextCardViewContentBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:fontFamily="@font/lato_regular"
+            android:hint="@string/kata_sandi"
+            android:inputType="textPassword"
+            tools:ignore="Autofill" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonMasuk"
@@ -113,8 +148,10 @@
         android:background="@drawable/gradient_button_masuk"
         android:text="@string/masuk"
         android:textAllCaps="false"
+        android:textColor="@color/direc_blue_light_dialog"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintDimensionRatio="125:18"
+        app:layout_constraintDimensionRatio="125:20"
         app:layout_constraintEnd_toEndOf="@id/guideline3"
         app:layout_constraintStart_toStartOf="@id/guideline2"
         app:layout_constraintTop_toBottomOf="@id/editTextPassword"
@@ -127,12 +164,10 @@
         android:layout_height="0dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/guideline10"
-        app:layout_constraintTop_toBottomOf="@id/guideline7"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="@id/guideline5"
-        app:layout_constraintStart_toStartOf="@id/guideline4"/>
-
-
+        app:layout_constraintStart_toStartOf="@id/guideline4"
+        app:layout_constraintTop_toBottomOf="@id/guideline7" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

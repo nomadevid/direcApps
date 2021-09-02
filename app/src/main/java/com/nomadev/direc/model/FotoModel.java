@@ -17,18 +17,4 @@ public class FotoModel {
         this.foto = foto;
     }
 
-//    public static List<FotoModel> getImageList(ArrayList photoList){
-//
-//        List<FotoModel> fotoModelArrayList = new ArrayList<>();
-//        ArrayList<Uri> photo = photoList;
-//
-//        for (int i = 0; i < photo.size(); i++){
-//            FotoModel foto = new FotoModel();
-//            foto.setFoto(photo.get(i));
-//            fotoModelArrayList.add(foto);
-//        }
-//        return fotoModelArrayList;
-//    }
-
-
 }

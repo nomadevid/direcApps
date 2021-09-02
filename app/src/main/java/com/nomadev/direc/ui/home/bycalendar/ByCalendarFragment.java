@@ -34,6 +34,7 @@ public class ByCalendarFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentByCalendarBinding.inflate(inflater, container, false);
+        showProgressBar(true);
         return binding.getRoot();
     }
 
@@ -50,6 +51,7 @@ public class ByCalendarFragment extends Fragment {
         if (bundle != null) {
             date = bundle.getString("date");
             Log.d("ByCalendarFragment", date);
+            showProgressBar(true);
             getHistoryData();
             showRecyclerView();
         }
@@ -60,6 +62,7 @@ public class ByCalendarFragment extends Fragment {
         Query query = dbPasien.orderBy("addTime", Query.Direction.DESCENDING);
 
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            showProgressBar(false);
             Log.d("queryDocumentSnapshots", queryDocumentSnapshots.toString());
             if (!queryDocumentSnapshots.isEmpty()) {
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
@@ -76,6 +79,7 @@ public class ByCalendarFragment extends Fragment {
                 showInfo(true);
             }
         }).addOnFailureListener(e -> {
+            showProgressBar(false);
             Log.d("FEEDBACK", "Error: " + e.toString());
             Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
         });
@@ -85,6 +89,14 @@ public class ByCalendarFragment extends Fragment {
         binding.rvByCalendar.setHasFixedSize(true);
         binding.rvByCalendar.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvByCalendar.setAdapter(adapter);
+    }
+
+    private void showProgressBar(Boolean state) {
+        if (state) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            binding.progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void showInfo(Boolean state) {

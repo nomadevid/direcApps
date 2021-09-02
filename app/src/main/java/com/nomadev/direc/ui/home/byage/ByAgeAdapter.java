@@ -1,4 +1,4 @@
-package com.nomadev.direc.ui.home.byname;
+package com.nomadev.direc.ui.home.byage;
 
 import android.content.Intent;
 import android.util.Log;
@@ -9,39 +9,32 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nomadev.direc.R;
-import com.nomadev.direc.databinding.ItemByNameBinding;
-import com.nomadev.direc.databinding.ItemByNameHeaderBinding;
+import com.nomadev.direc.databinding.ItemByAgeBinding;
+import com.nomadev.direc.databinding.ItemByAgeHeaderBinding;
 import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.detail.DetailActivity;
-import com.viethoa.RecyclerViewFastScroller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
-public class ByNameAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements RecyclerViewFastScroller.BubbleTextGetter {
+public class ByAgeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final int SECTION_VIEW = 0;
     public static final int CONTENT_VIEW = 1;
 
     private final ArrayList<PasienModel> listPasien;
 
-    public ByNameAdapter(ArrayList<PasienModel> listPasien) {
+    public ByAgeAdapter(ArrayList<PasienModel> listPasien) {
         this.listPasien = listPasien;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         if (viewType == SECTION_VIEW) {
-            return new HeaderViewHolder(ItemByNameHeaderBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+            return new ByAgeAdapter.HeaderViewHolder(ItemByAgeHeaderBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
         }
 
-        return new ItemViewHolder(ItemByNameBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new ByAgeAdapter.ItemViewHolder(ItemByAgeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -55,14 +48,13 @@ public class ByNameAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
         if (SECTION_VIEW == getItemViewType(position)) {
-            HeaderViewHolder sectionHeaderViewHolder = (HeaderViewHolder) holder;
+            ByAgeAdapter.HeaderViewHolder sectionHeaderViewHolder = (ByAgeAdapter.HeaderViewHolder) holder;
             sectionHeaderViewHolder.bind(listPasien.get(position));
             return;
         }
 
-        ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+        ByAgeAdapter.ItemViewHolder itemViewHolder = (ByAgeAdapter.ItemViewHolder) holder;
         itemViewHolder.bind(listPasien.get(position));
     }
 
@@ -71,30 +63,18 @@ public class ByNameAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return listPasien.size();
     }
 
-    @Override
-    public String getTextToShowInBubble(int pos) {
-        if (pos < 0 || pos >= listPasien.size())
-            return null;
-
-        String name = listPasien.get(pos).getNama();
-        if (name == null || name.length() < 1)
-            return null;
-
-        return listPasien.get(pos).getNama().substring(0, 1);
-    }
-
     // HEADER VIEW HOLDER
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
 
-        private final ItemByNameHeaderBinding binding;
+        private final ItemByAgeHeaderBinding binding;
 
-        public HeaderViewHolder(ItemByNameHeaderBinding binding) {
+        public HeaderViewHolder(ItemByAgeHeaderBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
         public void bind(PasienModel headerItem) {
-            binding.headerTitleTextview.setText(headerItem.getNama());
+            binding.headerTitleTextview.setText(headerItem.getTanggalLahir());
         }
     }
 
@@ -108,11 +88,11 @@ public class ByNameAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private final String TANGGAL_LAHIR = "tanggal_lahir";
         private final String ID = "id";
 
-        private final ItemByNameBinding binding;
+        private final ItemByAgeBinding binding;
 
         private String nama, kelamin, telepon, alamat, tanggalLahir, id, ageString;
 
-        public ItemViewHolder(@NonNull ItemByNameBinding binding) {
+        public ItemViewHolder(@NonNull ItemByAgeBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -126,39 +106,12 @@ public class ByNameAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tanggalLahir = pasienModel.getTanggalLahir();
             id = pasienModel.getId();
 
-            calculateAge(tanggalLahir);
-
             binding.tvNama.setText(nama);
-            binding.tvUsia.setText(itemView.getContext().getString(R.string.usia_terisi, ageString));
+            binding.tvUsia.setText(tanggalLahir);
             binding.cvPasien.setOnClickListener(v -> {
                 Log.d("ID_ADAPTER", id);
                 intentToDetail(nama, kelamin, telepon, alamat, tanggalLahir, id);
             });
-        }
-
-        private void calculateAge(String tanggalLahir) {
-            // KONVERSI STRING KE DATE
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            try {
-                Date date = format.parse(tanggalLahir);
-
-                // HITUNG USIA
-                Calendar dob = Calendar.getInstance();
-                Calendar today = Calendar.getInstance();
-
-                if (date != null) {
-                    dob.setTime(date);
-                    int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-                    if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
-                        age--;
-                    }
-
-                    ageString = String.valueOf(age);
-                    Log.d("usia", ageString);
-                }
-            } catch (Exception e) {
-                Log.d("Exception", e.toString());
-            }
         }
 
         private void intentToDetail(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, String id) {
@@ -174,3 +127,4 @@ public class ByNameAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 }
+

@@ -20,4 +20,12 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_by_calendar" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        android:indeterminateDrawable="@drawable/progress_bar"/>
+
 </RelativeLayout>

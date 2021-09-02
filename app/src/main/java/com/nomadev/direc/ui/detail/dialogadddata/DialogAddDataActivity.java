@@ -82,7 +82,7 @@ public class DialogAddDataActivity extends DialogFragment {
         tanggalLahir = getArguments().getString(TANGGAL_LAHIR);
 
         fotoModelArrayList = new ArrayList<>();
-        fotoAdapter = new FotoAdapter(fotoModelArrayList);
+        fotoAdapter = new FotoAdapter(this.fotoModelArrayList);
 
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
         int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);
@@ -176,14 +176,17 @@ public class DialogAddDataActivity extends DialogFragment {
 
         urlStrings = new ArrayList<>();
         Log.d("IMAGE", "1");
+        ArrayList<FotoModel> fotoModelListUpdate = fotoAdapter.getFotoModelList();
 //        progressDialog.show();
 //        alert.setText("If Loading Takes to long press button again");
         StorageReference ImageFolder = FirebaseStorage.getInstance().getReference().child(idHistory);
 
         Log.d("IMAGE", "2");
-        for (upload_count = 0; upload_count < ImageList.size(); upload_count++) {
+        for (upload_count = 0; upload_count < fotoModelListUpdate.size(); upload_count++) {
 
-            Uri IndividualImage = (Uri) ImageList.get(upload_count);
+            FotoModel foto = fotoModelListUpdate.get(upload_count);
+
+            Uri IndividualImage = foto.getFoto();
             StorageReference ImageName = ImageFolder.child("Images" + IndividualImage.getLastPathSegment());
 
             Log.d("IMAGE", "4");
@@ -199,14 +202,14 @@ public class DialogAddDataActivity extends DialogFragment {
                                             Log.d("URL", "onSuccess: " + urlStrings);
 
                                             // Buat Upload ke Firestore nanti
-                                            if (urlStrings.size() == ImageList.size()){
+                                            if (urlStrings.size() == fotoModelListUpdate.size()){
                                                 storeLink(urlStrings);
                                             }
 
                                         }
                                     }
                             ).addOnFailureListener(e -> {
-                                Toast.makeText(getActivity(), "GAGAL NGIRIM NJIR", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Gagal Mengirim Data", Toast.LENGTH_SHORT).show();
                                 Log.d("FAIL", "onFailur: " + e.toString());
                             });
                         }

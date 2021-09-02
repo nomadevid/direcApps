@@ -54,6 +54,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<HasilPeriksaAdapte
         private final String TANGGAL_DATA = "tanggal_data";
         private FragmentActivity fragmentActivity;
         private FragmentManager fragmentManager;
+        private FotoStreamAdapter fotoStreamAdapter;
 
         public ViewHolder(@NonNull ItemHasilPeriksaPasienBinding binding) {
             super(binding.getRoot());
@@ -61,24 +62,29 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<HasilPeriksaAdapte
             binding.ibEditDown.setOnClickListener(this);
         }
 
-        public void bind (HasilPeriksaModel hasilPeriksaModel){
+        public void bind(HasilPeriksaModel hasilPeriksaModel) {
             binding.tvHasilPeriksa.setText(hasilPeriksaModel.getHasil_periksa());
             binding.tvKeluhan.setText(hasilPeriksaModel.getKeluhan());
             binding.tvTerapi.setText(hasilPeriksaModel.getTerapi());
             id_pasien = hasilPeriksaModel.getId();
             id_data = hasilPeriksaModel.getId_data();
             tanggal_data = hasilPeriksaModel.getTanggal();
+            Log.d("TAG", "bind: " + hasilPeriksaModel.getUrlString());
+            if (hasilPeriksaModel.getUrlString() != null) {
+                setAdapter(hasilPeriksaModel.getUrlString());
+            }else binding.tvFoto.setText(null);
+
         }
 
         @Override
         public void onClick(View v) {
             Log.d("Menu Button", "onClick" + getAdapterPosition());
-            fragmentActivity = (FragmentActivity)(v.getContext());
+            fragmentActivity = (FragmentActivity) (v.getContext());
             fragmentManager = fragmentActivity.getSupportFragmentManager();
             showPoupMenu(v);
         }
 
-        private void showPoupMenu(View v){
+        private void showPoupMenu(View v) {
             PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
             popupMenu.inflate(R.menu.edit_menu);
             popupMenu.setOnMenuItemClickListener(this);
@@ -87,7 +93,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<HasilPeriksaAdapte
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.edit_data_menu:
                     Log.d("Menu", "onMenuItemClick: edit_data_menu");
                     Log.d("ID", "ID Pasien: " + id_pasien);
@@ -98,7 +104,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<HasilPeriksaAdapte
                     bundle.putString(ID_PASIEN, id_pasien);
                     bundle.putString(TANGGAL_DATA, tanggal_data);
                     dialog.setArguments(bundle);
-                    dialog.show(fragmentManager,"Dialog Edit Data");
+                    dialog.show(fragmentManager, "Dialog Edit Data");
                     return true;
                 case R.id.delete_data_menu:
                     Log.d("Menu", "onMenuItemClick: delete_data_menu");
@@ -113,6 +119,11 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<HasilPeriksaAdapte
                 default:
                     return false;
             }
+        }
+
+        public void setAdapter(ArrayList<String> listData) {
+            fotoStreamAdapter = new FotoStreamAdapter(listData);
+            binding.rvPhoto.setAdapter(fotoStreamAdapter);
         }
     }
 }

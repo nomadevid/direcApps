@@ -2,6 +2,8 @@ package com.nomadev.direc.model;
 
 import com.google.firebase.firestore.Exclude;
 
+import java.util.ArrayList;
+
 public class HasilPeriksaModel {
 
     public String getId_data() {
@@ -17,6 +19,7 @@ public class HasilPeriksaModel {
     private String id_data;
 
     private String hasil_periksa, keluhan, tanggal, terapi, id;
+    private ArrayList<String> urlString;
 
     public HasilPeriksaModel(){
 
@@ -67,6 +70,14 @@ public class HasilPeriksaModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public ArrayList<String> getUrlString() {
+        return urlString;
+    }
+
+    public void setUrlString(ArrayList<String> urlString) {
+        this.urlString = urlString;
     }
 
 }

@@ -101,6 +101,7 @@ public class DetailActivity extends AppCompatActivity {
                 for (DocumentSnapshot documentSnapshot : list) {
                     HasilPeriksaModel hasilPeriksaModel = documentSnapshot.toObject(HasilPeriksaModel.class);
                     hasilPeriksaModel.setId_data(documentSnapshot.getId());
+                    hasilPeriksaModel.setUrlString((ArrayList) documentSnapshot.get("foto"));
                     hasilPeriksaModelArrayList.add(hasilPeriksaModel);
                 }
                 hasilPeriksaAdapter.notifyDataSetChanged();

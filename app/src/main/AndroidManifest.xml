@@ -14,36 +14,20 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
-            android:name=".ui.detail.dialogdeletedata.DialogDeleteDataActiivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.detail.dialogadddata.DialogUpdateDataActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.home.dialogaddpasien.DialogUpdatePasienActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.search.SearchActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="true"
             android:theme="@style/Theme.DirecApps" />
         <activity
-            android:name=".ui.detail.dialogadddata.DialogAddDataActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.detail.DetailActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.detail.DetailActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.home.dialogaddpasien.DialogAddPasienActivity"
-            android:exported="true" />
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="true"
+            android:theme="@style/Theme.DirecApps" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="true"
-            android:theme="@style/Theme.DirecApps">
-        </activity>
+            android:theme="@style/Theme.DirecApps" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />

@@ -34,15 +34,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class DialogAddPasienActivity extends DialogFragment {
-
-    private final String NAMA = "nama";
-    private final String GENDER = "gender";
-    private final String TELEPON = "telepon";
-    private final String ALAMAT = "alamat";
-    private final String TANGGAL_LAHIR = "tanggal_lahir";
-    private final String ID = "id";
 
     private ActivityDialogAddPasienBinding binding;
     private DatePickerDialog datePickerDialog;
@@ -64,7 +58,7 @@ public class DialogAddPasienActivity extends DialogFragment {
 
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
 
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().setContentView(R.layout.activity_dialog_add_pasien);
         getDialog().show();
@@ -122,7 +116,10 @@ public class DialogAddPasienActivity extends DialogFragment {
     private void initDatePicker() {
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
             month = month + 1;
-            binding.btnTanggalLahir.setText(String.valueOf(dayOfMonth + "/" + month + "/" + year));
+            String yearString = String.valueOf(year);
+            String monthString = String.valueOf(month);
+            String dayOfMonthString = String.valueOf(dayOfMonth);
+            binding.btnTanggalLahir.setText(String.format("%s/%s/%s", dayOfMonthString, monthString, yearString));
         };
         Calendar calendar = Calendar.getInstance();
         int tahun = calendar.get(Calendar.YEAR);
@@ -139,7 +136,7 @@ public class DialogAddPasienActivity extends DialogFragment {
         String id = dbPasien.getId();
         DocumentReference dbData = db.collection("pasien").document(id);
 
-        Map map = new HashMap<>();
+        Map<Object, Object> map = new HashMap<>();
         map.put("id", id);
         map.put("nama", nama);
         map.put("kelamin", kelamin);
@@ -150,11 +147,11 @@ public class DialogAddPasienActivity extends DialogFragment {
         dbData.set(map).addOnSuccessListener(unused -> {
             Log.d("id", id);
             postAlgolia(nama, kelamin, telepon, alamat, tanggal_lahir, id);
-            getDialog().dismiss();
+            Objects.requireNonNull(getDialog()).dismiss();
             intentToDetail(nama, kelamin, telepon, alamat, tanggalLahir, id);
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
-            getDialog().dismiss();
+            Objects.requireNonNull(getDialog()).dismiss();
         });
     }
 
@@ -186,12 +183,12 @@ public class DialogAddPasienActivity extends DialogFragment {
 
     private void intentToDetail(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, String id) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra(NAMA, nama);
-        intent.putExtra(GENDER, kelamin);
-        intent.putExtra(TELEPON, telepon);
-        intent.putExtra(ALAMAT, alamat);
-        intent.putExtra(TANGGAL_LAHIR, tanggalLahir);
-        intent.putExtra(ID, id);
+        intent.putExtra(DetailActivity.NAMA, nama);
+        intent.putExtra(DetailActivity.GENDER, kelamin);
+        intent.putExtra(DetailActivity.TELEPON, telepon);
+        intent.putExtra(DetailActivity.ALAMAT, alamat);
+        intent.putExtra(DetailActivity.TANGGAL_LAHIR, tanggalLahir);
+        intent.putExtra(DetailActivity.ID, id);
         startActivity(intent);
     }
 }

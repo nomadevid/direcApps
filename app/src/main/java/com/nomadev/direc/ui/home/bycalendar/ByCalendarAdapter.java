@@ -4,7 +4,6 @@ package com.nomadev.direc.ui.home.bycalendar;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -24,7 +23,7 @@ import java.util.Locale;
 
 public class ByCalendarAdapter extends RecyclerView.Adapter<ByCalendarAdapter.ViewHolder> {
 
-    private ArrayList<HistoryModel> listHistory = new ArrayList<>();
+    private final ArrayList<HistoryModel> listHistory;
 
     public ByCalendarAdapter(ArrayList<HistoryModel> listHistory) {
         this.listHistory = listHistory;
@@ -48,7 +47,6 @@ public class ByCalendarAdapter extends RecyclerView.Adapter<ByCalendarAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final String ID = "id";
         private final ItemByCalendarBinding binding;
 
         public ViewHolder(@NonNull ItemByCalendarBinding binding) {
@@ -62,13 +60,10 @@ public class ByCalendarAdapter extends RecyclerView.Adapter<ByCalendarAdapter.Vi
             binding.tvTime.setText(timeParse(data.getAddTime()));
             binding.tvNama.setText(data.getNama());
             binding.tvUsia.setText(itemView.getContext().getString(R.string.usia_terisi, calculateAge(data.getTanggalLahir())));
-            binding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
-                    intent.putExtra(ID, id);
-                    itemView.getContext().startActivity(intent);
-                }
+            binding.getRoot().setOnClickListener(v -> {
+                Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
+                intent.putExtra(DetailActivity.ID, id);
+                itemView.getContext().startActivity(intent);
             });
         }
 

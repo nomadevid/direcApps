@@ -28,17 +28,21 @@ import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.detail.dialogadddata.DialogAddDataActivity;
 import com.nomadev.direc.ui.home.dialogaddpasien.DialogUpdatePasienActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private final String NAMA = "nama";
-    private final String GENDER = "gender";
-    private final String TELEPON = "telepon";
-    private final String ALAMAT = "alamat";
-    private final String TANGGAL_LAHIR = "tanggal_lahir";
-    private final String ID = "id";
+    public static final String NAMA = "nama";
+    public static final String GENDER = "gender";
+    public static final String TELEPON = "telepon";
+    public static final String ALAMAT = "alamat";
+    public static final String TANGGAL_LAHIR = "tanggal_lahir";
+    public static final String ID = "id";
 
     private String nama, kelamin, telepon, alamat, tanggalLahir, id;
 
@@ -127,7 +131,7 @@ public class DetailActivity extends AppCompatActivity {
                     alamat = documentSnapshot.getString("alamat");
 
                     binding.tvDataDiri.setText(nama);
-                    binding.tvUsia.setText(tanggalLahir);
+                    binding.tvUsia.setText(getString(R.string.usia_terisi, calculateAge(tanggalLahir)));
                     binding.tvGender.setText(kelamin);
                     binding.tvTelepon.setText(telepon);
                     binding.tvAlamat.setText(alamat);
@@ -140,5 +144,32 @@ public class DetailActivity extends AppCompatActivity {
             }
         }).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());
 
+    }
+
+    private String calculateAge(String tanggalLahir) {
+        String ageString = "";
+        // KONVERSI STRING KE DATE
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        try {
+            Date date = format.parse(tanggalLahir);
+
+            // HITUNG USIA
+            Calendar dob = Calendar.getInstance();
+            Calendar today = Calendar.getInstance();
+
+            if (date != null) {
+                dob.setTime(date);
+                int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+                if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+                    age--;
+                }
+
+                ageString = String.valueOf(age);
+                Log.d("usia", ageString);
+            }
+        } catch (Exception e) {
+            Log.d("Exception", e.toString());
+        }
+        return ageString;
     }
 }

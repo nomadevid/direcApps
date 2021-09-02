@@ -81,16 +81,9 @@ public class ByAgeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     // ITEM VIEW HOLDER
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        private final String NAMA = "nama";
-        private final String GENDER = "gender";
-        private final String TELEPON = "telepon";
-        private final String ALAMAT = "alamat";
-        private final String TANGGAL_LAHIR = "tanggal_lahir";
-        private final String ID = "id";
-
         private final ItemByAgeBinding binding;
 
-        private String nama, kelamin, telepon, alamat, tanggalLahir, id, ageString;
+        private String nama, kelamin, telepon, alamat, tanggalLahir, id;
 
         public ItemViewHolder(@NonNull ItemByAgeBinding binding) {
             super(binding.getRoot());
@@ -117,12 +110,12 @@ public class ByAgeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private void intentToDetail(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, String id) {
             Toast.makeText(itemView.getContext(), "Ini Fungsi Intent", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
-            intent.putExtra(NAMA, nama);
-            intent.putExtra(GENDER, kelamin);
-            intent.putExtra(TELEPON, telepon);
-            intent.putExtra(ALAMAT, alamat);
-            intent.putExtra(TANGGAL_LAHIR, tanggalLahir);
-            intent.putExtra(ID, id);
+            intent.putExtra(DetailActivity.NAMA, nama);
+            intent.putExtra(DetailActivity.GENDER, kelamin);
+            intent.putExtra(DetailActivity.TELEPON, telepon);
+            intent.putExtra(DetailActivity.ALAMAT, alamat);
+            intent.putExtra(DetailActivity.TANGGAL_LAHIR, tanggalLahir);
+            intent.putExtra(DetailActivity.ID, id);
             itemView.getContext().startActivity(intent);
         }
     }

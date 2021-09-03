@@ -64,4 +64,5 @@
     <string name="masukkan_alamat">Masukkan alamat</string>
     <string name="masukkan_tanggal_lahir">Masukkan tanggal lahir</string>
     <string name="header">Header</string>
+    <string name="log_out">Log out</string>
 </resources>

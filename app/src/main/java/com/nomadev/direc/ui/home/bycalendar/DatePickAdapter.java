@@ -22,7 +22,7 @@ import java.util.Locale;
 
 public class DatePickAdapter extends RecyclerView.Adapter<DatePickAdapter.ViewHolder> {
 
-    private ArrayList<String> listDate = new ArrayList<>();
+    private final ArrayList<String> listDate;
 
     public DatePickAdapter(ArrayList<String> listDate) {
         this.listDate = listDate;

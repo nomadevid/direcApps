@@ -8,10 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.nomadev.direc.databinding.ItemPhotoBinding;
 import com.nomadev.direc.model.HasilPeriksaModel;
 import com.squareup.picasso.Picasso;
@@ -61,36 +65,8 @@ public class FotoStreamAdapter extends RecyclerView.Adapter<FotoStreamAdapter.Vi
 
         public void bind(String listImageUrl, int position) {
             this.position = position;
-//            listUrl = new ArrayList<>();
-//            listUrl = hasilPeriksaModel.getUrlString();
-//            Log.d("URL", "bind: " + hasilPeriksaModel.getUrlString());
-//            String imageUrl = (String) listUrl.get(position);
-//            Log.d("URL", "String: " + listUrl.get(position));
-//            new FetchImage(listImageUrl).start();
             Picasso.get().load(listImageUrl).into(binding.ivPhoto);
         }
-
-//        class FetchImage extends Thread {
-//
-//            String URL;
-//            Bitmap bitmap;
-//
-//            FetchImage(String URL) {
-//                this.URL = URL;
-//            }
-//
-//            @Override
-//            public void run() {
-//                InputStream inputStream = null;
-//                try {
-//                    inputStream = new URL(URL).openStream();
-//                    bitmap = BitmapFactory.decodeStream(inputStream);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                binding.ivPhoto.setImageBitmap(bitmap);
-//            }
-//        }
 
     }
 }

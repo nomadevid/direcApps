@@ -17,9 +17,12 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDialogDeleteDataActiivityBinding;
 import com.nomadev.direc.databinding.ActivityDialogUpdateDataBinding;
@@ -80,6 +83,15 @@ public class DialogDeleteDataActiivity extends DialogFragment {
                 }
             }
         });
+
+        StorageReference deleteFileImage = FirebaseStorage.getInstance().getReference(id_data);
+
+        deleteFileImage.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d("SUCCESS", "onSuccess: Data Storage Dihapus");
+            }
+        }).addOnFailureListener(e -> Log.e("FAIL", "deleteData: ", e));
     }
 
     private void deleteHistory() {

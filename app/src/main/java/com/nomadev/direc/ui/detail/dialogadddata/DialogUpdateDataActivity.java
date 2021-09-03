@@ -33,6 +33,7 @@ import com.nomadev.direc.model.HasilPeriksaModel;
 import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.detail.FotoAdapter;
 import com.nomadev.direc.ui.detail.FotoStreamAdapter;
+import com.nomadev.direc.ui.detail.FotoStreamUpdateAdapater;
 
 import java.util.ArrayList;
 
@@ -50,7 +51,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
     private FotoAdapter fotoAdapter;
     private ArrayList urlStrings;
     private int upload_count = 0;
-    private FotoStreamAdapter fotoStreamAdapter;
+    private FotoStreamUpdateAdapater fotoStreamUpdateAdapater;
 
     @Nullable
     @Override
@@ -119,8 +120,11 @@ public class DialogUpdateDataActivity extends DialogFragment {
                     binding.etHasilPeriksa.setText(hasil_periksa);
                     binding.etTerapi.setText(terapi);
 
-                    fotoStreamAdapter = new FotoStreamAdapter((ArrayList<String>) documentSnapshot.get("foto"));
-                    binding.rvFotoStream.setAdapter(fotoStreamAdapter);
+                    if (documentSnapshot.get("foto") != null) {
+                        fotoStreamUpdateAdapater = new FotoStreamUpdateAdapater((ArrayList<String>) documentSnapshot.get("foto"));
+                        binding.rvFotoStream.setAdapter(fotoStreamUpdateAdapater);
+                        fotoStreamUpdateAdapater.notifyDataSetChanged();
+                    }
 
                     Log.d("FEEDBACK", "Berhasil Mengambil Data.");
                 } else {
@@ -176,7 +180,17 @@ public class DialogUpdateDataActivity extends DialogFragment {
 
     }
 
-    private void postImage(){
+    private void postImage() {
+
+        DocumentReference dbData = db.collection("pasien").document(id_pasien).collection("history").document(id_data);
+        dbData.update(
+                "foto", FieldValue.arrayRemove()
+        ).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d("SUCCESS", "Field Value Reset: ");
+            }
+        }).addOnFailureListener(e -> Log.d("FAILURE", "ERROR : " + e.toString()));
 
         urlStrings = new ArrayList<>();
         Log.d("IMAGE", "1");
@@ -206,7 +220,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
                                             Log.d("URL", "onSuccess: " + urlStrings);
 
                                             // Buat Upload ke Firestore nanti
-                                            if (urlStrings.size() == fotoModelListUpdate.size()){
+                                            if (urlStrings.size() == fotoModelListUpdate.size()) {
                                                 storeLink(urlStrings);
                                             }
 
@@ -223,11 +237,12 @@ public class DialogUpdateDataActivity extends DialogFragment {
             Log.d("IMAGE", "3");
 
         }
+        storeLink(fotoStreamUpdateAdapater.getListImageUrl());
     }
 
     private void storeLink(ArrayList<String> urlStrings) {
 
-        for (int i = 0; i <urlStrings.size() ; i++) {
+        for (int i = 0; i < urlStrings.size(); i++) {
 
             DocumentReference dbData = db.collection("pasien").document(id_pasien).collection("history").document(id_data);
 
@@ -241,7 +256,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
 
                 }
             }).addOnFailureListener(e -> {
-                Log.d("FAILURE","ERROR : " + e.toString());
+                Log.d("FAILURE", "ERROR : " + e.toString());
 
             });
 

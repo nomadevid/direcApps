@@ -72,5 +72,6 @@ public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.ViewHolder> {
         fotoModelList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, fotoModelList.size());
+        notifyDataSetChanged();
     }
 }

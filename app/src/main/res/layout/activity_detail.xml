@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/direc_blue_light_background"
     tools:context=".ui.detail.DetailActivity">
 
     <LinearLayout
@@ -190,8 +191,9 @@
             android:id="@+id/rv_hasil_periksa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp"
             tools:listitem="@layout/item_hasil_periksa_pasien" />
     </LinearLayout>
 

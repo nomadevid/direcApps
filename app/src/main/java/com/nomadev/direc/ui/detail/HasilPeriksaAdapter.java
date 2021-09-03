@@ -14,14 +14,24 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nomadev.direc.R;
+import com.nomadev.direc.databinding.ItemByAgeHeaderBinding;
 import com.nomadev.direc.databinding.ItemHasilPeriksaPasienBinding;
+import com.nomadev.direc.databinding.ItemHasilPeriksaPasienHeaderBinding;
 import com.nomadev.direc.model.HasilPeriksaModel;
 import com.nomadev.direc.ui.detail.dialogadddata.DialogUpdateDataActivity;
 import com.nomadev.direc.ui.detail.dialogdeletedata.DialogDeleteDataActiivity;
+import com.nomadev.direc.ui.home.byage.ByAgeAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
-public class HasilPeriksaAdapter extends RecyclerView.Adapter<HasilPeriksaAdapter.ViewHolder> {
+public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    public static final int SECTION_VIEW = 0;
+    public static final int CONTENT_VIEW = 1;
 
     private ArrayList<HasilPeriksaModel> listData = new ArrayList<>();
 
@@ -31,13 +41,32 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<HasilPeriksaAdapte
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(ItemHasilPeriksaPasienBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == SECTION_VIEW) {
+            return new HasilPeriksaAdapter.HeaderViewHolder(ItemHasilPeriksaPasienHeaderBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        }
+        return new HasilPeriksaAdapter.ViewHolder(ItemHasilPeriksaPasienBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HasilPeriksaAdapter.ViewHolder holder, int position) {
-        holder.bind(listData.get(position));
+    public int getItemViewType(int position) {
+        if (listData.get(position).isSection) {
+            return SECTION_VIEW;
+        } else {
+            return CONTENT_VIEW;
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (SECTION_VIEW == getItemViewType(position)) {
+            HasilPeriksaAdapter.HeaderViewHolder sectionHeaderViewHolder = (HasilPeriksaAdapter.HeaderViewHolder) holder;
+            sectionHeaderViewHolder.bind(listData.get(position));
+            return;
+        }
+
+        HasilPeriksaAdapter.ViewHolder itemViewHolder = (HasilPeriksaAdapter.ViewHolder) holder;
+        itemViewHolder.bind(listData.get(position));
     }
 
     @Override
@@ -45,6 +74,36 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<HasilPeriksaAdapte
         return listData.size();
     }
 
+    // HEADER VIEW HOLDER
+    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
+        private final ItemHasilPeriksaPasienHeaderBinding binding;
+
+        public HeaderViewHolder(@NonNull ItemHasilPeriksaPasienHeaderBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        public void bind(HasilPeriksaModel hasilPeriksaModel) {
+            binding.headerTitleTextview.setText(dateHeaderFormat(hasilPeriksaModel.getTanggal()));
+        }
+
+        private String dateHeaderFormat(String input) {
+            String dateHeader = "";
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+            try {
+                Date date = format.parse(input);
+                SimpleDateFormat formatHeader = new SimpleDateFormat("EEEE, d MMMM yyyy", Locale.getDefault());
+                if (date != null) {
+                    dateHeader = formatHeader.format(date);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return dateHeader;
+        }
+    }
+
+    // ITEM VIEW HOLDER
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
         private final ItemHasilPeriksaPasienBinding binding;
@@ -72,7 +131,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<HasilPeriksaAdapte
             Log.d("TAG", "bind: " + hasilPeriksaModel.getUrlString());
             if (hasilPeriksaModel.getUrlString() != null) {
                 setAdapter(hasilPeriksaModel.getUrlString());
-            }else binding.tvFoto.setText(null);
+            } else binding.tvFoto.setText(null);
 
         }
 

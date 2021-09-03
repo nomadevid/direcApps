@@ -6,8 +6,8 @@
     tools:context=".ui.home.bycalendar.ByCalendarFragment">
 
     <TextView
-        style="@style/TextCardViewContentGrey"
         android:id="@+id/tv_keterangan"
+        style="@style/TextCardViewContentGrey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -18,6 +18,8 @@
         android:id="@+id/rv_by_calendar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
         tools:listitem="@layout/item_by_calendar" />
 
     <ProgressBar
@@ -25,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="visible"
-        android:indeterminateDrawable="@drawable/progress_bar"/>
+        android:indeterminateDrawable="@drawable/progress_bar"
+        android:visibility="visible" />
 
 </RelativeLayout>

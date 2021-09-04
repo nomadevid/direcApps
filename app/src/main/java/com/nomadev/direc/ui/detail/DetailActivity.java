@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -31,6 +32,8 @@ import com.nomadev.direc.ui.home.dialogaddpasien.DialogUpdatePasienActivity;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -49,6 +52,7 @@ public class DetailActivity extends AppCompatActivity {
     private ActivityDetailBinding binding;
     private FirebaseFirestore db;
     private ArrayList<HasilPeriksaModel> hasilPeriksaModelArrayList;
+    private ArrayList<HasilPeriksaModel> listSection;
     private HasilPeriksaAdapter hasilPeriksaAdapter;
 
     Dialog dialog;
@@ -65,7 +69,8 @@ public class DetailActivity extends AppCompatActivity {
 
         //Recycle View Build Firebase
         hasilPeriksaModelArrayList = new ArrayList<>();
-        hasilPeriksaAdapter = new HasilPeriksaAdapter(hasilPeriksaModelArrayList);
+        listSection = new ArrayList<>();
+        hasilPeriksaAdapter = new HasilPeriksaAdapter(listSection);
         db = FirebaseFirestore.getInstance();
 
         getPasienData();
@@ -109,6 +114,7 @@ public class DetailActivity extends AppCompatActivity {
                     hasilPeriksaModelArrayList.add(hasilPeriksaModel);
                 }
                 hasilPeriksaAdapter.notifyDataSetChanged();
+                getHeaderList(hasilPeriksaModelArrayList);
                 Log.d("FEEDBACK", "Berhasil Mengambil Data.");
                 Toast.makeText(getApplicationContext(), "Berhasil Mengambil Data.", Toast.LENGTH_SHORT).show();
             } else {
@@ -145,6 +151,31 @@ public class DetailActivity extends AppCompatActivity {
             }
         }).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());
 
+    }
+
+    private void getHeaderList(ArrayList<HasilPeriksaModel> list) {
+        Collections.sort(list, new Comparator<HasilPeriksaModel>() {
+            @Override
+            public int compare(HasilPeriksaModel o1, HasilPeriksaModel o2) {
+                return String.valueOf(o1.getTanggal()).compareTo(String.valueOf(o2.getTanggal()));
+            }
+        });
+
+        String lastHeader = "";
+        int size = list.size();
+        listSection.clear();
+
+        for (int i = 0; i < size; i++) {
+            HasilPeriksaModel user = list.get(i);
+            Log.d("getHeader", user.getTanggal());
+            String header = String.valueOf(user.getTanggal());
+
+            if (!TextUtils.equals(lastHeader, header)) {
+                lastHeader = header;
+                listSection.add(new HasilPeriksaModel("", "", header, "", true));
+            }
+            listSection.add(user);
+        }
     }
 
     private String calculateAge(String tanggalLahir) {

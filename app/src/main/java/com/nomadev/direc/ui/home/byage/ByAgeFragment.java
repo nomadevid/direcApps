@@ -121,9 +121,11 @@ public class ByAgeFragment extends Fragment {
                 Log.d("FEEDBACK", "Data Kosong.");
                 Toast.makeText(getActivity(), "Data Kosong.", Toast.LENGTH_SHORT).show();
             }
+            binding.refreshLayout.setRefreshing(false);
         }).addOnFailureListener(e -> {
             showProgressBar(true);
             Log.d("FEEDBACK", "Error: " + e.toString());
+            binding.refreshLayout.setRefreshing(false);
         });
     }
 

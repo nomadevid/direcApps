@@ -20,16 +20,18 @@ public class HasilPeriksaModel {
 
     private String hasil_periksa, keluhan, tanggal, terapi, id;
     private ArrayList<String> urlString;
+    public boolean isSection;
 
     public HasilPeriksaModel(){
 
     }
 
-    public HasilPeriksaModel(String hasil_periksa, String keluhan, String tanggal, String terapi) {
+    public HasilPeriksaModel(String hasil_periksa, String keluhan, String tanggal, String terapi, boolean isSection) {
         this.hasil_periksa = hasil_periksa;
         this.keluhan = keluhan;
         this.tanggal = tanggal;
         this.terapi = terapi;
+        this.isSection = isSection;
     }
 
     public String getHasil_periksa() {

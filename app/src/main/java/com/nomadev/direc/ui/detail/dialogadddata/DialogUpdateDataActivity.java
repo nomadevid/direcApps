@@ -274,14 +274,14 @@ public class DialogUpdateDataActivity extends DialogFragment {
         DocumentReference dbData = db.collection("pasien").document(id_pasien).collection("history").document(id_data);
 
         // adding our data to our courses object class.
-        HasilPeriksaModel updatedDataModel = new HasilPeriksaModel(hasil_periksa, keluhan, tanggal, terapi);
+//        HasilPeriksaModel updatedDataModel = new HasilPeriksaModel(hasil_periksa, keluhan, tanggal, terapi);
 
         // UPDATE TO "id" DOCUMENT
         dbData.update(
-                "hasil_periksa", updatedDataModel.getHasil_periksa(),
-                "keluhan", updatedDataModel.getKeluhan(),
-                "tanggal", updatedDataModel.getTanggal(),
-                "terapi", updatedDataModel.getTerapi()
+                "hasil_periksa", hasil_periksa,
+                "keluhan", keluhan,
+                "tanggal", tanggal,
+                "terapi", terapi
         ).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.detail.DialogFotoActivity"
+    android:orientation="vertical"
+    android:gravity="center">
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/rl_action_bar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:paddingHorizontal="24dp"-->
+<!--        android:paddingVertical="16dp">-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/ib_back"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:src="@drawable/ic_baseline_arrow_back_ios_new_24" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_nama"-->
+<!--            style="@style/TextCardViewTitle"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="16dp"-->
+<!--            android:layout_toEndOf="@id/ib_back"-->
+<!--            android:text="@string/name_lengkap" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_tanggal"-->
+<!--            style="@style/TextCardViewDate"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="16dp"-->
+<!--            android:layout_toEndOf="@id/ib_back"-->
+<!--            android:layout_below="@id/tv_nama"-->
+<!--            android:text="@string/tanggal_periksa" />-->
+<!--    </RelativeLayout>-->
+
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/pv_foto_full"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        tools:ignore="MissingPrefix"/>
+
+</LinearLayout>

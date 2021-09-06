@@ -1,9 +1,11 @@
 package com.nomadev.direc.ui.detail;
 
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,15 +60,30 @@ public class FotoStreamAdapter extends RecyclerView.Adapter<FotoStreamAdapter.Vi
 
         private ItemPhotoBinding binding;
         private int position;
+        private String url;
+        private final String URL_FOTO = "url";
+        private FragmentActivity fragmentActivity;
+        private FragmentManager fragmentManager;
         private ArrayList<String> listUrl;
 
         public ViewHolder(@NonNull ItemPhotoBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.getRoot().setOnClickListener(v -> {
+                fragmentActivity = (FragmentActivity) (v.getContext());
+                fragmentManager = fragmentActivity.getSupportFragmentManager();
+                DialogFotoActivity dialog = new DialogFotoActivity();
+                Bundle bundle = new Bundle();
+                bundle.putString(URL_FOTO, url);
+                dialog.setArguments(bundle);
+                dialog.show(fragmentManager, "Dialog Edit Data");
+                Log.d("TAG", "ViewHolder: Jalan");
+            });
         }
 
         public void bind(String listImageUrl, int position) {
             this.position = position;
+            url = listImageUrl;
             Picasso.get().load(listImageUrl).into(binding.ivPhoto);
         }
 

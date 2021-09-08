@@ -64,5 +64,12 @@
     <string name="masukkan_alamat">Masukkan alamat</string>
     <string name="masukkan_tanggal_lahir">Masukkan tanggal lahir</string>
     <string name="header">Header</string>
+    <string name="lapor_error">Lapor Error</string>
+    <string name="deskripsi_lapor_error">masukkan subjek dan detail error anda</string>
+    <string name="subjek_laporan">Subjek</string>
+    <string name="isi_subjek">Masukkan subjek laporan</string>
+    <string name="detail_error">Detail Error</string>
+    <string name="isi_detail">Masukkan detail error</string>
+    <string name="kirim">Kirim</string>
     <string name="log_out">Log out</string>
 </resources>

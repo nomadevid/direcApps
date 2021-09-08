@@ -24,6 +24,7 @@ import com.nomadev.direc.ui.home.bycalendar.ByCalendarFragment;
 import com.nomadev.direc.ui.home.bycalendar.DatePickAdapter;
 import com.nomadev.direc.ui.home.byname.ByNameFragment;
 import com.nomadev.direc.ui.home.dialogaddpasien.DialogAddPasienActivity;
+import com.nomadev.direc.ui.home.laporerror.LaporErrorActivity;
 import com.nomadev.direc.ui.login.LoginActivity;
 import com.nomadev.direc.ui.search.SearchActivity;
 
@@ -94,6 +95,11 @@ public class HomeActivity extends AppCompatActivity {
         binding.btnLogout.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
+
+        binding.laporError.setOnClickListener(v ->  {
+            Intent intent = new Intent(HomeActivity.this, LaporErrorActivity.class);
             startActivity(intent);
         });
 

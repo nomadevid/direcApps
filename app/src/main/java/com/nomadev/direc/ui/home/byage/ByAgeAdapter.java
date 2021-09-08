@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ItemByAgeBinding;
 import com.nomadev.direc.databinding.ItemByAgeHeaderBinding;
 import com.nomadev.direc.model.PasienModel;
@@ -100,7 +101,7 @@ public class ByAgeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             id = pasienModel.getId();
 
             binding.tvNama.setText(nama);
-            binding.tvUsia.setText(tanggalLahir);
+            binding.tvUsia.setText(itemView.getContext().getString(R.string.usia_terisi, tanggalLahir));
             binding.cvPasien.setOnClickListener(v -> {
                 Log.d("ID_ADAPTER", id);
                 intentToDetail(nama, kelamin, telepon, alamat, tanggalLahir, id);

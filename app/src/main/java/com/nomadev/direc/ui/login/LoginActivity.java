@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(i);
          }
 
+
         buttonMasuk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -96,6 +96,7 @@ public class HomeActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(intent);
+            finish();
         });
 
         binding.laporError.setOnClickListener(v ->  {

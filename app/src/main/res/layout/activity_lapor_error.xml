@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/direc_blue_light"
+    tools:context=".ui.home.laporerror.LaporErrorActivity">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.12" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.88" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.09" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.135" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.19" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.22" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.33" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
+
+    <TextView
+        android:id="@+id/laporErrorText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/lapor_error"
+        android:fontFamily="@font/lato_bold"
+        android:textColor="@color/black"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintDimensionRatio="264:25"
+        app:layout_constraintTop_toTopOf="@id/guideline5"
+        app:layout_constraintEnd_toEndOf="@id/guideline4"
+        app:layout_constraintStart_toStartOf="@id/guideline1"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/deskripsi_lapor_error"
+        android:fontFamily="@font/lato_regular"
+        android:textColor="@color/direc_grey"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintDimensionRatio="263:14"
+        app:layout_constraintTop_toTopOf="@id/guideline6"
+        app:layout_constraintEnd_toEndOf="@id/guideline4"
+        app:layout_constraintStart_toStartOf="@id/guideline1" />
+
+    <TextView
+        android:id="@+id/subjeklaporan"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/subjek_laporan"
+        android:fontFamily="@font/lato_bold"
+        android:textColor="@color/black"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintDimensionRatio="263:14"
+        app:layout_constraintTop_toTopOf="@id/guideline7"
+        app:layout_constraintEnd_toEndOf="@id/guideline4"
+        app:layout_constraintStart_toStartOf="@id/guideline1" />
+
+    <EditText
+        android:id="@+id/mSubject"
+        style="@style/TextCardViewContentBlack"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="264:30"
+        app:layout_constraintTop_toBottomOf="@id/guideline8"
+        app:layout_constraintEnd_toEndOf="@id/guideline4"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        android:background="@drawable/rounded_edittext"
+        android:hint="@string/isi_subjek"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLines="50" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/detail_error"
+        android:fontFamily="@font/lato_bold"
+        android:textColor="@color/black"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintDimensionRatio="263:14"
+        app:layout_constraintTop_toTopOf="@id/guideline9"
+        app:layout_constraintEnd_toEndOf="@id/guideline4"
+        app:layout_constraintStart_toStartOf="@id/guideline1" />
+
+    <EditText
+        android:id="@+id/mMessage"
+        style="@style/TextCardViewContentBlack"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="264:96"
+        app:layout_constraintTop_toBottomOf="@id/guideline10"
+        app:layout_constraintEnd_toEndOf="@id/guideline4"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        android:background="@drawable/rounded_edittext"
+        android:hint="@string/isi_detail"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLines="50" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_kirim"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        style="@style/ButtonStyle"
+        app:layout_constraintDimensionRatio="250:36"
+        app:layout_constraintTop_toTopOf="@id/guideline11"
+        app:layout_constraintEnd_toEndOf="@id/guideline3"
+        app:layout_constraintStart_toStartOf="@id/guideline2"
+        android:background="@drawable/gradient_button_masuk"
+        android:text="@string/kirim" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

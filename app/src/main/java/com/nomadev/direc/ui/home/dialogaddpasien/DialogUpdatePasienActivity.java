@@ -1,12 +1,6 @@
 package com.nomadev.direc.ui.home.dialogaddpasien;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,23 +11,19 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.Index;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.nomadev.direc.R;
-import com.nomadev.direc.databinding.ActivityDialogUpdatePasienBinding;
+import com.nomadev.direc.databinding.ActivityDialogAddPasienBinding;
 import com.nomadev.direc.model.PasienModel;
-import com.nomadev.direc.ui.home.HomeActivity;
-import com.nomadev.direc.ui.home.byname.ByNameFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,11 +35,10 @@ import java.util.List;
 
 public class DialogUpdatePasienActivity extends DialogFragment {
 
-    private ActivityDialogUpdatePasienBinding binding;
+    private ActivityDialogAddPasienBinding binding;
     private DatePickerDialog datePickerDialog;
     private FirebaseFirestore db;
-    private final String ID = "id";
-    int setSpinner;
+    private int setSpinner;
     private String id;
     private String nama;
     private String kelamin;
@@ -57,19 +46,20 @@ public class DialogUpdatePasienActivity extends DialogFragment {
     private String alamat;
     private String tanggal_lahir;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = ActivityDialogUpdatePasienBinding.inflate(getLayoutInflater());
+        binding = ActivityDialogAddPasienBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
         db = FirebaseFirestore.getInstance();
-        id = getArguments().getString(ID);
+        if (getArguments() != null) {
+            String ID = "id";
+            id = getArguments().getString(ID);
+        }
         initDatePicker();
 
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
-        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);
 
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -79,8 +69,9 @@ public class DialogUpdatePasienActivity extends DialogFragment {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(getDialog().getWindow().getAttributes());
         layoutParams.width = width;
-        //layoutParams.height = height;
         getDialog().getWindow().setAttributes(layoutParams);
+
+        binding.etTitle.setText(getString(R.string.ubah_data_pasien));
 
         String[] gender = {getString(R.string.gender_laki), getString(R.string.gender_perempuan)};
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_text_style, gender);
@@ -94,9 +85,7 @@ public class DialogUpdatePasienActivity extends DialogFragment {
             }
         });
 
-        binding.btnTanggalLahir.setOnClickListener(v -> {
-            datePickerDialog.show();
-        });
+        binding.btnTanggalLahir.setOnClickListener(v -> datePickerDialog.show());
 
         getPasienData();
 
@@ -133,30 +122,6 @@ public class DialogUpdatePasienActivity extends DialogFragment {
         datePickerDialog.getWindow().setBackgroundDrawableResource(R.drawable.rounded_box_white);
     }
 
-//    private void postData(String nama, String kelamin, String telepon, String alamat, String tanggalLahir) {
-//        // creating a collection reference
-//        // for our Firebase Firetore database.
-//        CollectionReference dbPasien = db.collection("pasien");
-//
-//        // adding our data to our courses object class.
-//        PasienModel pasienModel = new PasienModel(nama, kelamin, telepon, alamat, tanggalLahir);
-//
-//        // POST TO "pasien" COLLECTION
-//        dbPasien.add(pasienModel).addOnSuccessListener(documentReference -> {
-//            Log.d("SUCCESS", "Data terkirim: " + nama + kelamin + telepon + alamat + tanggalLahir);
-//            Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
-//            getActivity().getSupportFragmentManager().beginTransaction()
-//                    .setReorderingAllowed(true)
-//                    .replace(R.id.fragment_home, ByNameFragment.class, null)
-//                    .commit();
-//            getDialog().dismiss();
-//        }).addOnFailureListener(e -> {
-//            Log.d("GAGAL", "Error: " + e.toString());
-//            Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
-//            getDialog().dismiss();
-//        });
-//    }
-
     private void updateData(String nama, String kelamin, String telepon, String alamat, String tanggalLahir) {
         // creating a collection reference
         // for our Firebase Firetore database.
@@ -172,15 +137,12 @@ public class DialogUpdatePasienActivity extends DialogFragment {
                 "telepon", updatedPasienModel.getTelepon(),
                 "alamat", updatedPasienModel.getAlamat(),
                 "tanggalLahir", updatedPasienModel.getTanggalLahir()
-        ).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Log.d("SUCCESS", "Data terkirim: " + nama + kelamin + telepon + alamat + tanggalLahir);
-                Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
-                updateAlgolia(nama, kelamin, telepon, alamat, tanggalLahir);
-                getDialog().dismiss();
-                getActivity().recreate();
-            }
+        ).addOnSuccessListener(unused -> {
+            Log.d("SUCCESS", "Data terkirim: " + nama + kelamin + telepon + alamat + tanggalLahir);
+            Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
+            updateAlgolia(nama, kelamin, telepon, alamat, tanggalLahir);
+            getDialog().dismiss();
+            getActivity().recreate();
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
             Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
@@ -191,28 +153,27 @@ public class DialogUpdatePasienActivity extends DialogFragment {
     private void getPasienData() {
         DocumentReference dbPasien = db.collection("pasien").document(id);
 
-        dbPasien.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
-                    nama = documentSnapshot.getString("nama");
-                    tanggal_lahir = documentSnapshot.getString("tanggalLahir");
-                    telepon = documentSnapshot.getString("telepon");
-                    alamat = documentSnapshot.getString("alamat");
-                    kelamin = documentSnapshot.getString("kelamin");
+        dbPasien.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                nama = documentSnapshot.getString("nama");
+                tanggal_lahir = documentSnapshot.getString("tanggalLahir");
+                telepon = documentSnapshot.getString("telepon");
+                alamat = documentSnapshot.getString("alamat");
+                kelamin = documentSnapshot.getString("kelamin");
+                if (kelamin != null) {
                     if (kelamin.equals("Laki - laki")) setSpinner = 0;
                     else setSpinner = 1;
-
-                    binding.etNamaLengkap.setText(nama);
-                    binding.etNomorTelepon.setText(telepon);
-                    binding.etAlamat.setText(alamat);
-                    binding.btnTanggalLahir.setText(tanggal_lahir);
-                    binding.spinnerJenisKelamin.setSelection(setSpinner);
-
-                    Log.d("FEEDBACK", "Berhasil Mengambil Data.");
-                } else {
-                    Log.d("FEEDBACK", "Data Kosong.");
                 }
+
+                binding.etNamaLengkap.setText(nama);
+                binding.etNomorTelepon.setText(telepon);
+                binding.etAlamat.setText(alamat);
+                binding.btnTanggalLahir.setText(tanggal_lahir);
+                binding.spinnerJenisKelamin.setSelection(setSpinner);
+
+                Log.d("FEEDBACK", "Berhasil Mengambil Data.");
+            } else {
+                Log.d("FEEDBACK", "Data Kosong.");
             }
         }).addOnFailureListener(e -> Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());
 
@@ -241,7 +202,7 @@ public class DialogUpdatePasienActivity extends DialogFragment {
         Client client = new Client(appid, adminApiKey);
         Index index = client.getIndex("pasien");
 
-        List<JSONObject> array = new ArrayList<JSONObject>();
+        List<JSONObject> array = new ArrayList<>();
 
         try {
             array.add(

@@ -27,7 +27,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDialogUpdateDataBinding;
-import com.nomadev.direc.databinding.ActivityDialogUpdatePasienBinding;
 import com.nomadev.direc.model.FotoModel;
 import com.nomadev.direc.model.HasilPeriksaModel;
 import com.nomadev.direc.model.PasienModel;

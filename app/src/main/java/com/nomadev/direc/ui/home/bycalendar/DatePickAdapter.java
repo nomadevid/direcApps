@@ -1,6 +1,7 @@
 package com.nomadev.direc.ui.home.bycalendar;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.nomadev.direc.databinding.ItemDateBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -71,6 +73,21 @@ public class DatePickAdapter extends RecyclerView.Adapter<DatePickAdapter.ViewHo
             binding.tvTanggal.setText(dateString);
             binding.llBackground.setFocusable(true);
             binding.llBackground.setFocusableInTouchMode(true);
+
+            if (tanggal.equals(currentDate())){
+                binding.llBackground.requestFocus();
+                binding.llBackground.setOnFocusChangeListener((v, hasFocus) -> {
+                    if (hasFocus) {
+                        Log.d("DatePickAdapterDate", tanggal);
+                        openFragment(v, tanggal);
+                        binding.tvHari.setTextColor(Color.WHITE);
+                        binding.tvTanggal.setTextColor(Color.WHITE);
+                    } else {
+                        binding.tvHari.setTextColor(itemView.getResources().getColor(R.color.direc_grey));
+                        binding.tvTanggal.setTextColor(Color.BLACK);
+                    }
+                });
+            }
             binding.llBackground.setOnFocusChangeListener((v, hasFocus) -> {
                 if (hasFocus) {
                     Log.d("DatePickAdapterDate", tanggal);
@@ -111,6 +128,13 @@ public class DatePickAdapter extends RecyclerView.Adapter<DatePickAdapter.ViewHo
             } catch (Exception e) {
                 Log.d("Exception", e.toString());
             }
+        }
+
+        private String currentDate(){
+            Date c = Calendar.getInstance().getTime();
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+
+            return df.format(c);
         }
     }
 }

@@ -175,8 +175,8 @@ public class HomeActivity extends AppCompatActivity {
         listDate.clear();
         for (int i = 0; i < 6; i++) {
             Calendar c = Calendar.getInstance();
-            SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
             c.add(Calendar.DATE, i);
+            SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
             String date = formatDate.format(c.getTime());
             listDate.add(date);
         }

@@ -14,6 +14,8 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
         <item name="popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:itemTextAppearance">@style/PopupMenu.TextStyle</item>
+        <item name="itemTextAppearance">@style/PopupMenu.TextStyle</item>
     </style>
 
     <!-- DatePickerDialog -->
@@ -48,6 +50,10 @@
 
     <style name="PopupMenu" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:popupBackground">@drawable/rounded_box_white_menu</item>
+    </style>
+
+    <style name="PopupMenu.TextStyle" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <!-- Layout -->

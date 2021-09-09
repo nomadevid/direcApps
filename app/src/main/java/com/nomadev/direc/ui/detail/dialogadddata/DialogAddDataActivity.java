@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +70,7 @@ public class DialogAddDataActivity extends DialogFragment {
     private FotoAdapter fotoAdapter;
     private ArrayList urlStrings;
     private int upload_count = 0;
+    private DialogAddDataListener listener;
 
     @Nullable
     @Override
@@ -99,6 +103,7 @@ public class DialogAddDataActivity extends DialogFragment {
         getDialog().getWindow().setAttributes(layoutParams);
 
         binding.rvFoto.setAdapter(fotoAdapter);
+        showProgressBar(false);
 
         //Simpan
         binding.btnSimpan.setOnClickListener(v -> {
@@ -107,17 +112,28 @@ public class DialogAddDataActivity extends DialogFragment {
             hasil_periksa = String.valueOf(binding.etHasilPeriksa.getText());
             terapi = String.valueOf(binding.etTerapi.getText());
 
+            if (TextUtils.isEmpty(keluhan)) {
+                binding.etKeluhan.setError("Masukkan Keluhan Pasien");
+                return;
+            }
+            if (TextUtils.isEmpty(hasil_periksa)) {
+                binding.etHasilPeriksa.setError("Masukkan Hasil Periksa Pasien");
+                return;
+            }
+            if (TextUtils.isEmpty(terapi)) {
+                binding.etTerapi.setError("Masukkan Terapi yang dilakukan Pasien");
+                return;
+            }
+
+            showProgressBar(true);
+            binding.btnSimpan.setClickable(false);
+            binding.btnSimpan.setEnabled(false);
             postData(hasil_periksa, keluhan, terapi, id);
-            postImage();
+            if (ImageList.isEmpty()) getDialog().dismiss();
+            else postImage();
         });
 
         binding.ibAddPhoto.setOnClickListener(v -> {
-//            View photoView = inflater.inflate(R.layout.item_photo, photo, false);
-//
-//            ImageView imageView = photoView.findViewById(R.id.iv_photo);
-//            imageView.setImageResource(R.drawable.calendar_icon);
-//
-//            photo.addView(photoView);
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -125,6 +141,13 @@ public class DialogAddDataActivity extends DialogFragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        listener.RefreshLayout(true);
+        showProgressBar(false);
     }
 
     @Override
@@ -148,13 +171,6 @@ public class DialogAddDataActivity extends DialogFragment {
                         FotoModel fotoModel = new FotoModel();
                         fotoModel.setFoto(ImageUri);
                         fotoModelArrayList.add(fotoModel);
-
-//                        View photoView = inflaterGlobal.inflate(R.layout.item_photo, photo, false);
-//
-//                        ImageView imageView = photoView.findViewById(R.id.iv_photo);
-//                        imageView.setImageURI(ImageUri);
-//
-//                        photo.addView(photoView);
 
                         currentImageSlect = currentImageSlect + 1;
                     }
@@ -242,9 +258,7 @@ public class DialogAddDataActivity extends DialogFragment {
             });
 
         }
-//        progressDialog.dismiss();
-//        alert.setText("Uploaded Successfully");
-//        uploaderBtn.setVisibility(View.GONE);
+        getDialog().dismiss();
 
         ImageList.clear();
     }
@@ -272,16 +286,12 @@ public class DialogAddDataActivity extends DialogFragment {
         // POST TO "pasien" COLLECTION
         dbData.set(map).addOnSuccessListener(documentReference -> {
             Log.d("SUCCESS", "Data terkirim: " + hasil_periksa + keluhan + tanggal + terapi);
-            Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
             postHistoryData(nama, id, tanggal, tanggalLahir);
-            getDialog().dismiss();
-            getActivity().recreate();
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
-            Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
-            getActivity();
-            getDialog().dismiss();
-            getActivity().recreate();
+            //Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+//            getActivity();
         });
     }
 
@@ -311,5 +321,25 @@ public class DialogAddDataActivity extends DialogFragment {
         }).addOnFailureListener(e -> {
             Log.d("postHistoryData", "Error: " + e.toString());
         });
+    }
+
+    private void showProgressBar(Boolean state) {
+        if (state) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.rlProgress.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#40000000")));
+        } else {
+            binding.progressBar.setVisibility(View.GONE);
+            binding.rlProgress.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
+        }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        listener = (DialogAddDataListener) context;
+    }
+
+    public interface DialogAddDataListener{
+        void RefreshLayout(Boolean state);
     }
 }

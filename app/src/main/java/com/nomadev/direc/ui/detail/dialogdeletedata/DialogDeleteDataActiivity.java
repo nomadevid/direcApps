@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.google.firebase.storage.StorageReference;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDialogDeleteDataActiivityBinding;
 import com.nomadev.direc.databinding.ActivityDialogUpdateDataBinding;
+import com.nomadev.direc.ui.detail.dialogadddata.DialogUpdateDataActivity;
 
 public class DialogDeleteDataActiivity extends DialogFragment {
 
@@ -35,6 +37,7 @@ public class DialogDeleteDataActiivity extends DialogFragment {
     private final String ID_DATA = "id_data";
     private final String TANGGAL_DATA = "tanggal_data";
     private String id_data, id_pasien, tanggal_data;
+    private DialogDeleteDataListener listener;
 
     @Nullable
     @Override
@@ -54,6 +57,7 @@ public class DialogDeleteDataActiivity extends DialogFragment {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().setContentView(R.layout.activity_dialog_delete_data_actiivity);
         getDialog().show();
+        showProgressBar(false);
 
         binding.btnHapus.setOnClickListener(v -> {
             deleteData();
@@ -73,13 +77,13 @@ public class DialogDeleteDataActiivity extends DialogFragment {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isComplete()) {
-                    Toast.makeText(getActivity(), "Data telah dihapus", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "Data telah dihapus", Toast.LENGTH_SHORT).show();
                     deleteHistory();
-                    getDialog().dismiss();
-                    getActivity().recreate();
+//                    getDialog().dismiss();
+//                    getActivity().recreate();
                 } else {
-                    Toast.makeText(getActivity(), "Data gagal dihapus", Toast.LENGTH_SHORT).show();
-                    getDialog().dismiss();
+//                    Toast.makeText(getActivity(), "Data gagal dihapus", Toast.LENGTH_SHORT).show();
+//                    getDialog().dismiss();
                 }
             }
         });
@@ -92,6 +96,10 @@ public class DialogDeleteDataActiivity extends DialogFragment {
                 Log.d("SUCCESS", "onSuccess: Data Storage Dihapus");
             }
         }).addOnFailureListener(e -> Log.e("FAIL", "deleteData: ", e));
+
+        getDialog().dismiss();
+        listener.RefreshLayout(true);
+        showProgressBar(false);
     }
 
     private void deleteHistory() {
@@ -104,5 +112,23 @@ public class DialogDeleteDataActiivity extends DialogFragment {
                 Log.d("deleteHistory", "Gagal.");
             }
         });
+    }
+
+    private void showProgressBar(Boolean state) {
+        if (state) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            binding.progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        listener = (DialogDeleteDataListener) context;
+    }
+
+    public interface DialogDeleteDataListener{
+        void RefreshLayout(Boolean state);
     }
 }

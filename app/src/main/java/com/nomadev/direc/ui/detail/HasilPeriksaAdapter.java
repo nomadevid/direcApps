@@ -7,12 +7,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ItemByAgeHeaderBinding;
 import com.nomadev.direc.databinding.ItemHasilPeriksaPasienBinding;
@@ -107,13 +112,14 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
         private final ItemHasilPeriksaPasienBinding binding;
-        private String id_pasien, id_data, tanggal_data;
+        private String id_pasien, id_data, tanggal_data, nama;
         private final String ID_PASIEN = "id_pasien";
         private final String ID_DATA = "id_data";
         private final String TANGGAL_DATA = "tanggal_data";
         private FragmentActivity fragmentActivity;
         private FragmentManager fragmentManager;
         private FotoStreamAdapter fotoStreamAdapter;
+        private FirebaseFirestore db;
 
         public ViewHolder(@NonNull ItemHasilPeriksaPasienBinding binding) {
             super(binding.getRoot());
@@ -131,8 +137,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             Log.d("TAG", "bind: " + hasilPeriksaModel.getUrlString());
             if (hasilPeriksaModel.getUrlString() != null) {
                 setAdapter(hasilPeriksaModel.getUrlString());
-            } else binding.tvFoto.setText(null);
-
+            } else binding.tvFoto.setVisibility(View.GONE);
         }
 
         @Override
@@ -181,8 +186,23 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void setAdapter(ArrayList<String> listData) {
-            fotoStreamAdapter = new FotoStreamAdapter(listData);
-            binding.rvPhoto.setAdapter(fotoStreamAdapter);
+            db = FirebaseFirestore.getInstance();
+            DocumentReference dbPasien = db.collection("pasien").document(id_pasien);
+
+            dbPasien.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()){
+                        nama = documentSnapshot.getString("nama");
+                        fotoStreamAdapter = new FotoStreamAdapter(listData, nama, tanggal_data);
+                        binding.rvPhoto.setAdapter(fotoStreamAdapter);
+                        Log.d("FEEDBACK", "Berhasil Mengambil Data." + nama);
+                    }
+                    else {
+                        Log.d("FEEDBACK", "Data Kosong.");
+                    }
+                }
+            }).addOnFailureListener(e -> Toast.makeText(itemView.getContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());
         }
     }
 }

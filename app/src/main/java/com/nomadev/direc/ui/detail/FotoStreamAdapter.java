@@ -35,9 +35,12 @@ import java.util.ArrayList;
 public class FotoStreamAdapter extends RecyclerView.Adapter<FotoStreamAdapter.ViewHolder> {
 
     private ArrayList<String> listImageUrl;
+    private String nama, tanggal;
 
-    public FotoStreamAdapter(ArrayList<String> listData) {
+    public FotoStreamAdapter(ArrayList<String> listData, String nama, String tanggal) {
         this.listImageUrl = listData;
+        this.nama = nama;
+        this.tanggal = tanggal;
     }
 
     @NonNull
@@ -62,6 +65,8 @@ public class FotoStreamAdapter extends RecyclerView.Adapter<FotoStreamAdapter.Vi
         private int position;
         private String url;
         private final String URL_FOTO = "url";
+        private final String NAMA = "nama";
+        private final String TANGGAL_PERIKSA = "tanggal_periksa";
         private FragmentActivity fragmentActivity;
         private FragmentManager fragmentManager;
         private ArrayList<String> listUrl;
@@ -75,6 +80,9 @@ public class FotoStreamAdapter extends RecyclerView.Adapter<FotoStreamAdapter.Vi
                 DialogFotoActivity dialog = new DialogFotoActivity();
                 Bundle bundle = new Bundle();
                 bundle.putString(URL_FOTO, url);
+                bundle.putString(NAMA, nama);
+                Log.d("DIALOG", "ViewHolder: " + nama);
+                bundle.putString(TANGGAL_PERIKSA, tanggal);
                 dialog.setArguments(bundle);
                 dialog.show(fragmentManager, "Dialog Edit Data");
                 Log.d("TAG", "ViewHolder: Jalan");

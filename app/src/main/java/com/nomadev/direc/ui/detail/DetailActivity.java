@@ -27,6 +27,8 @@ import com.nomadev.direc.databinding.ActivityDetailBinding;
 import com.nomadev.direc.model.HasilPeriksaModel;
 import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.detail.dialogadddata.DialogAddDataActivity;
+import com.nomadev.direc.ui.detail.dialogadddata.DialogUpdateDataActivity;
+import com.nomadev.direc.ui.detail.dialogdeletedata.DialogDeleteDataActiivity;
 import com.nomadev.direc.ui.home.dialogaddpasien.DialogUpdatePasienActivity;
 
 import java.text.SimpleDateFormat;
@@ -38,7 +40,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements DialogAddDataActivity.DialogAddDataListener, DialogUpdateDataActivity.DialogUpdateDataListener, DialogDeleteDataActiivity.DialogDeleteDataListener {
 
     public static final String NAMA = "nama";
     public static final String GENDER = "gender";
@@ -93,6 +95,8 @@ public class DetailActivity extends AppCompatActivity {
             bundle.putString(ID, id);
             dialog.setArguments(bundle);
             dialog.show(getSupportFragmentManager(),"Dialog Edit Pasien");
+            dialog.getShowsDialog();
+            Log.d("DIALOG", "DIALOG EDIT :  " + dialog.getShowsDialog());
         });
     }
 
@@ -103,6 +107,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void getHasilPeriksaData() {
+        hasilPeriksaModelArrayList.clear();
         CollectionReference dbHasilPeriksa = db.collection("pasien").document(id).collection("history");
         dbHasilPeriksa.get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()) {
@@ -113,8 +118,8 @@ public class DetailActivity extends AppCompatActivity {
                     hasilPeriksaModel.setUrlString((ArrayList) documentSnapshot.get("foto"));
                     hasilPeriksaModelArrayList.add(hasilPeriksaModel);
                 }
-                hasilPeriksaAdapter.notifyDataSetChanged();
                 getHeaderList(hasilPeriksaModelArrayList);
+                hasilPeriksaAdapter.notifyDataSetChanged();
                 Log.d("FEEDBACK", "Berhasil Mengambil Data.");
                 Toast.makeText(getApplicationContext(), "Berhasil Mengambil Data.", Toast.LENGTH_SHORT).show();
             } else {
@@ -203,5 +208,10 @@ public class DetailActivity extends AppCompatActivity {
             Log.d("Exception", e.toString());
         }
         return ageString;
+    }
+
+    @Override
+    public void RefreshLayout(Boolean state) {
+        if (state) getHasilPeriksaData();
     }
 }

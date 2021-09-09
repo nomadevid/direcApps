@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -22,9 +23,12 @@ import java.util.ArrayList;
 public class FotoStreamUpdateAdapater extends RecyclerView.Adapter<FotoStreamUpdateAdapater.ViewHolder> {
 
     private ArrayList<String> listImageUrl;
+    private String id_pasien, id_data;
 
-    public FotoStreamUpdateAdapater(ArrayList<String> foto) {
+    public FotoStreamUpdateAdapater(ArrayList<String> foto, String id_pasien, String id_data) {
         this.listImageUrl = foto;
+        this.id_data = id_data;
+        this.id_pasien = id_pasien;
     }
 
     public ArrayList<String> getListImageUrl() {
@@ -52,7 +56,7 @@ public class FotoStreamUpdateAdapater extends RecyclerView.Adapter<FotoStreamUpd
         private ItemPhotoBinding binding;
         private int position;
         private ArrayList<String> listUrl;
-        private FirebaseFirestore db;
+        private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         public ViewHolder(@NonNull ItemPhotoBinding binding) {
             super(binding.getRoot());
@@ -89,6 +93,15 @@ public class FotoStreamUpdateAdapater extends RecyclerView.Adapter<FotoStreamUpd
                 Log.d("FAIL", "onFailur: " + e.toString());
             });
 
+            DocumentReference dbData = db.collection("pasien").document(id_pasien).collection("history").document(id_data);
+            dbData.update(
+                    "foto", FieldValue.arrayRemove(listImageUrl.get(position))
+            ).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Log.d("SUCCESS", "Field Value Reset: ");
+                }
+            }).addOnFailureListener(e -> Log.d("FAILURE", "ERROR : " + e.toString()));
         }
     }
 }

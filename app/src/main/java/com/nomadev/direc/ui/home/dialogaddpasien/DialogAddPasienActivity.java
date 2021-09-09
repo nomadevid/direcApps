@@ -22,6 +22,7 @@ import com.algolia.search.saas.Client;
 import com.algolia.search.saas.Index;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.nomadev.direc.BuildConfig;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDialogAddPasienBinding;
 import com.nomadev.direc.ui.detail.DetailActivity;
@@ -156,10 +157,7 @@ public class DialogAddPasienActivity extends DialogFragment {
     }
 
     private void postAlgolia(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, String id) {
-        String appid = "HLDBOC7XRI";
-        String adminApiKey = "1a40eab368fd30c1ce3333a8e4658ca0";
-
-        Client client = new Client(appid, adminApiKey);
+        Client client = new Client(BuildConfig.ALGOLIA_APP_ID, BuildConfig.ALGOLIA_ADMIN_API_KEY);
         Index index = client.getIndex("pasien");
 
         ArrayList<JSONObject> array = new ArrayList<>();

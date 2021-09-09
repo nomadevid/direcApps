@@ -49,11 +49,10 @@ public class HomeActivity extends AppCompatActivity {
 
         listDate = new ArrayList<>();
         adapterDate = new DatePickAdapter(listDate);
-        setListCurrentDate();
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.myDrawerLayout, R.string.nav_open, R.string.nav_close);
-
         binding.myDrawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+        initDateRangePicker();
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -61,8 +60,6 @@ public class HomeActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             setListCurrentDate();
-            initDateRangePicker();
-            showDateRecyclerView();
             showCalendarLayout(true);
 
             getSupportFragmentManager()
@@ -115,7 +112,6 @@ public class HomeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.date:
                 Toast.makeText(this, "date selected", Toast.LENGTH_SHORT).show();
-                initDateRangePicker();
                 showDateRecyclerView();
                 showCalendarLayout(true);
                 getSupportFragmentManager()
@@ -158,6 +154,7 @@ public class HomeActivity extends AppCompatActivity {
                 String date = formatDate.format(cld.getTime());
                 listDate.add(date);
             }
+            adapterDate.notifyDataSetChanged();
             Log.d("listDate", listDate.toString());
             showDateRecyclerView();
         };
@@ -180,6 +177,9 @@ public class HomeActivity extends AppCompatActivity {
             String date = formatDate.format(c.getTime());
             listDate.add(date);
         }
+        adapterDate.notifyDataSetChanged();
+        Log.d("listDate", listDate.toString());
+        showDateRecyclerView();
     }
 
     private void showDateRecyclerView() {

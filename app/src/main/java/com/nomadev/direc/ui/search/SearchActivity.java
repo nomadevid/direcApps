@@ -13,6 +13,7 @@ import android.view.inputmethod.EditorInfo;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.Index;
 
+import com.nomadev.direc.BuildConfig;
 import com.nomadev.direc.databinding.ActivitySearchBinding;
 import com.nomadev.direc.model.PasienModel;
 
@@ -68,9 +69,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void searchAlgolia(String input) {
-        String appid = "HLDBOC7XRI";
-        String adminApiKey = "1a40eab368fd30c1ce3333a8e4658ca0";
-        Client client = new Client(appid, adminApiKey);
+        Client client = new Client(BuildConfig.ALGOLIA_APP_ID, BuildConfig.ALGOLIA_ADMIN_API_KEY);
         Index index = client.getIndex("pasien");
         com.algolia.search.saas.Query query = new com.algolia.search.saas.Query(input)
                 .setAttributesToRetrieve("nama", "alamat", "telepon")

@@ -14,6 +14,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "ALGOLIA_APP_ID", ALGOLIA_APP_ID)
+        buildConfigField("String", "ALGOLIA_ADMIN_API_KEY", ALGOLIA_ADMIN_API_KEY)
     }
 
     buildTypes {
@@ -51,7 +54,7 @@ dependencies {
 
     // circular imageview
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    
+
     // algolia
     implementation 'com.algolia:algoliasearch-android:3.27.0'
 
@@ -71,6 +74,5 @@ dependencies {
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
     implementation 'com.google.firebase:firebase-firestore:23.0.3'
-    implementation 'com.google.firebase:firebase-auth:19.2.0'
-
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
 }

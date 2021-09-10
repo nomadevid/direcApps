@@ -1,10 +1,13 @@
 package com.nomadev.direc.ui.detail.dialogadddata;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -27,7 +31,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDialogUpdateDataBinding;
-import com.nomadev.direc.databinding.ActivityDialogUpdatePasienBinding;
 import com.nomadev.direc.model.FotoModel;
 import com.nomadev.direc.model.HasilPeriksaModel;
 import com.nomadev.direc.model.PasienModel;
@@ -47,11 +50,13 @@ public class DialogUpdateDataActivity extends DialogFragment {
     private String id_data, id_pasien, keluhan, hasil_periksa, terapi, tanggal;
     private Uri ImageUri;
     private ArrayList ImageList = new ArrayList();
+    private ArrayList ImageDeletedList = new ArrayList();
     private ArrayList<FotoModel> fotoModelArrayList;
     private FotoAdapter fotoAdapter;
     private ArrayList urlStrings;
     private int upload_count = 0;
     private FotoStreamUpdateAdapater fotoStreamUpdateAdapater;
+    private DialogUpdateDataListener listener;
 
     @Nullable
     @Override
@@ -81,6 +86,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
         getDialog().getWindow().setAttributes(layoutParams);
 
         binding.rvFoto.setAdapter(fotoAdapter);
+        showProgressBar(false);
         getData();
 
         //Simpan
@@ -90,8 +96,25 @@ public class DialogUpdateDataActivity extends DialogFragment {
             hasil_periksa = String.valueOf(binding.etHasilPeriksa.getText());
             terapi = String.valueOf(binding.etTerapi.getText());
 
+            if (TextUtils.isEmpty(keluhan)) {
+                binding.etKeluhan.setError("Masukkan Keluhan Pasien");
+                return;
+            }
+            if (TextUtils.isEmpty(hasil_periksa)) {
+                binding.etHasilPeriksa.setError("Masukkan Hasil Periksa Pasien");
+                return;
+            }
+            if (TextUtils.isEmpty(terapi)) {
+                binding.etTerapi.setError("Masukkan Terapi yang dilakukan Pasien");
+                return;
+            }
+
+            showProgressBar(true);
+            binding.btnSimpan.setClickable(false);
+            binding.btnSimpan.setEnabled(false);
             updateData(hasil_periksa, keluhan, terapi);
-            postImage();
+            if (ImageList.isEmpty()) getDialog().dismiss();
+            else postImage();
         });
 
         binding.ibAddPhoto.setOnClickListener(v -> {
@@ -102,6 +125,13 @@ public class DialogUpdateDataActivity extends DialogFragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        listener.RefreshLayout(true);
+        showProgressBar(false);
     }
 
     private void getData() {
@@ -121,7 +151,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
                     binding.etTerapi.setText(terapi);
 
                     if (documentSnapshot.get("foto") != null) {
-                        fotoStreamUpdateAdapater = new FotoStreamUpdateAdapater((ArrayList<String>) documentSnapshot.get("foto"));
+                        fotoStreamUpdateAdapater = new FotoStreamUpdateAdapater((ArrayList<String>) documentSnapshot.get("foto"), id_pasien, id_data);
                         binding.rvFotoStream.setAdapter(fotoStreamUpdateAdapater);
                         fotoStreamUpdateAdapater.notifyDataSetChanged();
                     }
@@ -181,16 +211,6 @@ public class DialogUpdateDataActivity extends DialogFragment {
     }
 
     private void postImage() {
-
-        DocumentReference dbData = db.collection("pasien").document(id_pasien).collection("history").document(id_data);
-        dbData.update(
-                "foto", FieldValue.arrayRemove()
-        ).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Log.d("SUCCESS", "Field Value Reset: ");
-            }
-        }).addOnFailureListener(e -> Log.d("FAILURE", "ERROR : " + e.toString()));
 
         urlStrings = new ArrayList<>();
         Log.d("IMAGE", "1");
@@ -261,9 +281,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
             });
 
         }
-//        progressDialog.dismiss();
-//        alert.setText("Uploaded Successfully");
-//        uploaderBtn.setVisibility(View.GONE);
+        getDialog().dismiss();
 
         ImageList.clear();
     }
@@ -286,14 +304,32 @@ public class DialogUpdateDataActivity extends DialogFragment {
             @Override
             public void onSuccess(Void unused) {
                 Log.d("SUCCESS", "Data terkirim: " + hasil_periksa + keluhan + tanggal + terapi);
-                Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
-                getDialog().dismiss();
-                getActivity().recreate();
+//                Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
+//                getDialog().dismiss();
+//                getActivity().recreate();
             }
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
-            Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
-            getDialog().dismiss();
+//            Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+//            getDialog().dismiss();
         });
+    }
+
+    private void showProgressBar(Boolean state) {
+        if (state) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            binding.progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        listener = (DialogUpdateDataListener) context;
+    }
+
+    public interface DialogUpdateDataListener{
+        void RefreshLayout(Boolean state);
     }
 }

@@ -38,8 +38,8 @@ public class DatePickAdapter extends RecyclerView.Adapter<DatePickAdapter.ViewHo
 
         int height = binding.getRoot().getMeasuredHeight();
         int width = parent.getMeasuredWidth() / getItemCount();
-        Log.d("DatePickAdapterHeight", String.valueOf(height));
-        Log.d("DatePickAdapterWidth", String.valueOf(width));
+//        Log.d("DatePickAdapterHeight", String.valueOf(height));
+//        Log.d("DatePickAdapterWidth", String.valueOf(width));
         binding.getRoot().setLayoutParams(new RecyclerView.LayoutParams(width, height));
 
         return new DatePickAdapter.ViewHolder(binding);
@@ -47,7 +47,8 @@ public class DatePickAdapter extends RecyclerView.Adapter<DatePickAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull DatePickAdapter.ViewHolder holder, int position) {
-        holder.bind(listDate.get(position));
+        String pickedDate = listDate.get(0);
+        holder.bind(listDate.get(position), pickedDate);
     }
 
     @Override
@@ -65,12 +66,30 @@ public class DatePickAdapter extends RecyclerView.Adapter<DatePickAdapter.ViewHo
             this.binding = binding;
         }
 
-        public void bind(String tanggal) {
+        public void bind(String tanggal, String pickedDate) {
+            Log.d("DatePickAdapterTanggal", tanggal);
+            Log.d("pickedDate", pickedDate);
             parseDate(tanggal);
             binding.tvHari.setText(dayString);
             binding.tvTanggal.setText(dateString);
             binding.llBackground.setFocusable(true);
             binding.llBackground.setFocusableInTouchMode(true);
+
+            if (tanggal.equals(pickedDate)) {
+                binding.llBackground.requestFocus();
+            }
+            Log.d("DatePickAdapterFocus", String.valueOf(binding.llBackground.hasFocus()));
+
+            if (binding.llBackground.hasFocus()) {
+                Log.d("DatePickAdapterDate", tanggal);
+                openFragment(itemView, tanggal);
+                binding.tvHari.setTextColor(Color.WHITE);
+                binding.tvTanggal.setTextColor(Color.WHITE);
+            } else {
+                binding.tvHari.setTextColor(itemView.getResources().getColor(R.color.direc_grey));
+                binding.tvTanggal.setTextColor(Color.BLACK);
+            }
+
             binding.llBackground.setOnFocusChangeListener((v, hasFocus) -> {
                 if (hasFocus) {
                     Log.d("DatePickAdapterDate", tanggal);
@@ -85,7 +104,7 @@ public class DatePickAdapter extends RecyclerView.Adapter<DatePickAdapter.ViewHo
         }
 
         private void openFragment(View v, String tanggal) {
-            Log.d("DatePickAdapterTanggal", tanggal);
+            Log.d("DatePickAdapterPicked", tanggal);
             AppCompatActivity activity = (AppCompatActivity) v.getContext();
             Fragment myFragment = new ByCalendarFragment();
 

@@ -19,6 +19,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -85,6 +87,9 @@ public class DialogUpdateDataActivity extends DialogFragment {
         layoutParams.height = height;
         getDialog().getWindow().setAttributes(layoutParams);
 
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),1);
+        gridLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        binding.rvFoto.setLayoutManager(gridLayoutManager);
         binding.rvFoto.setAdapter(fotoAdapter);
         showProgressBar(false);
         getData();
@@ -113,8 +118,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
             binding.btnSimpan.setClickable(false);
             binding.btnSimpan.setEnabled(false);
             updateData(hasil_periksa, keluhan, terapi);
-            if (ImageList.isEmpty()) getDialog().dismiss();
-            else postImage();
+            postImage();
         });
 
         binding.ibAddPhoto.setOnClickListener(v -> {
@@ -152,6 +156,9 @@ public class DialogUpdateDataActivity extends DialogFragment {
 
                     if (documentSnapshot.get("foto") != null) {
                         fotoStreamUpdateAdapater = new FotoStreamUpdateAdapater((ArrayList<String>) documentSnapshot.get("foto"), id_pasien, id_data);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),1);
+                        gridLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                        binding.rvFotoStream.setLayoutManager(gridLayoutManager);
                         binding.rvFotoStream.setAdapter(fotoStreamUpdateAdapater);
                         fotoStreamUpdateAdapater.notifyDataSetChanged();
                     }
@@ -186,13 +193,6 @@ public class DialogUpdateDataActivity extends DialogFragment {
                         FotoModel fotoModel = new FotoModel();
                         fotoModel.setFoto(ImageUri);
                         fotoModelArrayList.add(fotoModel);
-
-//                        View photoView = inflaterGlobal.inflate(R.layout.item_photo, photo, false);
-//
-//                        ImageView imageView = photoView.findViewById(R.id.iv_photo);
-//                        imageView.setImageURI(ImageUri);
-//
-//                        photo.addView(photoView);
 
                         currentImageSlect = currentImageSlect + 1;
                     }

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -102,6 +104,9 @@ public class DialogAddDataActivity extends DialogFragment {
         layoutParams.height = height;
         getDialog().getWindow().setAttributes(layoutParams);
 
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
+        gridLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        binding.rvFoto.setLayoutManager(gridLayoutManager);
         binding.rvFoto.setAdapter(fotoAdapter);
         showProgressBar(false);
 

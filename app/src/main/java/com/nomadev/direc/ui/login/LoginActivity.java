@@ -54,8 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonMasuk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username;
-                username = "admin@gmail.com";
+                String username= Objects.requireNonNull(editTextUsername.getEditText().getText()).toString().trim();
                 String password= Objects.requireNonNull(editTextPassword.getEditText().getText()).toString().trim();
 
                 if(TextUtils.isEmpty(username)){
@@ -84,8 +83,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(view.VISIBLE);
 
+                String senduname=username+"@gmail.com";
+
                 //autentikasi firebase
-                firebaseAuth.signInWithEmailAndPassword(username,password)
+                firebaseAuth.signInWithEmailAndPassword(senduname,password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

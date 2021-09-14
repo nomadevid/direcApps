@@ -96,7 +96,7 @@ public class HomeActivity extends AppCompatActivity {
             finish();
         });
 
-        binding.laporError.setOnClickListener(v ->  {
+        binding.laporError.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, LaporErrorActivity.class);
             startActivity(intent);
         });
@@ -112,7 +112,6 @@ public class HomeActivity extends AppCompatActivity {
         }
         switch (item.getItemId()) {
             case R.id.date:
-                Toast.makeText(this, "date selected", Toast.LENGTH_SHORT).show();
                 showDateRecyclerView();
                 showCalendarLayout(true);
                 getSupportFragmentManager()
@@ -122,7 +121,6 @@ public class HomeActivity extends AppCompatActivity {
                         .commit();
                 return true;
             case R.id.nama:
-                Toast.makeText(this, "nama selected", Toast.LENGTH_SHORT).show();
                 showCalendarLayout(false);
                 getSupportFragmentManager()
                         .beginTransaction()
@@ -131,7 +129,6 @@ public class HomeActivity extends AppCompatActivity {
                         .commit();
                 return true;
             case R.id.usia:
-                Toast.makeText(this, "usia selected", Toast.LENGTH_SHORT).show();
                 showCalendarLayout(false);
                 getSupportFragmentManager()
                         .beginTransaction()

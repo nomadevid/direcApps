@@ -17,6 +17,8 @@ android {
 
         buildConfigField("String", "ALGOLIA_APP_ID", ALGOLIA_APP_ID)
         buildConfigField("String", "ALGOLIA_ADMIN_API_KEY", ALGOLIA_ADMIN_API_KEY)
+        buildConfigField("String", "ADMIN_EMAIL", ADMIN_EMAIL)
+        buildConfigField("String", "ADMIN_PASSWORD", ADMIN_PASSWORD)
     }
 
     buildTypes {
@@ -42,10 +44,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-storage:20.0.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-    implementation 'androidx.navigation:navigation-fragment:2.3.5'
-    implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     testImplementation 'junit:junit:4.13.2'

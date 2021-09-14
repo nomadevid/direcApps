@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -195,6 +197,9 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if (documentSnapshot.exists()){
                         nama = documentSnapshot.getString("nama");
                         fotoStreamAdapter = new FotoStreamAdapter(listData, nama, tanggal_data);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(itemView.getContext(),5);
+                        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        binding.rvPhoto.setLayoutManager(gridLayoutManager);
                         binding.rvPhoto.setAdapter(fotoStreamAdapter);
                         Log.d("FEEDBACK", "Berhasil Mengambil Data." + nama);
                     }

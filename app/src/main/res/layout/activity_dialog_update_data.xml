@@ -86,43 +86,37 @@
             android:layout_marginBottom="4dp"
             android:text="@string/foto_title" />
 
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/sv_foto"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="52dp"
-            android:paddingVertical="8dp">
+            android:orientation="vertical"
+            android:layout_marginBottom="52dp">
 
-            <LinearLayout
-                android:id="@+id/sv_foto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/ib_add_photo"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/icon_add_photo"
+                android:background="@drawable/bg_add_photo_button"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_foto_stream"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_foto_stream"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_foto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_foto"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                <ImageButton
-                    android:id="@+id/ib_add_photo"
-                    android:layout_width="58dp"
-                    android:layout_height="58dp"
-                    android:layout_marginEnd="8dp"
-                    android:src="@drawable/icon_add_photo"
-                    android:background="@drawable/bg_add_photo_button"/>
-
-            </LinearLayout>
-
-        </HorizontalScrollView>
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_simpan"

@@ -62,14 +62,26 @@ public class LoginActivity extends AppCompatActivity {
                     editTextUsername.setError("Masukkan Username anda");
                     return;
                 }
+                else {
+                    editTextUsername.setError((null));
+                }
+
                 if(TextUtils.isEmpty(password)){
                     editTextPassword.setError("Masukkan Kata sandi anda");
                     return;
                 }
+                else {
+                    editTextPassword.setError((null));
+                }
+
                 if(password.length()<6){
                     editTextPassword.setError("Kata sandi harus lebih dari 5 karakter");
                     return;
                 }
+                else {
+                    editTextPassword.setError((null));
+                }
+
                 progressBar.setVisibility(view.VISIBLE);
 
                 //autentikasi firebase

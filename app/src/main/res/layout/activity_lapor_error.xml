@@ -152,6 +152,7 @@
 
     <EditText
         android:id="@+id/mMessage"
+        android:gravity="top"
         style="@style/TextCardViewContentBlack"
         android:layout_width="0dp"
         android:layout_height="0dp"

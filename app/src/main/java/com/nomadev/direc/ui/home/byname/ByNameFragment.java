@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -85,17 +84,14 @@ public class ByNameFragment extends Fragment {
                 getHeaderListLatter(listPasien);
                 showInfo(false);
                 Log.d("FEEDBACK", "Berhasil Mengambil Data.");
-                Toast.makeText(getActivity(), "Berhasil Mengambil Data.", Toast.LENGTH_SHORT).show();
             } else {
                 showInfo(true);
                 Log.d("FEEDBACK", "Data Kosong.");
-                Toast.makeText(getActivity(), "Data Kosong.", Toast.LENGTH_SHORT).show();
             }
             binding.refreshLayout.setRefreshing(false);
         }).addOnFailureListener(e -> {
             showProgressBar(false);
             Log.d("FEEDBACK", "Error: " + e.toString());
-            Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
             binding.refreshLayout.setRefreshing(false);
         });
     }

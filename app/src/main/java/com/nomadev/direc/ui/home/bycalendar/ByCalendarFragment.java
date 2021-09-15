@@ -1,11 +1,11 @@
 package com.nomadev.direc.ui.home.bycalendar;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -55,6 +55,12 @@ public class ByCalendarFragment extends Fragment {
             getHistoryData();
             showRecyclerView();
         }
+
+        binding.refreshLayout.setOnRefreshListener(() -> new Handler().postDelayed(() -> {
+            listHistory.clear();
+            getHistoryData();
+            showRecyclerView();
+        }, 2000));
     }
 
     private void getHistoryData() {
@@ -72,16 +78,15 @@ public class ByCalendarFragment extends Fragment {
                     listHistory.add(historyModel);
                 }
                 adapter.notifyDataSetChanged();
-                Log.d("FEEDBACK", "Berhasil Mengambil Data.");
                 showInfo(false);
             } else {
-                Log.d("FEEDBACK", "Data Kosong.");
                 showInfo(true);
             }
+            binding.refreshLayout.setRefreshing(false);
         }).addOnFailureListener(e -> {
             showProgressBar(false);
             Log.d("FEEDBACK", "Error: " + e.toString());
-            Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+            binding.refreshLayout.setRefreshing(false);
         });
     }
 

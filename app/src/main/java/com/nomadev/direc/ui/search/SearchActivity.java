@@ -1,8 +1,5 @@
 package com.nomadev.direc.ui.search;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,9 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.Index;
-
 import com.nomadev.direc.BuildConfig;
 import com.nomadev.direc.databinding.ActivitySearchBinding;
 import com.nomadev.direc.model.PasienModel;
@@ -102,6 +101,7 @@ public class SearchActivity extends AppCompatActivity {
                         showSearchInfo(false);
                     } else {
                         showSearchInfo(true);
+                        binding.rvSearch.setVisibility(View.GONE);
                     }
                 }
             } catch (JSONException jsonException) {
@@ -111,6 +111,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void showRecyclerView() {
+        binding.rvSearch.setVisibility(View.VISIBLE);
         binding.rvSearch.setHasFixedSize(true);
         binding.rvSearch.setLayoutManager(new LinearLayoutManager(this));
         binding.rvSearch.setAdapter(adapter);

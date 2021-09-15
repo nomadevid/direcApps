@@ -6,7 +6,7 @@
         android:menuCategory="container">
         <item
             android:id="@+id/date"
-            android:title="@string/date" />
+            android:title="@string/tanggal" />
         <item
             android:id="@+id/nama"
             android:title="@string/name" />

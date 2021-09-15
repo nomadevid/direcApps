@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/direc_blue_light_background"
     tools:context=".ui.search.SearchActivity">
 
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/rl_action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="16dp">
+        android:background="@color/direc_blue_light_background"
+        app:liftOnScroll="true">
 
-        <EditText
-            android:id="@+id/et_search"
-            style="@style/TextCardViewContentBlack"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_edittext"
-            android:drawableStart="@drawable/search_icon_small"
-            android:drawablePadding="8dp"
-            android:hint="@string/search"
-            android:imeOptions="actionSearch"
-            android:importantForAutofill="no"
-            android:inputType="text" />
-    </RelativeLayout>
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp">
+
+            <EditText
+                android:id="@+id/et_search"
+                style="@style/TextCardViewContentBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_edittext"
+                android:drawableStart="@drawable/search_icon_small"
+                android:drawablePadding="8dp"
+                android:hint="@string/search"
+                android:imeOptions="actionSearch"
+                android:importantForAutofill="no"
+                android:inputType="text" />
+        </RelativeLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
         android:id="@+id/tv_search_info"
@@ -34,6 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_action_bar"
+        android:layout_gravity="center"
         android:layout_marginHorizontal="28dp"
         android:layout_marginTop="8dp"
         android:text="@string/pencarian_fail"
@@ -44,7 +52,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_search_info"
-        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:paddingVertical="16dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         tools:listitem="@layout/item_search" />
 
     <ProgressBar
@@ -52,6 +62,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="visible"
-        app:indicatorColor="@color/direc_green_dark" />
-</RelativeLayout>
+        android:layout_gravity="center"
+        android:visibility="visible" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

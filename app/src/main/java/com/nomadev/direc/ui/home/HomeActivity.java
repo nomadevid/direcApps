@@ -1,5 +1,7 @@
 package com.nomadev.direc.ui.home;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -8,7 +10,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -40,6 +41,7 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<String> listDate;
     private DatePickAdapter adapterDate;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private int shortAnimationDuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class HomeActivity extends AppCompatActivity {
         binding.myDrawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         initDateRangePicker();
+        shortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -96,7 +99,7 @@ public class HomeActivity extends AppCompatActivity {
             finish();
         });
 
-        binding.laporError.setOnClickListener(v ->  {
+        binding.laporError.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, LaporErrorActivity.class);
             startActivity(intent);
         });
@@ -112,7 +115,6 @@ public class HomeActivity extends AppCompatActivity {
         }
         switch (item.getItemId()) {
             case R.id.date:
-                Toast.makeText(this, "date selected", Toast.LENGTH_SHORT).show();
                 showDateRecyclerView();
                 showCalendarLayout(true);
                 getSupportFragmentManager()
@@ -122,7 +124,6 @@ public class HomeActivity extends AppCompatActivity {
                         .commit();
                 return true;
             case R.id.nama:
-                Toast.makeText(this, "nama selected", Toast.LENGTH_SHORT).show();
                 showCalendarLayout(false);
                 getSupportFragmentManager()
                         .beginTransaction()
@@ -131,7 +132,6 @@ public class HomeActivity extends AppCompatActivity {
                         .commit();
                 return true;
             case R.id.usia:
-                Toast.makeText(this, "usia selected", Toast.LENGTH_SHORT).show();
                 showCalendarLayout(false);
                 getSupportFragmentManager()
                         .beginTransaction()
@@ -191,9 +191,41 @@ public class HomeActivity extends AppCompatActivity {
 
     private void showCalendarLayout(boolean state) {
         if (state) {
-            binding.layoutCalendar.setVisibility(View.VISIBLE);
+            binding.rvDate.setAlpha(0f);
+            binding.ibCalendar.setAlpha(0f);
+
+            binding.rvDate.setVisibility(View.VISIBLE);
+            binding.ibCalendar.setVisibility(View.VISIBLE);
+
+            binding.rvDate.animate()
+                    .alpha(1f)
+                    .setDuration(shortAnimationDuration)
+                    .setListener(null);
+
+            binding.ibCalendar.animate()
+                    .alpha(1f)
+                    .setDuration(shortAnimationDuration)
+                    .setListener(null);
         } else {
-            binding.layoutCalendar.setVisibility(View.GONE);
+            binding.rvDate.animate()
+                    .alpha(0f)
+                    .setDuration(shortAnimationDuration)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            binding.rvDate.setVisibility(View.GONE);
+                        }
+                    });
+
+            binding.ibCalendar.animate()
+                    .alpha(0f)
+                    .setDuration(shortAnimationDuration)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            binding.ibCalendar.setVisibility(View.GONE);
+                        }
+                    });
         }
     }
 }

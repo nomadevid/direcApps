@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -79,6 +80,12 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
         getHasilPeriksaData();
         showRecyclerView();
 
+        binding.refreshLayout.setOnRefreshListener(() -> new Handler().postDelayed(() -> {
+            getPasienData();
+            getHasilPeriksaData();
+            showRecyclerView();
+        }, 2000));
+
         binding.fabTambahData.setOnClickListener(v -> {
             DialogAddDataActivity dialog = new DialogAddDataActivity();
             Bundle bundle = new Bundle();
@@ -121,12 +128,13 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
                 getHeaderList(hasilPeriksaModelArrayList);
                 hasilPeriksaAdapter.notifyDataSetChanged();
                 Log.d("FEEDBACK", "Berhasil Mengambil Data.");
-                Toast.makeText(getApplicationContext(), "Berhasil Mengambil Data.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Berhasil Mengambil Data.", Toast.LENGTH_SHORT).show();
             } else {
                 Log.d("FEEDBACK", "Data Kosong.");
-                Toast.makeText(getApplicationContext(), "Data Kosong.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Data Kosong.", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());
+        binding.refreshLayout.setRefreshing(false);
     }
 
     private void getPasienData() {

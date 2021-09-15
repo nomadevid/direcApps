@@ -3,8 +3,10 @@ package com.nomadev.direc.ui.detail;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -59,6 +61,7 @@ public class DialogFotoActivity extends DialogFragment {
         layoutParams.width = width;
         layoutParams.height = height;
         getDialog().getWindow().setAttributes(layoutParams);
+        getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(), R.color.black));
 
         binding.pvFotoFull.setOnClickListener(v -> {
             state++;
@@ -87,5 +90,6 @@ public class DialogFotoActivity extends DialogFragment {
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(), R.color.direc_blue_light_background));
     }
 }

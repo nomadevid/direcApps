@@ -76,15 +76,7 @@ public class DialogDeleteDataActiivity extends DialogFragment {
         dbPasien.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isComplete()) {
-//                    Toast.makeText(getActivity(), "Data telah dihapus", Toast.LENGTH_SHORT).show();
-                    deleteHistory();
-//                    getDialog().dismiss();
-//                    getActivity().recreate();
-                } else {
-//                    Toast.makeText(getActivity(), "Data gagal dihapus", Toast.LENGTH_SHORT).show();
-//                    getDialog().dismiss();
-                }
+                if (task.isComplete()) deleteHistory();
             }
         });
 
@@ -117,8 +109,10 @@ public class DialogDeleteDataActiivity extends DialogFragment {
     private void showProgressBar(Boolean state) {
         if (state) {
             binding.progressBar.setVisibility(View.VISIBLE);
+            binding.rlProgress.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#40000000")));
         } else {
             binding.progressBar.setVisibility(View.GONE);
+            binding.rlProgress.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
         }
     }
 

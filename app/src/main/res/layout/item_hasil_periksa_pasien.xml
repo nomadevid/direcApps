@@ -33,6 +33,7 @@
             android:src="@drawable/icon_dropdown_button_small" />
 
         <LinearLayout
+            android:id="@+id/ll_hasil_periksa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

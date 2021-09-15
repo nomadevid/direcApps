@@ -101,7 +101,7 @@ public class DialogAddDataActivity extends DialogFragment {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(getDialog().getWindow().getAttributes());
         layoutParams.width = width;
-        layoutParams.height = height;
+//        layoutParams.height = height;
         getDialog().getWindow().setAttributes(layoutParams);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
@@ -163,6 +163,18 @@ public class DialogAddDataActivity extends DialogFragment {
             if (resultCode == getActivity().RESULT_OK) {
 
 
+                if(data.getData() != null) {
+                    ImageList.add(data.getData());
+
+                    FotoModel fotoModel = new FotoModel();
+                    fotoModel.setFoto(data.getData());
+                    fotoModelArrayList.add(fotoModel);
+
+                    fotoAdapter.notifyDataSetChanged();
+
+                    data.setData(null);
+                }
+
                 if (data.getClipData() != null) {
 
                     int countClipData = data.getClipData().getItemCount();
@@ -181,11 +193,11 @@ public class DialogAddDataActivity extends DialogFragment {
                     }
                     fotoAdapter.notifyDataSetChanged();
 
-                    Toast.makeText(getActivity(), "You have selected " + ImageList.size() + " Images", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "You have selected " + ImageList.size() + " Images", Toast.LENGTH_SHORT).show();
 
 
                 } else {
-                    Toast.makeText(getActivity(), "Please Select Multiple Images", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "Please Select Multiple Images", Toast.LENGTH_SHORT).show();
                 }
 
             }

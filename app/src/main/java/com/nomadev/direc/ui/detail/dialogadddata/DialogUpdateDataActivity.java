@@ -1,5 +1,6 @@
 package com.nomadev.direc.ui.detail.dialogadddata;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -84,7 +85,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(getDialog().getWindow().getAttributes());
         layoutParams.width = width;
-        layoutParams.height = height;
+//        layoutParams.height = height;
         getDialog().getWindow().setAttributes(layoutParams);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),1);
@@ -142,6 +143,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
         DocumentReference dbPasien = db.collection("pasien").document(id_pasien).collection("history").document(id_data);
 
         dbPasien.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
@@ -172,12 +174,26 @@ public class DialogUpdateDataActivity extends DialogFragment {
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE) {
             if (resultCode == getActivity().RESULT_OK) {
+
+                assert data != null;
+                if(data.getData() != null) {
+                    ImageList.add(data.getData());
+
+                    FotoModel fotoModel = new FotoModel();
+                    fotoModel.setFoto(data.getData());
+                    fotoModelArrayList.add(fotoModel);
+
+                    fotoAdapter.notifyDataSetChanged();
+
+                    data.setData(null);
+                }
 
 
                 if (data.getClipData() != null) {
@@ -198,11 +214,9 @@ public class DialogUpdateDataActivity extends DialogFragment {
                     }
                     fotoAdapter.notifyDataSetChanged();
 
-                    Toast.makeText(getActivity(), "You have selected " + ImageList.size() + " Images", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "You have selected " + ImageList.size() + " Images", Toast.LENGTH_SHORT).show();
 
 
-                } else {
-                    Toast.makeText(getActivity(), "Please Select Multiple Images", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -318,8 +332,10 @@ public class DialogUpdateDataActivity extends DialogFragment {
     private void showProgressBar(Boolean state) {
         if (state) {
             binding.progressBar.setVisibility(View.VISIBLE);
+            binding.rlProgress.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#40000000")));
         } else {
             binding.progressBar.setVisibility(View.GONE);
+            binding.rlProgress.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
         }
     }
 

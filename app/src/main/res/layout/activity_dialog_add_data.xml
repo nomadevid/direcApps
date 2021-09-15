@@ -7,118 +7,124 @@
     app:cardCornerRadius="8dp"
     tools:context=".ui.detail.dialogadddata.DialogAddDataActivity">
 
-    <LinearLayout
-        style="@style/DialogStyle"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <TextView
-            style="@style/TextActionBarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tambah_data_title" />
-
-        <TextView
-            style="@style/TextCardViewContentGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/masukkan_rekam_data_pasien_anda" />
-
-        <TextView
-            style="@style/TextCardViewContentBlack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="@string/keluhan_title" />
-
-        <EditText
-            android:id="@+id/et_keluhan"
-            style="@style/TextCardViewContentBlack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/keluhan_title"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/rounded_edittext" />
-
-        <TextView
-            style="@style/TextCardViewContentBlack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="@string/hasil_pemeriksaan_title"/>
-
-        <EditText
-            android:id="@+id/et_hasil_periksa"
-            style="@style/TextCardViewContentBlack"
-            android:layout_width="match_parent"
-            android:layout_height="68dp"
-            android:maxLines="50"
-            android:hint="@string/hasil_pemeriksaan"
-            android:gravity="top|left"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/rounded_edittext" />
-
-        <TextView
-            style="@style/TextCardViewContentBlack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="@string/terapi_title" />
-
-        <EditText
-            android:id="@+id/et_terapi"
-            style="@style/TextCardViewContentBlack"
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:maxLines="50"
-            android:hint="@string/terapi"
-            android:gravity="top|left"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/rounded_edittext" />
-
-        <TextView
-            style="@style/TextCardViewContentBlack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="@string/foto_title" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/sv_foto"
+            style="@style/DialogStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginBottom="52dp">
+            android:padding="24dp">
 
-            <ImageButton
-                android:id="@+id/ib_add_photo"
-                android:layout_width="58dp"
-                android:layout_height="58dp"
-                android:layout_marginBottom="8dp"
-                android:src="@drawable/icon_add_photo"
-                android:background="@drawable/bg_add_photo_button"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_foto"
+            <TextView
+                style="@style/TextActionBarTitle"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                android:layout_height="wrap_content"
+                android:text="@string/tambah_data_title" />
+
+            <TextView
+                style="@style/TextCardViewContentGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/masukkan_rekam_data_pasien_anda" />
+
+            <TextView
+                style="@style/TextCardViewContentBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="@string/keluhan_title" />
+
+            <EditText
+                android:id="@+id/et_keluhan"
+                style="@style/TextCardViewContentBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/keluhan_title"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/rounded_edittext" />
+
+            <TextView
+                style="@style/TextCardViewContentBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="@string/hasil_pemeriksaan_title"/>
+
+            <EditText
+                android:id="@+id/et_hasil_periksa"
+                style="@style/TextCardViewContentBlack"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:maxLines="50"
+                android:hint="@string/hasil_pemeriksaan"
+                android:gravity="top|left"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/rounded_edittext" />
+
+            <TextView
+                style="@style/TextCardViewContentBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="@string/terapi_title" />
+
+            <EditText
+                android:id="@+id/et_terapi"
+                style="@style/TextCardViewContentBlack"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:maxLines="50"
+                android:hint="@string/terapi"
+                android:gravity="top|left"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/rounded_edittext" />
+
+            <TextView
+                style="@style/TextCardViewContentBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="@string/foto_title" />
+
+            <LinearLayout
+                android:id="@+id/sv_foto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="52dp">
+
+                <ImageButton
+                    android:id="@+id/ib_add_photo"
+                    android:layout_width="58dp"
+                    android:layout_height="58dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@drawable/icon_add_photo"
+                    android:background="@drawable/bg_add_photo_button"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_foto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_simpan"
+                style="@style/ButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/simpan"
+                android:background="@drawable/gradient_button_masuk"/>
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_simpan"
-            style="@style/ButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/simpan"
-            android:background="@drawable/gradient_button_masuk"/>
-
-    </LinearLayout>
+    </ScrollView>
 
     <RelativeLayout
         android:id="@+id/rlProgress"

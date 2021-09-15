@@ -8,104 +8,106 @@
     android:background="@color/direc_blue_light_background"
     tools:context=".ui.home.HomeActivity">
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/rl_action_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/direc_blue_light_background"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="16dp">
+            app:liftOnScroll="true">
 
-            <ImageButton
-                android:id="@+id/btn_hamburger"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_menu_black" />
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="16dp">
 
-            <TextView
-                android:id="@+id/tv_dashboard"
-                style="@style/TextActionBarTitle"
-                android:layout_width="wrap_content"
+                <ImageButton
+                    android:id="@+id/btn_hamburger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_menu_black" />
+
+                <TextView
+                    android:id="@+id/tv_dashboard"
+                    style="@style/TextActionBarTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_toStartOf="@id/ib_search"
+                    android:layout_toEndOf="@id/btn_hamburger"
+                    android:text="@string/dashboard" />
+
+                <ImageButton
+                    android:id="@+id/ib_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toStartOf="@+id/ib_filter"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/search"
+                    android:padding="8dp"
+                    android:src="@drawable/search_icon_small" />
+
+                <ImageButton
+                    android:id="@+id/ib_filter"
+                    style="@style/IconActionBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/filter"
+                    android:padding="8dp"
+                    android:src="@drawable/filter_icon_small" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginHorizontal="16dp"
-                android:layout_toStartOf="@id/ib_search"
-                android:layout_toEndOf="@id/btn_hamburger"
-                android:text="@string/dashboard" />
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/white"
+                android:visibility="visible">
 
-            <ImageButton
-                android:id="@+id/ib_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
-                android:layout_toStartOf="@+id/ib_filter"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/search"
-                android:padding="8dp"
-                android:src="@drawable/search_icon_small" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/ib_calendar"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_date" />
 
-            <ImageButton
-                android:id="@+id/ib_filter"
-                style="@style/IconActionBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/filter"
-                android:padding="8dp"
-                android:src="@drawable/filter_icon_small" />
-        </RelativeLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_calendar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/rl_action_bar"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="16dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/ib_calendar"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_date" />
-
-            <ImageButton
-                android:id="@+id/ib_calendar"
-                android:layout_width="21.6dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="24dp"
-                android:background="@drawable/calendar_icon"
-                android:contentDescription="@string/kalender"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageButton
+                    android:id="@+id/ib_calendar"
+                    android:layout_width="21.6dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/calendar_icon"
+                    android:contentDescription="@string/kalender"
+                    android:paddingHorizontal="16dp" />
+            </RelativeLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/layout_calendar" />
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button"
@@ -114,13 +116,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_margin="24dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
             android:backgroundTint="@color/direc_green_dark"
             android:contentDescription="@string/add_pasien"
             android:src="@drawable/ic_icons_person_add_24"
             app:fabSize="normal"
             app:tint="@null" />
-    </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
@@ -153,16 +159,16 @@
                 android:id="@+id/lapor_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/logo"
-                android:text="@string/lapor_error"
-                android:textAlignment="textStart"
                 android:layout_marginStart="16dp"
                 android:background="@android:color/transparent"
                 android:clickable="true"
                 android:focusable="true"
                 android:fontFamily="@font/lato_bold"
+                android:text="@string/lapor_error"
+                android:textAlignment="textStart"
                 android:textAllCaps="false"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                app:layout_constraintTop_toBottomOf="@+id/logo" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_logout"

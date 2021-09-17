@@ -115,7 +115,7 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
         hasilPeriksaModelArrayList.clear();
         CollectionReference dbHasilPeriksa = db.collection("pasien").document(id).collection("history");
         Query query = dbHasilPeriksa.orderBy("tanggal", Query.Direction.ASCENDING);
-        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+        dbHasilPeriksa.get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()) {
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                 for (DocumentSnapshot documentSnapshot : list) {
@@ -185,6 +185,7 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
             }
             listSection.add(user);
         }
+        Log.d("getHeader", listSection.toString());
     }
 
     private String calculateAge(String tanggalLahir) {

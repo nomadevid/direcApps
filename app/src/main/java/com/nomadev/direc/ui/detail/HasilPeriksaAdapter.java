@@ -202,9 +202,8 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     binding.rvPhoto.setAdapter(fotoStreamAdapter);
                     fotoStreamAdapter.notifyDataSetChanged();
                     Log.d("FEEDBACK", "Berhasil Mengambil Data." + nama);
-                } else {
-                    Log.d("FEEDBACK", "Data Kosong.");
-                }
+                } else Log.d("FEEDBACK", "Data Kosong.");
+                
             }).addOnFailureListener(e -> Toast.makeText(itemView.getContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());
         }
     }

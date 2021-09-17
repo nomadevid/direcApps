@@ -104,7 +104,7 @@ public class DialogAddDataActivity extends DialogFragment {
 //        layoutParams.height = height;
         getDialog().getWindow().setAttributes(layoutParams);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         gridLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         binding.rvFoto.setLayoutManager(gridLayoutManager);
         binding.rvFoto.setAdapter(fotoAdapter);
@@ -163,7 +163,7 @@ public class DialogAddDataActivity extends DialogFragment {
             if (resultCode == getActivity().RESULT_OK) {
 
 
-                if(data.getData() != null) {
+                if (data.getData() != null) {
                     ImageList.add(data.getData());
 
                     FotoModel fotoModel = new FotoModel();
@@ -205,7 +205,7 @@ public class DialogAddDataActivity extends DialogFragment {
 
     }
 
-    private void postImage(){
+    private void postImage() {
 
         urlStrings = new ArrayList<>();
         Log.d("IMAGE", "1");
@@ -235,7 +235,7 @@ public class DialogAddDataActivity extends DialogFragment {
                                             Log.d("URL", "onSuccess: " + urlStrings);
 
                                             // Buat Upload ke Firestore nanti
-                                            if (urlStrings.size() == fotoModelListUpdate.size()){
+                                            if (urlStrings.size() == fotoModelListUpdate.size()) {
                                                 storeLink(urlStrings);
                                             }
 
@@ -256,7 +256,7 @@ public class DialogAddDataActivity extends DialogFragment {
 
     private void storeLink(ArrayList<String> urlStrings) {
 
-        for (int i = 0; i <urlStrings.size() ; i++) {
+        for (int i = 0; i < urlStrings.size(); i++) {
 
             DocumentReference dbData = db.collection("pasien").document(id).collection("history").document(idHistory);
 
@@ -270,7 +270,7 @@ public class DialogAddDataActivity extends DialogFragment {
 
                 }
             }).addOnFailureListener(e -> {
-                Log.d("FAILURE","ERROR : " + e.toString());
+                Log.d("FAILURE", "ERROR : " + e.toString());
 
             });
 
@@ -356,7 +356,7 @@ public class DialogAddDataActivity extends DialogFragment {
         listener = (DialogAddDataListener) context;
     }
 
-    public interface DialogAddDataListener{
+    public interface DialogAddDataListener {
         void RefreshLayout(Boolean state);
     }
 }

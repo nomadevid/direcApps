@@ -1,5 +1,6 @@
 package com.nomadev.direc.ui.detail;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,18 +17,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.nomadev.direc.R;
-import com.nomadev.direc.databinding.ItemByAgeHeaderBinding;
 import com.nomadev.direc.databinding.ItemHasilPeriksaPasienBinding;
 import com.nomadev.direc.databinding.ItemHasilPeriksaPasienHeaderBinding;
 import com.nomadev.direc.model.HasilPeriksaModel;
 import com.nomadev.direc.ui.detail.dialogadddata.DialogUpdateDataActivity;
 import com.nomadev.direc.ui.detail.dialogdeletedata.DialogDeleteDataActiivity;
-import com.nomadev.direc.ui.home.byage.ByAgeAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,7 +37,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int SECTION_VIEW = 0;
     public static final int CONTENT_VIEW = 1;
 
-    private ArrayList<HasilPeriksaModel> listData = new ArrayList<>();
+    private final ArrayList<HasilPeriksaModel> listData;
 
     public HasilPeriksaAdapter(ArrayList<HasilPeriksaModel> listData) {
         this.listData = listData;
@@ -139,7 +136,10 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             Log.d("TAG", "bind: " + hasilPeriksaModel.getUrlString());
             if (hasilPeriksaModel.getUrlString() != null) {
                 setAdapter(hasilPeriksaModel.getUrlString());
-            } else binding.tvFoto.setVisibility(View.GONE);
+            } else {
+                binding.tvFoto.setVisibility(View.GONE);
+                binding.rvPhoto.setVisibility(View.GONE);
+            }
         }
 
         @Override
@@ -157,6 +157,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             popupMenu.show();
         }
 
+        @SuppressLint("NonConstantResourceId")
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
@@ -191,22 +192,18 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             db = FirebaseFirestore.getInstance();
             DocumentReference dbPasien = db.collection("pasien").document(id_pasien);
 
-            dbPasien.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if (documentSnapshot.exists()) {
-                        nama = documentSnapshot.getString("nama");
-                        fotoStreamAdapter = new FotoStreamAdapter(listData, nama, tanggal_data);
-                        GridLayoutManager gridLayoutManager = new GridLayoutManager(itemView.getContext(), 4);
-                        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        binding.rvPhoto.setLayoutManager(gridLayoutManager);
-                        binding.rvPhoto.setAdapter(fotoStreamAdapter);
-                        fotoStreamAdapter.notifyDataSetChanged();
-                        Log.d("FEEDBACK", "Berhasil Mengambil Data." + nama);
-                    } else {
-                        Log.d("FEEDBACK", "Data Kosong.");
-                    }
-                }
+            dbPasien.get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    nama = documentSnapshot.getString("nama");
+                    fotoStreamAdapter = new FotoStreamAdapter(listData, nama, tanggal_data);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(itemView.getContext(), 4);
+                    gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    binding.rvPhoto.setLayoutManager(gridLayoutManager);
+                    binding.rvPhoto.setAdapter(fotoStreamAdapter);
+                    fotoStreamAdapter.notifyDataSetChanged();
+                    Log.d("FEEDBACK", "Berhasil Mengambil Data." + nama);
+                } else Log.d("FEEDBACK", "Data Kosong.");
+                
             }).addOnFailureListener(e -> Toast.makeText(itemView.getContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());
         }
     }

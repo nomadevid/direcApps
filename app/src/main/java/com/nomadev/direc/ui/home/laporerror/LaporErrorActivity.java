@@ -1,15 +1,11 @@
 package com.nomadev.direc.ui.home.laporerror;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-
-import android.os.Bundle;
-import android.widget.PopupMenu;
-
-import com.nomadev.direc.R;
-import com.nomadev.direc.databinding.ActivityHomeBinding;
 import com.nomadev.direc.databinding.ActivityLaporErrorBinding;
-import com.nomadev.direc.ui.home.HomeActivity;
 
 public class LaporErrorActivity extends AppCompatActivity {
 
@@ -21,9 +17,9 @@ public class LaporErrorActivity extends AppCompatActivity {
         binding = ActivityLaporErrorBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.btnKirim.setOnClickListener(v -> {
-            sendMail();
-        });
+        binding.ibBack.setOnClickListener(v -> onBackPressed());
+
+        binding.btnKirim.setOnClickListener(v -> sendMail());
     }
 
     private void sendMail() {
@@ -31,7 +27,7 @@ public class LaporErrorActivity extends AppCompatActivity {
         String subject = binding.mSubject.getText().toString().trim();
         String message = binding.mMessage.getText().toString();
 
-        MailAPI mailAPI = new MailAPI(this,mail,subject,message);
+        MailAPI mailAPI = new MailAPI(this, mail, subject, message);
         mailAPI.execute();
     }
 }

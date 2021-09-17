@@ -20,6 +20,7 @@
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/drawable/rounded_box_white.xml" value="0.22135416666666666" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/drawable/rounded_edittext.xml" value="0.22135416666666666" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/drawable/search_icon_small.xml" value="0.3828125" />
+        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/drawable/side_nav_bar.xml" value="0.16666666666666666" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/drawable/splash_image.xml" value="0.20677083333333332" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/drawable/style_spinner.xml" value="0.20677083333333332" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout-land/activity_login.xml" value="1.0" />
@@ -31,8 +32,8 @@
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_dialog_foto.xml" value="0.13796296296296295" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_dialog_update_data.xml" value="0.1824074074074074" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_dialog_update_pasien.xml" value="0.1824074074074074" />
-        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_home.xml" value="0.5536374845869297" />
-        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_lapor_error.xml" value="0.14" />
+        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_home.xml" value="0.14" />
+        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_lapor_error.xml" value="0.5" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_main.xml" value="0.21422101449275363" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_search.xml" value="0.25" />

@@ -4,7 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
+import com.nomadev.direc.BuildConfig;
+
 import java.util.Properties;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -13,14 +17,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class MailAPI extends AsyncTask<Void,Void,Void>  {
+public class MailAPI extends AsyncTask<Void, Void, Void> {
 
-    private Context mContext;
+    private final Context mContext;
     private Session mSession;
 
-    private String mEmail;
-    private String mSubject;
-    private String mMessage;
+    private final String mEmail;
+    private final String mSubject;
+    private final String mMessage;
 
     private ProgressDialog mProgressDialog;
 
@@ -34,14 +38,14 @@ public class MailAPI extends AsyncTask<Void,Void,Void>  {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        mProgressDialog = ProgressDialog.show(mContext,"Sending message", "Please wait...",false,false);
+        mProgressDialog = ProgressDialog.show(mContext, "Sending message", "Please wait...", false, false);
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         mProgressDialog.dismiss();
-        Toast.makeText(mContext,"Message Sent",Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "Message Sent", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -57,13 +61,13 @@ public class MailAPI extends AsyncTask<Void,Void,Void>  {
         mSession = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(Utils.EMAIL, Utils.PASSWORD);
+                        return new PasswordAuthentication(BuildConfig.ADMIN_EMAIL, BuildConfig.ADMIN_PASSWORD);
                     }
                 });
 
         try {
             MimeMessage mm = new MimeMessage(mSession);
-            mm.setFrom(new InternetAddress(Utils.EMAIL));
+            mm.setFrom(new InternetAddress(BuildConfig.ADMIN_EMAIL));
             mm.addRecipient(Message.RecipientType.TO, new InternetAddress(mEmail));
             mm.setSubject(mSubject);
             mm.setText(mMessage);

@@ -57,7 +57,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
     private ArrayList<FotoModel> fotoModelArrayList;
     private FotoAdapter fotoAdapter;
     private ArrayList urlStrings;
-    private int upload_count = 0;
+    private int upload_count = 0, dialog_close = 0;
     private FotoStreamUpdateAdapater fotoStreamUpdateAdapater;
     private DialogUpdateDataListener listener;
 
@@ -88,7 +88,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
 //        layoutParams.height = height;
         getDialog().getWindow().setAttributes(layoutParams);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),1);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         gridLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         binding.rvFoto.setLayoutManager(gridLayoutManager);
         binding.rvFoto.setAdapter(fotoAdapter);
@@ -119,7 +119,8 @@ public class DialogUpdateDataActivity extends DialogFragment {
             binding.btnSimpan.setClickable(false);
             binding.btnSimpan.setEnabled(false);
             updateData(hasil_periksa, keluhan, terapi);
-            postImage();
+            if (ImageList.isEmpty()) getDialog().dismiss();
+            else postImage();
         });
 
         binding.ibAddPhoto.setOnClickListener(v -> {
@@ -158,7 +159,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
 
                     if (documentSnapshot.get("foto") != null) {
                         fotoStreamUpdateAdapater = new FotoStreamUpdateAdapater((ArrayList<String>) documentSnapshot.get("foto"), id_pasien, id_data);
-                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),1);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
                         gridLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                         binding.rvFotoStream.setLayoutManager(gridLayoutManager);
                         binding.rvFotoStream.setAdapter(fotoStreamUpdateAdapater);
@@ -183,7 +184,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
             if (resultCode == getActivity().RESULT_OK) {
 
                 assert data != null;
-                if(data.getData() != null) {
+                if (data.getData() != null) {
                     ImageList.add(data.getData());
 
                     FotoModel fotoModel = new FotoModel();
@@ -213,8 +214,6 @@ public class DialogUpdateDataActivity extends DialogFragment {
                         currentImageSlect = currentImageSlect + 1;
                     }
                     fotoAdapter.notifyDataSetChanged();
-
-//                    Toast.makeText(getActivity(), "You have selected " + ImageList.size() + " Images", Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -276,6 +275,8 @@ public class DialogUpdateDataActivity extends DialogFragment {
 
     private void storeLink(ArrayList<String> urlStrings) {
 
+        dialog_close++;
+
         for (int i = 0; i < urlStrings.size(); i++) {
 
             DocumentReference dbData = db.collection("pasien").document(id_pasien).collection("history").document(id_data);
@@ -295,7 +296,10 @@ public class DialogUpdateDataActivity extends DialogFragment {
             });
 
         }
-        getDialog().dismiss();
+        if (dialog_close == 2) {
+            dialog_close = 0;
+            getDialog().dismiss();
+        }
 
         ImageList.clear();
     }
@@ -318,14 +322,9 @@ public class DialogUpdateDataActivity extends DialogFragment {
             @Override
             public void onSuccess(Void unused) {
                 Log.d("SUCCESS", "Data terkirim: " + hasil_periksa + keluhan + tanggal + terapi);
-//                Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
-//                getDialog().dismiss();
-//                getActivity().recreate();
             }
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
-//            Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
-//            getDialog().dismiss();
         });
     }
 
@@ -345,7 +344,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
         listener = (DialogUpdateDataListener) context;
     }
 
-    public interface DialogUpdateDataListener{
+    public interface DialogUpdateDataListener {
         void RefreshLayout(Boolean state);
     }
 }

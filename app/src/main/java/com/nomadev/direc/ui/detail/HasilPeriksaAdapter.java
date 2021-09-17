@@ -194,16 +194,16 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             dbPasien.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if (documentSnapshot.exists()){
+                    if (documentSnapshot.exists()) {
                         nama = documentSnapshot.getString("nama");
                         fotoStreamAdapter = new FotoStreamAdapter(listData, nama, tanggal_data);
-                        GridLayoutManager gridLayoutManager = new GridLayoutManager(itemView.getContext(),4);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(itemView.getContext(), 4);
                         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         binding.rvPhoto.setLayoutManager(gridLayoutManager);
                         binding.rvPhoto.setAdapter(fotoStreamAdapter);
+                        fotoStreamAdapter.notifyDataSetChanged();
                         Log.d("FEEDBACK", "Berhasil Mengambil Data." + nama);
-                    }
-                    else {
+                    } else {
                         Log.d("FEEDBACK", "Data Kosong.");
                     }
                 }

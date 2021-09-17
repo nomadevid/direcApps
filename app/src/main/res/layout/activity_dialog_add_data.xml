@@ -14,7 +14,8 @@
         <LinearLayout
             style="@style/DialogStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
             android:orientation="vertical"
             android:padding="24dp">
 
@@ -28,6 +29,7 @@
                 style="@style/TextCardViewContentGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/masukkan_rekam_data_pasien_anda" />
 
@@ -43,27 +45,31 @@
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/keluhan_title"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/rounded_edittext" />
+                android:background="@drawable/rounded_edittext"
+                android:hint="@string/keluhan_title"
+                android:importantForAutofill="no"
+                android:inputType="text" />
 
             <TextView
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:text="@string/hasil_pemeriksaan_title"/>
+                android:text="@string/hasil_pemeriksaan_title" />
 
             <EditText
                 android:id="@+id/et_hasil_periksa"
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="68dp"
-                android:maxLines="50"
-                android:hint="@string/hasil_pemeriksaan"
-                android:gravity="top|left"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/rounded_edittext" />
+                android:background="@drawable/rounded_edittext"
+                android:gravity="top|start"
+                android:hint="@string/hasil_pemeriksaan"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:maxLines="50" />
 
             <TextView
                 style="@style/TextCardViewContentBlack"
@@ -77,11 +83,13 @@
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="96dp"
-                android:maxLines="50"
-                android:hint="@string/terapi"
-                android:gravity="top|left"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/rounded_edittext" />
+                android:background="@drawable/rounded_edittext"
+                android:gravity="top|start"
+                android:hint="@string/terapi"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:maxLines="50" />
 
             <TextView
                 style="@style/TextCardViewContentBlack"
@@ -94,16 +102,16 @@
                 android:id="@+id/sv_foto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="52dp">
+                android:layout_marginBottom="52dp"
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/ib_add_photo"
                     android:layout_width="58dp"
                     android:layout_height="58dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/icon_add_photo"
-                    android:background="@drawable/bg_add_photo_button"/>
+                    android:background="@drawable/bg_add_photo_button"
+                    android:src="@drawable/icon_add_photo" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_foto"
@@ -119,8 +127,8 @@
                 style="@style/ButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/simpan"
-                android:background="@drawable/gradient_button_masuk"/>
+                android:background="@drawable/gradient_button_masuk"
+                android:text="@string/simpan" />
 
         </LinearLayout>
 

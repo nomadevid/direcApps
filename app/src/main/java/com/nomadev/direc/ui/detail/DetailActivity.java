@@ -1,12 +1,6 @@
 package com.nomadev.direc.ui.detail;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -14,19 +8,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDetailBinding;
 import com.nomadev.direc.model.HasilPeriksaModel;
-import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.detail.dialogadddata.DialogAddDataActivity;
 import com.nomadev.direc.ui.detail.dialogadddata.DialogUpdateDataActivity;
 import com.nomadev.direc.ui.detail.dialogdeletedata.DialogDeleteDataActiivity;
@@ -67,8 +60,6 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
         setContentView(binding.getRoot());
 
         id = getIntent().getStringExtra(ID);
-        //Log.d("ID", "Ini ID : " + id);
-
 
         //Recycle View Build Firebase
         hasilPeriksaModelArrayList = new ArrayList<>();
@@ -93,7 +84,7 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
             bundle.putString(NAMA, nama);
             bundle.putString(TANGGAL_LAHIR, tanggalLahir);
             dialog.setArguments(bundle);
-            dialog.show(getSupportFragmentManager(),"Dialog Add Data");
+            dialog.show(getSupportFragmentManager(), "Dialog Add Data");
         });
 
         binding.ibEdit.setOnClickListener(v -> {
@@ -101,9 +92,16 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
             Bundle bundle = new Bundle();
             bundle.putString(ID, id);
             dialog.setArguments(bundle);
-            dialog.show(getSupportFragmentManager(),"Dialog Edit Pasien");
+            dialog.show(getSupportFragmentManager(), "Dialog Edit Pasien");
             dialog.getShowsDialog();
             Log.d("DIALOG", "DIALOG EDIT :  " + dialog.getShowsDialog());
+        });
+
+        binding.ibBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
         });
     }
 
@@ -116,7 +114,8 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
     private void getHasilPeriksaData() {
         hasilPeriksaModelArrayList.clear();
         CollectionReference dbHasilPeriksa = db.collection("pasien").document(id).collection("history");
-        dbHasilPeriksa.get().addOnSuccessListener(queryDocumentSnapshots -> {
+        Query query = dbHasilPeriksa.orderBy("tanggal", Query.Direction.ASCENDING);
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()) {
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                 for (DocumentSnapshot documentSnapshot : list) {
@@ -128,10 +127,8 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
                 getHeaderList(hasilPeriksaModelArrayList);
                 hasilPeriksaAdapter.notifyDataSetChanged();
                 Log.d("FEEDBACK", "Berhasil Mengambil Data.");
-//                Toast.makeText(getApplicationContext(), "Berhasil Mengambil Data.", Toast.LENGTH_SHORT).show();
             } else {
                 Log.d("FEEDBACK", "Data Kosong.");
-//                Toast.makeText(getApplicationContext(), "Data Kosong.", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());
         binding.refreshLayout.setRefreshing(false);
@@ -143,7 +140,7 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
         dbPasien.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()){
+                if (documentSnapshot.exists()) {
                     nama = documentSnapshot.getString("nama");
                     tanggalLahir = documentSnapshot.getString("tanggalLahir");
                     kelamin = documentSnapshot.getString("kelamin");
@@ -157,8 +154,7 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
                     binding.tvAlamat.setText(alamat);
 
                     Log.d("FEEDBACK", "Berhasil Mengambil Data.");
-                }
-                else {
+                } else {
                     Log.d("FEEDBACK", "Data Kosong.");
                 }
             }
@@ -178,7 +174,7 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
         int size = list.size();
         listSection.clear();
 
-        for (int i = 0; i < size; i++) {
+        for (int i = size - 1; i >= 0; i--) {
             HasilPeriksaModel user = list.get(i);
             Log.d("getHeader", user.getTanggal());
             String header = String.valueOf(user.getTanggal());

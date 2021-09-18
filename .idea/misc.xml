@@ -7,6 +7,7 @@
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/drawable/gradient_button_logout.xml" value="0.166015625" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/drawable/gradient_button_masuk.xml" value="0.166015625" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/drawable/ic_baseline_arrow_back_ios_new_24.xml" value="0.166015625" />
+        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/drawable/ic_baseline_bug_report_24.xml" value="0.22135416666666666" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/drawable/ic_calendar.xml" value="0.15231481481481482" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/drawable/ic_icons_person_add_24.xml" value="0.21770833333333334" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/drawable/ic_logout_black.xml" value="0.166015625" />
@@ -26,13 +27,13 @@
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout-land/activity_login.xml" value="1.0" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout-xlarge/activity_home.xml" value="0.275" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout-xlarge/fragment_by_age.xml" value="0.14" />
-        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_detail.xml" value="0.33" />
+        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_detail.xml" value="0.29419139155871293" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_dialog_add_data.xml" value="0.18" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_dialog_add_pasien.xml" value="0.25" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_dialog_foto.xml" value="0.13796296296296295" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_dialog_update_data.xml" value="0.1824074074074074" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_dialog_update_pasien.xml" value="0.1824074074074074" />
-        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_home.xml" value="0.14" />
+        <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_home.xml" value="0.22" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_lapor_error.xml" value="0.5" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/Android Studio Save/DirecApps/app/src/main/res/layout/activity_main.xml" value="0.21422101449275363" />

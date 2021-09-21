@@ -96,6 +96,7 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
     }
 
     private void showRecyclerView() {
+        binding.rvHasilPeriksa.setVisibility(View.VISIBLE);
         binding.rvHasilPeriksa.setHasFixedSize(true);
         binding.rvHasilPeriksa.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         binding.rvHasilPeriksa.setAdapter(hasilPeriksaAdapter);
@@ -111,16 +112,20 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                 for (DocumentSnapshot documentSnapshot : list) {
                     HasilPeriksaModel hasilPeriksaModel = documentSnapshot.toObject(HasilPeriksaModel.class);
-                    hasilPeriksaModel.setId_data(documentSnapshot.getId());
-                    hasilPeriksaModel.setUrlString((ArrayList) documentSnapshot.get("foto"));
-                    hasilPeriksaModelArrayList.add(hasilPeriksaModel);
+                    if (hasilPeriksaModel != null) {
+                        hasilPeriksaModel.setId_data(documentSnapshot.getId());
+                        hasilPeriksaModel.setUrlString((ArrayList<String>) documentSnapshot.get("foto"));
+                        hasilPeriksaModelArrayList.add(hasilPeriksaModel);
+                    }
                 }
                 showInfo(false);
+                showRecyclerView();
                 getHeaderList(hasilPeriksaModelArrayList);
                 hasilPeriksaAdapter.notifyDataSetChanged();
                 Log.d("FEEDBACK", "Berhasil Mengambil Data.");
             } else {
                 showInfo(true);
+                binding.rvHasilPeriksa.setVisibility(View.GONE);
                 Log.d("FEEDBACK", "Data Kosong.");
             }
         }).addOnFailureListener(e -> {

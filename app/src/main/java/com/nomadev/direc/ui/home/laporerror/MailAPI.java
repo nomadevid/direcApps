@@ -1,5 +1,6 @@
 package com.nomadev.direc.ui.home.laporerror;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -19,8 +20,8 @@ import javax.mail.internet.MimeMessage;
 
 public class MailAPI extends AsyncTask<Void, Void, Void> {
 
+    @SuppressLint("StaticFieldLeak")
     private final Context mContext;
-    private Session mSession;
 
     private final String mEmail;
     private final String mSubject;
@@ -58,7 +59,7 @@ public class MailAPI extends AsyncTask<Void, Void, Void> {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
 
-        mSession = Session.getDefaultInstance(props,
+        Session mSession = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(BuildConfig.ADMIN_EMAIL, BuildConfig.ADMIN_PASSWORD);

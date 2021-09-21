@@ -1,5 +1,6 @@
 package com.nomadev.direc.ui.detail;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,8 +22,9 @@ import java.util.ArrayList;
 
 public class FotoStreamUpdateAdapater extends RecyclerView.Adapter<FotoStreamUpdateAdapater.ViewHolder> {
 
-    private ArrayList<String> listImageUrl;
-    private String id_pasien, id_data;
+    private final ArrayList<String> listImageUrl;
+    private final String id_pasien;
+    private final String id_data;
 
     public FotoStreamUpdateAdapater(ArrayList<String> foto, String id_pasien, String id_data) {
         this.listImageUrl = foto;
@@ -53,10 +54,9 @@ public class FotoStreamUpdateAdapater extends RecyclerView.Adapter<FotoStreamUpd
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ItemPhotoBinding binding;
+        private final ItemPhotoBinding binding;
         private int position;
-        private ArrayList<String> listUrl;
-        private FirebaseFirestore db = FirebaseFirestore.getInstance();
+        private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         public ViewHolder(@NonNull ItemPhotoBinding binding) {
             super(binding.getRoot());
@@ -68,6 +68,7 @@ public class FotoStreamUpdateAdapater extends RecyclerView.Adapter<FotoStreamUpd
             });
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         private void removeItem(int position) {
             listImageUrl.remove(position);
             notifyItemRemoved(position);
@@ -82,12 +83,9 @@ public class FotoStreamUpdateAdapater extends RecyclerView.Adapter<FotoStreamUpd
 
         public void deleteImage(View v) {
             StorageReference deleteImage = FirebaseStorage.getInstance().getReferenceFromUrl(listImageUrl.get(position));
-            deleteImage.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void unused) {
-                    Toast.makeText(v.getContext(), "Foto Berhasil Dihapus", Toast.LENGTH_SHORT).show();
-                    Log.d("SUCCESS", "onSuccess: " + listImageUrl);
-                }
+            deleteImage.delete().addOnSuccessListener(unused -> {
+                Toast.makeText(v.getContext(), "Foto Berhasil Dihapus", Toast.LENGTH_SHORT).show();
+                Log.d("SUCCESS", "onSuccess: " + listImageUrl);
             }).addOnFailureListener(e -> {
                 Toast.makeText(v.getContext(), "Foto Gagal Dihapus", Toast.LENGTH_SHORT).show();
                 Log.d("FAIL", "onFailur: " + e.toString());
@@ -96,12 +94,8 @@ public class FotoStreamUpdateAdapater extends RecyclerView.Adapter<FotoStreamUpd
             DocumentReference dbData = db.collection("pasien").document(id_pasien).collection("history").document(id_data);
             dbData.update(
                     "foto", FieldValue.arrayRemove(listImageUrl.get(position))
-            ).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void unused) {
-                    Log.d("SUCCESS", "Field Value Reset: ");
-                }
-            }).addOnFailureListener(e -> Log.d("FAILURE", "ERROR : " + e.toString()));
+            ).addOnSuccessListener(unused -> Log.d("SUCCESS", "Field Value Reset: "))
+                    .addOnFailureListener(e -> Log.d("FAILURE", "ERROR : " + e.toString()));
         }
     }
 }

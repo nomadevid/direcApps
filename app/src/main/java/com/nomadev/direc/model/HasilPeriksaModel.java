@@ -3,7 +3,6 @@ package com.nomadev.direc.model;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Exclude;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
 public class HasilPeriksaModel {
@@ -25,7 +24,7 @@ public class HasilPeriksaModel {
     private Timestamp timestamp;
     public boolean isSection;
 
-    public HasilPeriksaModel(){
+    public HasilPeriksaModel() {
 
     }
 

@@ -15,7 +15,7 @@ public class CheckCurrentUser extends Application {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        if(firebaseUser != null){
+        if (firebaseUser != null) {
             Intent i = new Intent(CheckCurrentUser.this, HomeActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);

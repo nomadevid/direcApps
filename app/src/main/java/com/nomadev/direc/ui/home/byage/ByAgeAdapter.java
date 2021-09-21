@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -109,7 +108,6 @@ public class ByAgeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
         private void intentToDetail(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, String id) {
-            Toast.makeText(itemView.getContext(), "Ini Fungsi Intent", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
             intent.putExtra(DetailActivity.NAMA, nama);
             intent.putExtra(DetailActivity.GENDER, kelamin);

@@ -43,28 +43,23 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.firebase:firebase-storage:20.0.0'
-    implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
+    // photoview
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    // picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
     // circular imageview
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-
     // algolia
     implementation 'com.algolia:algoliasearch-android:3.27.0'
-
     //sliding root
     implementation 'com.yarolegovich:sliding-root-nav:1.1.1'
-
     // alphabet scrollbar
     implementation 'com.github.viethoa:fastscroller:1.2.0'
-
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
-
     //mail API
     implementation files('libs/activation.jar')
     implementation files('libs/additionnal.jar')
@@ -78,4 +73,5 @@ dependencies {
     // https://firebase.google.com/docs/android/setup#available-libraries
     implementation 'com.google.firebase:firebase-firestore:23.0.3'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.google.firebase:firebase-storage:20.0.0'
 }

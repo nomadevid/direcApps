@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -286,6 +287,8 @@ public class DialogAddDataActivity extends DialogFragment {
 
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         String tanggal = df.format(c);
+        Timestamp timestamp = new Timestamp(c);
+
         // creating a collection reference
         // for our Firebase Firetore database.
         DocumentReference dbData = db.collection("pasien").document(id).collection("history").document();
@@ -299,12 +302,13 @@ public class DialogAddDataActivity extends DialogFragment {
         map.put("keluhan", keluhan);
         map.put("terapi", terapi);
         map.put("tanggal", tanggal);
+        map.put("timeStamp", timestamp);
 
         // POST TO "pasien" COLLECTION
         dbData.set(map).addOnSuccessListener(documentReference -> {
             Log.d("SUCCESS", "Data terkirim: " + hasil_periksa + keluhan + tanggal + terapi);
             //Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
-            postHistoryData(nama, id, tanggal, tanggalLahir);
+            postHistoryData(nama, id, tanggal, tanggalLahir, timestamp);
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
             //Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
@@ -312,7 +316,7 @@ public class DialogAddDataActivity extends DialogFragment {
         });
     }
 
-    private void postHistoryData(String nama, String idPasien, String addDate, String tanggalLahir) {
+    private void postHistoryData(String nama, String idPasien, String addDate, String tanggalLahir, Timestamp timestamp) {
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat tf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         String time = tf.format(c);
@@ -330,6 +334,7 @@ public class DialogAddDataActivity extends DialogFragment {
         map.put("addDate", addDate);
         map.put("addTime", time);
         map.put("tanggalLahir", tanggalLahir);
+        map.put("timeStamp", timestamp);
 
         // POST TO COLLECTION
         dbPasien.set(map).addOnSuccessListener(documentReference -> {

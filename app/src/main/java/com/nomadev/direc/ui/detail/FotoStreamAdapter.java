@@ -92,7 +92,7 @@ public class FotoStreamAdapter extends RecyclerView.Adapter<FotoStreamAdapter.Vi
         public void bind(String listImageUrl, int position) {
             this.position = position;
             url = listImageUrl;
-            Picasso.get().load(listImageUrl).into(binding.ivPhoto);
+            Picasso.get().load(listImageUrl).fit().into(binding.ivPhoto);
         }
 
     }

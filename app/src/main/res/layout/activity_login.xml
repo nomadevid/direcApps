@@ -64,7 +64,6 @@
         app:layout_constraintGuide_percent="0.78" />
 
     <ImageView
-        android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/logo"

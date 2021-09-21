@@ -39,7 +39,6 @@
                 android:text="@string/keluhan_title" />
 
             <EditText
-                android:id="@+id/et_keluhan"
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +54,6 @@
                 android:text="@string/hasil_pemeriksaan_title"/>
 
             <EditText
-                android:id="@+id/et_hasil_periksa"
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="68dp"
@@ -73,7 +71,6 @@
                 android:text="@string/terapi_title" />
 
             <EditText
-                android:id="@+id/et_terapi"
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="96dp"
@@ -91,14 +88,12 @@
                 android:text="@string/foto_title" />
 
             <LinearLayout
-                android:id="@+id/sv_foto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginBottom="52dp">
 
                 <ImageButton
-                    android:id="@+id/ib_add_photo"
                     android:layout_width="58dp"
                     android:layout_height="58dp"
                     android:layout_marginEnd="8dp"
@@ -107,14 +102,12 @@
                     android:background="@drawable/bg_add_photo_button"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_foto_stream"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_foto"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
@@ -123,7 +116,6 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_simpan"
                 style="@style/ButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,12 +127,10 @@
     </ScrollView>
 
     <RelativeLayout
-        android:id="@+id/rl_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ProgressBar
-            android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

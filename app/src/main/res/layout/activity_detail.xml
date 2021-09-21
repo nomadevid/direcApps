@@ -31,7 +31,6 @@
                 android:src="@drawable/ic_baseline_arrow_back_ios_new_24" />
 
             <TextView
-                android:id="@+id/tv_dashboard"
                 style="@style/TextActionBarTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +42,6 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -59,7 +57,6 @@
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_data_diri"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
@@ -153,7 +150,6 @@
                                 app:layout_constraintTop_toTopOf="@+id/iv_gender" />
 
                             <TextView
-                                android:id="@+id/tv_telepon"
                                 style="@style/TextCardViewContentWhite"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -174,7 +170,6 @@
                             android:background="@color/direc_green_light_cardview">
 
                             <TextView
-                                android:id="@+id/tv_alamat"
                                 style="@style/TextCardViewContentWhite"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -189,7 +184,6 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <ImageView
-                                android:id="@+id/iv_map"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:layout_alignParentEnd="true"
@@ -208,7 +202,6 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_hasil_periksa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
@@ -220,7 +213,6 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
-        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -228,7 +220,6 @@
         android:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_tambah_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
@@ -240,7 +231,6 @@
         app:tint="@null" />
 
     <TextView
-        android:id="@+id/tv_keterangan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

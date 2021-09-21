@@ -19,7 +19,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/et_title"
                 style="@style/TextActionBarTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,7 +27,6 @@
                 android:text="@string/tambah_pasien_baru" />
 
             <TextView
-                android:id="@+id/et_title_info"
                 style="@style/TextCardViewContentGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,7 +44,6 @@
                 android:text="@string/name" />
 
             <EditText
-                android:id="@+id/et_nama_lengkap"
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +66,6 @@
                 android:text="@string/tanggal_lahir" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_tanggal_lahir"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,7 +93,6 @@
                 android:text="@string/jenis_kelamin" />
 
             <Spinner
-                android:id="@+id/spinner_jenis_kelamin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
@@ -114,7 +109,6 @@
                 android:text="@string/nomor_telepon" />
 
             <EditText
-                android:id="@+id/et_nomor_telepon"
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,7 +131,6 @@
                 android:text="@string/alamat" />
 
             <EditText
-                android:id="@+id/et_alamat"
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="96dp"
@@ -151,7 +144,6 @@
                 android:maxLines="50" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_simpan"
                 style="@style/ButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -9,7 +9,6 @@
     android:orientation="horizontal">
 
     <RelativeLayout
-        android:id="@+id/iv_line"
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_marginEnd="16dp"
@@ -22,7 +21,6 @@
         android:layout_marginBottom="16dp">
 
         <ImageButton
-            android:id="@+id/ib_edit_down"
             style="@style/IconActionBar"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -37,21 +35,18 @@
             android:src="@drawable/ic_menu" />
 
         <LinearLayout
-            android:id="@+id/ll_hasil_periksa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/tv_keluhan_title"
                 style="@style/TextCardViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/keluhan_title" />
 
             <TextView
-                android:id="@+id/tv_keluhan"
                 style="@style/TextCardViewContentGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +54,6 @@
                 android:text="@string/keluhan_title" />
 
             <TextView
-                android:id="@+id/tv_hasil_periksa_title"
                 style="@style/TextCardViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,7 +61,6 @@
                 android:text="@string/hasil_pemeriksaan_title" />
 
             <TextView
-                android:id="@+id/tv_hasil_periksa"
                 style="@style/TextCardViewContentGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,7 +68,6 @@
                 android:text="@string/hasil_pemeriksaan" />
 
             <TextView
-                android:id="@+id/tv_terapi_title"
                 style="@style/TextCardViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,7 +75,6 @@
                 android:text="@string/terapi_title" />
 
             <TextView
-                android:id="@+id/tv_terapi"
                 style="@style/TextCardViewContentGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,7 +82,6 @@
                 android:text="@string/terapi" />
 
             <TextView
-                android:id="@+id/tv_foto"
                 style="@style/TextCardViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

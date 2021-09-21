@@ -32,7 +32,6 @@
                 android:src="@drawable/ic_baseline_arrow_back_ios_new_24" />
 
             <TextView
-                android:id="@+id/tv_dashboard"
                 style="@style/TextActionBarTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -121,7 +120,6 @@
         app:layout_constraintGuide_percent="0.55" />
 
     <TextView
-        android:id="@+id/subjeklaporan"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/subjek_laporan"
@@ -134,7 +132,6 @@
         app:layout_constraintStart_toStartOf="@id/guideline1" />
 
     <EditText
-        android:id="@+id/mSubject"
         style="@style/TextCardViewContentBlack"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -161,7 +158,6 @@
         app:layout_constraintStart_toStartOf="@id/guideline1" />
 
     <EditText
-        android:id="@+id/mMessage"
         android:gravity="top"
         style="@style/TextCardViewContentBlack"
         android:layout_width="0dp"
@@ -177,7 +173,6 @@
         android:maxLines="50" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_kirim"
         android:layout_width="0dp"
         android:layout_height="0dp"
         style="@style/ButtonStyle"

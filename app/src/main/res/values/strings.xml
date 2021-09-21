@@ -1,7 +1,5 @@
 <resources>
-    <string name="app_name">DirecApps</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Direc</string>
     <string name="time">00.00</string>
     <string name="name">Nama</string>
     <string name="usia">Usia</string>
@@ -26,7 +24,6 @@
     <string name="kata_sandi">Kata sandi</string>
     <string name="masuk">Masuk</string>
     <string name="keluhan_title">Keluhan</string>
-    <string name="keluhan">Keluhan</string>
     <string name="hasil_pemeriksaan_title">Hasil Pemeriksaan</string>
     <string name="hasil_pemeriksaan">Hasil Pemeriksaan</string>
     <string name="terapi_title">Terapi</string>
@@ -42,18 +39,8 @@
     <string name="gender_laki">Laki - laki</string>
     <string name="gender_perempuan">Perempuan</string>
     <string name="detail_pasien">Detail Pasien</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-    <string name="nav_open">Open</string>
-    <string name="nav_close">Close</string>
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="nav_open">Buka</string>
+    <string name="nav_close">Tutup</string>
     <string name="ubah">Ubah</string>
     <string name="hapus">Hapus</string>
     <string name="anda_yakin_akan_menghapus_data_ini">Anda yakin akan menghapus data ini ?</string>
@@ -67,11 +54,10 @@
     <string name="masukkan_tanggal_lahir">Masukkan tanggal lahir</string>
     <string name="header">Header</string>
     <string name="lapor_error">Lapor Error</string>
-    <string name="deskripsi_lapor_error">masukkan subjek dan detail error anda</string>
     <string name="subjek_laporan">Subjek</string>
     <string name="isi_subjek">Masukkan subjek laporan</string>
     <string name="detail_error">Detail Error</string>
     <string name="isi_detail">Masukkan detail error</string>
     <string name="kirim">Kirim</string>
-    <string name="log_out">Log out</string>
+    <string name="log_out">Keluar</string>
 </resources>

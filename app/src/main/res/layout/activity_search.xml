@@ -21,7 +21,6 @@
             android:paddingVertical="16dp">
 
             <EditText
-                android:id="@+id/et_search"
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,7 +47,6 @@
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_search_info"
@@ -58,7 +56,6 @@
         tools:listitem="@layout/item_search" />
 
     <ProgressBar
-        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

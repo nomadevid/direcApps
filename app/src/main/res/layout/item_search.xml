@@ -4,7 +4,6 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cv_pasien"
         style="@style/CardViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +26,6 @@
                 android:textSize="16dp" />
 
             <TextView
-                android:id="@+id/tv_telepon"
                 style="@style/TextCardViewContentGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,7 +33,6 @@
                 android:text="@string/nomor_telepon" />
 
             <TextView
-                android:id="@+id/tv_alamat"
                 style="@style/TextCardViewContentGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

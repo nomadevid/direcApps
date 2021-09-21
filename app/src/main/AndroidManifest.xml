@@ -17,10 +17,6 @@
             android:name=".ui.home.laporerror.LaporErrorActivity"
             android:exported="true"
             android:theme="@style/Theme.DirecApps" />
-
-        <activity
-            android:name=".ui.detail.DialogFotoActivity"
-            android:exported="true" />
         <activity
             android:name=".ui.search.SearchActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

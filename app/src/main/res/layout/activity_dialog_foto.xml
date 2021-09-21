@@ -10,7 +10,6 @@
     android:gravity="center">
 
     <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/pv_foto_full"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -42,7 +41,6 @@
             android:text="@string/name_lengkap" />
 
         <TextView
-            android:id="@+id/tv_tanggal"
             style="@style/TextCardViewContentWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

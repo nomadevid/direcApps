@@ -1,7 +1,7 @@
 package com.nomadev.direc.ui.detail;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -12,11 +12,10 @@ import com.nomadev.direc.databinding.ItemPhotoBinding;
 import com.nomadev.direc.model.FotoModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.ViewHolder> {
 
-    private ArrayList<FotoModel> fotoModelList;
+    private final ArrayList<FotoModel> fotoModelList;
 
     public FotoAdapter(ArrayList<FotoModel> fotoModelArrayList) {
         this.fotoModelList = fotoModelArrayList;
@@ -44,20 +43,16 @@ public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ItemPhotoBinding binding;
+        private final ItemPhotoBinding binding;
         private int position;
-        private FotoModel fotoModel;
 
         public ViewHolder(@NonNull ItemPhotoBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Toast.makeText(v.getContext(), "Gambar Telah Dihapus",Toast.LENGTH_SHORT).show();
-                    removeItem(position);
-                    return true;
-                }
+            binding.getRoot().setOnLongClickListener(v -> {
+                Toast.makeText(v.getContext(), "Gambar Telah Dihapus", Toast.LENGTH_SHORT).show();
+                removeItem(position);
+                return true;
             });
         }
 
@@ -68,6 +63,7 @@ public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.ViewHolder> {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void removeItem(int position) {
         fotoModelList.remove(position);
         notifyItemRemoved(position);

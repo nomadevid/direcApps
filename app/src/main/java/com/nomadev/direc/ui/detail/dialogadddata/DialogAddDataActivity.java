@@ -1,5 +1,6 @@
 package com.nomadev.direc.ui.detail.dialogadddata;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -137,6 +138,7 @@ public class DialogAddDataActivity extends DialogFragment {
     ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
+                @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     int resultCode = result.getResultCode();

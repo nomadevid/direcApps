@@ -112,13 +112,11 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         private final ItemHasilPeriksaPasienBinding binding;
         private String id_pasien, id_data, tanggal_data, nama;
-        private final String ID_PASIEN = "id_pasien";
-        private final String ID_DATA = "id_data";
-        private final String TANGGAL_DATA = "tanggal_data";
-        private FragmentActivity fragmentActivity;
+        public static final String ID_PASIEN = "id_pasien";
+        public static final String ID_DATA = "id_data";
+        public static final String TANGGAL_DATA = "tanggal_data";
         private FragmentManager fragmentManager;
         private FotoStreamAdapter fotoStreamAdapter;
-        private FirebaseFirestore db;
 
         public ViewHolder(@NonNull ItemHasilPeriksaPasienBinding binding) {
             super(binding.getRoot());
@@ -145,7 +143,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @Override
         public void onClick(View v) {
             Log.d("Menu Button", "onClick" + getAdapterPosition());
-            fragmentActivity = (FragmentActivity) (v.getContext());
+            FragmentActivity fragmentActivity = (FragmentActivity) (v.getContext());
             fragmentManager = fragmentActivity.getSupportFragmentManager();
             showPoupMenu(v);
         }
@@ -188,8 +186,9 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         public void setAdapter(ArrayList<String> listData) {
-            db = FirebaseFirestore.getInstance();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference dbPasien = db.collection("pasien").document(id_pasien);
 
             dbPasien.get().addOnSuccessListener(documentSnapshot -> {
@@ -203,7 +202,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     fotoStreamAdapter.notifyDataSetChanged();
                     Log.d("FEEDBACK", "Berhasil Mengambil Data." + nama);
                 } else Log.d("FEEDBACK", "Data Kosong.");
-                
+
             }).addOnFailureListener(e -> Toast.makeText(itemView.getContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());
         }
     }

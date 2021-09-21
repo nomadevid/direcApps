@@ -1,5 +1,6 @@
 package com.nomadev.direc.ui.detail;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -102,6 +103,7 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
         binding.rvHasilPeriksa.setAdapter(hasilPeriksaAdapter);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getHasilPeriksaData() {
         hasilPeriksaModelArrayList.clear();
         CollectionReference dbHasilPeriksa = db.collection("pasien").document(id).collection("history");

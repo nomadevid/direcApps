@@ -33,6 +33,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.nomadev.direc.R;
+import com.nomadev.direc.databinding.ActivityDialogAddDataBinding;
 import com.nomadev.direc.databinding.ActivityDialogUpdateDataBinding;
 import com.nomadev.direc.model.FotoModel;
 import com.nomadev.direc.model.HasilPeriksaModel;
@@ -46,7 +47,7 @@ import java.util.ArrayList;
 public class DialogUpdateDataActivity extends DialogFragment {
 
     private static final int PICK_IMAGE = 1;
-    private ActivityDialogUpdateDataBinding binding;
+    private ActivityDialogAddDataBinding binding;
     private FirebaseFirestore db;
     private final String ID_PASIEN = "id_pasien";
     private final String ID_DATA = "id_data";
@@ -64,7 +65,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = ActivityDialogUpdateDataBinding.inflate(getLayoutInflater());
+        binding = ActivityDialogAddDataBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
         db = FirebaseFirestore.getInstance();
@@ -87,6 +88,8 @@ public class DialogUpdateDataActivity extends DialogFragment {
         layoutParams.width = width;
 //        layoutParams.height = height;
         getDialog().getWindow().setAttributes(layoutParams);
+
+        binding.tvTitle.setText(getString(R.string.ubah_data));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         gridLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);

@@ -12,6 +12,7 @@
     <string name="riwayat_kosong">Belum ada riwayat rekam data</string>
     <string name="tambah_pasien_baru">Tambah Pasien Baru</string>
     <string name="ubah_data_pasien">Ubah Data Pasien</string>
+    <string name="ubah_data">Ubah Data</string>
     <string name="masukkan_biodata_pasien_anda">masukkan biodata pasien anda</string>
     <string name="tanggal_lahir">Tanggal Lahir</string>
     <string name="jenis_kelamin">Jenis Kelamin</string>

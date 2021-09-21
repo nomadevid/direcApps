@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,6 +61,7 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
         hasilPeriksaAdapter = new HasilPeriksaAdapter(listSection);
         db = FirebaseFirestore.getInstance();
 
+        showProgressBar(true);
         getPasienData();
         getHasilPeriksaData();
         showRecyclerView();
@@ -104,6 +106,7 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
         CollectionReference dbHasilPeriksa = db.collection("pasien").document(id).collection("history");
         Query query = dbHasilPeriksa.orderBy("timeStamp", Query.Direction.DESCENDING);
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            showProgressBar(false);
             if (!queryDocumentSnapshots.isEmpty()) {
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                 for (DocumentSnapshot documentSnapshot : list) {
@@ -112,13 +115,18 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
                     hasilPeriksaModel.setUrlString((ArrayList) documentSnapshot.get("foto"));
                     hasilPeriksaModelArrayList.add(hasilPeriksaModel);
                 }
+                showInfo(false);
                 getHeaderList(hasilPeriksaModelArrayList);
                 hasilPeriksaAdapter.notifyDataSetChanged();
                 Log.d("FEEDBACK", "Berhasil Mengambil Data.");
             } else {
+                showInfo(true);
                 Log.d("FEEDBACK", "Data Kosong.");
             }
-        }).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());
+        }).addOnFailureListener(e -> {
+            showProgressBar(false);
+            Toast.makeText(getApplicationContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+        });
         binding.refreshLayout.setRefreshing(false);
     }
 
@@ -192,6 +200,22 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
             Log.d("Exception", e.toString());
         }
         return ageString;
+    }
+
+    private void showProgressBar(Boolean state) {
+        if (state) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            binding.progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    private void showInfo(Boolean state) {
+        if (state) {
+            binding.tvKeterangan.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvKeterangan.setVisibility(View.GONE);
+        }
     }
 
     @Override

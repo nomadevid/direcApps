@@ -38,8 +38,7 @@ public class DatePickAdapter extends RecyclerView.Adapter<DatePickAdapter.ViewHo
 
         int height = binding.getRoot().getMeasuredHeight();
         int width = parent.getMeasuredWidth() / getItemCount();
-//        Log.d("DatePickAdapterHeight", String.valueOf(height));
-//        Log.d("DatePickAdapterWidth", String.valueOf(width));
+
         binding.getRoot().setLayoutParams(new RecyclerView.LayoutParams(width, height));
 
         return new DatePickAdapter.ViewHolder(binding);

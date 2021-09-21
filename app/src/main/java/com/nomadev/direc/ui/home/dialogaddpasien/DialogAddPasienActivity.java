@@ -59,10 +59,12 @@ public class DialogAddPasienActivity extends DialogFragment {
 
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
 
-        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getDialog().setContentView(R.layout.activity_dialog_add_pasien);
-        getDialog().show();
+        if (getDialog() != null) {
+            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+            getDialog().setContentView(R.layout.activity_dialog_add_pasien);
+            getDialog().show();
+        }
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(getDialog().getWindow().getAttributes());

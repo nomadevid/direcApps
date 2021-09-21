@@ -62,10 +62,12 @@ public class DialogUpdatePasienActivity extends DialogFragment {
 
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
 
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getDialog().setContentView(R.layout.activity_dialog_add_pasien);
-        getDialog().show();
+        if (getDialog() != null) {
+            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+            getDialog().setContentView(R.layout.activity_dialog_add_pasien);
+            getDialog().show();
+        }
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(getDialog().getWindow().getAttributes());
@@ -142,12 +144,18 @@ public class DialogUpdatePasienActivity extends DialogFragment {
             Log.d("SUCCESS", "Data terkirim: " + nama + kelamin + telepon + alamat + tanggalLahir);
             Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
             updateAlgolia(nama, kelamin, telepon, alamat, tanggalLahir);
-            getDialog().dismiss();
-            getActivity().recreate();
+            if (getDialog() != null) {
+                getDialog().dismiss();
+            }
+            if (getActivity() != null) {
+                getActivity().recreate();
+            }
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
             Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
-            getDialog().dismiss();
+            if (getDialog() != null) {
+                getDialog().dismiss();
+            }
         });
     }
 

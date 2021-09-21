@@ -1,7 +1,9 @@
 package com.nomadev.direc.model;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Exclude;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class HasilPeriksaModel {
@@ -20,18 +22,28 @@ public class HasilPeriksaModel {
 
     private String hasil_periksa, keluhan, tanggal, terapi, id;
     private ArrayList<String> urlString;
+    private Timestamp timestamp;
     public boolean isSection;
 
     public HasilPeriksaModel(){
 
     }
 
-    public HasilPeriksaModel(String hasil_periksa, String keluhan, String tanggal, String terapi, boolean isSection) {
+    public HasilPeriksaModel(String hasil_periksa, String keluhan, String tanggal, String terapi, Timestamp timestamp, boolean isSection) {
         this.hasil_periksa = hasil_periksa;
         this.keluhan = keluhan;
         this.tanggal = tanggal;
         this.terapi = terapi;
+        this.timestamp = timestamp;
         this.isSection = isSection;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getHasil_periksa() {

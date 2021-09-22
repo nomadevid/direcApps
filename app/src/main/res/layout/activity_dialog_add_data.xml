@@ -6,11 +6,9 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
     tools:context=".ui.detail.dialogadddata.DialogAddDataActivity">
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <LinearLayout
             style="@style/DialogStyle"
             android:layout_width="match_parent"
@@ -20,11 +18,11 @@
             android:padding="24dp">
 
             <TextView
+                android:id="@+id/tv_title"
                 style="@style/TextActionBarTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tambah_data_title" />
-
             <TextView
                 style="@style/TextCardViewContentGrey"
                 android:layout_width="wrap_content"
@@ -32,7 +30,6 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/masukkan_rekam_data_pasien_anda" />
-
             <TextView
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="wrap_content"
@@ -41,6 +38,7 @@
                 android:text="@string/keluhan_title" />
 
             <EditText
+                android:id="@+id/et_keluhan"
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,7 +47,6 @@
                 android:hint="@string/keluhan_title"
                 android:importantForAutofill="no"
                 android:inputType="text" />
-
             <TextView
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="wrap_content"
@@ -58,6 +55,7 @@
                 android:text="@string/hasil_pemeriksaan_title" />
 
             <EditText
+                android:id="@+id/et_hasil_periksa"
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="68dp"
@@ -68,7 +66,6 @@
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:maxLines="50" />
-
             <TextView
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="wrap_content"
@@ -77,6 +74,7 @@
                 android:text="@string/terapi_title" />
 
             <EditText
+                android:id="@+id/et_terapi"
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="96dp"
@@ -87,7 +85,6 @@
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:maxLines="50" />
-
             <TextView
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="wrap_content"
@@ -96,12 +93,14 @@
                 android:text="@string/foto_title" />
 
             <LinearLayout
+                android:id="@+id/sv_foto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="52dp"
                 android:orientation="vertical">
 
                 <ImageButton
+                    android:id="@+id/ib_add_photo"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:layout_marginBottom="8dp"
@@ -111,41 +110,41 @@
                     app:tint="@color/black" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_foto_stream"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_foto"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_simpan"
                 style="@style/ButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/gradient_button_masuk"
                 android:text="@string/simpan" />
-
         </LinearLayout>
-
     </ScrollView>
 
     <RelativeLayout
+        android:id="@+id/rlProgress"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ProgressBar
+            android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:indeterminateDrawable="@drawable/progress_bar"
             android:visibility="visible" />
-
     </RelativeLayout>
-
 </androidx.cardview.widget.CardView>

@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
     tools:context=".ui.detail.dialogdeletedata.DialogDeleteDataActiivity">
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,6 +15,7 @@
         android:gravity="center">
 
         <TextView
+            android:id="@+id/tv_header_alert_dialog"
             style="@style/TextCardViewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,18 +24,19 @@
             android:text="@string/anda_yakin_akan_menghapus_data_ini"/>
 
         <TextView
+            android:id="@+id/tv_text_alert_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextCardViewContentGrey"
             android:layout_marginBottom="24dp"
             android:gravity="center"
             android:text="@string/item_akan_dihapus_secara_permanen"/>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_hapus"
                 android:layout_width="100dp"
                 android:layout_height="36dp"
                 android:text="@string/hapus"
@@ -46,6 +47,7 @@
                 android:background="@drawable/bg_hapus_button"/>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_tidak"
                 android:layout_width="100dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="16dp"

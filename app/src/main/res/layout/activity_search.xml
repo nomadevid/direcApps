@@ -6,14 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/direc_blue_light_background"
     tools:context=".ui.search.SearchActivity">
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/rl_action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/direc_blue_light_background"
         app:liftOnScroll="true">
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,6 +19,7 @@
             android:paddingVertical="16dp">
 
             <EditText
+                android:id="@+id/et_search"
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,7 +32,6 @@
                 android:inputType="text" />
         </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
-
     <TextView
         android:id="@+id/tv_search_info"
         style="@style/TextCardViewContentBlack"
@@ -47,6 +45,7 @@
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_search_info"
@@ -56,6 +55,7 @@
         tools:listitem="@layout/item_search" />
 
     <ProgressBar
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

@@ -145,7 +145,7 @@ public class ByAgeFragment extends Fragment {
 
             if (!TextUtils.equals(lastHeader, header)) {
                 lastHeader = header;
-                listPasienSection.add(new PasienModel("", "", "", "", header, true));
+                listPasienSection.add(new PasienModel("", 0, "", "", header, true));
             }
             listPasienSection.add(user);
         }

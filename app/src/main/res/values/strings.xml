@@ -60,4 +60,7 @@
     <string name="isi_detail">Masukkan detail error</string>
     <string name="kirim">Kirim</string>
     <string name="log_out">Keluar</string>
+    <string name="email">Email</string>
+    <string name="masukkan_email">Masukkan email</string>
+
 </resources>

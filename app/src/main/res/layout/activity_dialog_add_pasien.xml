@@ -56,6 +56,30 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:singleLine="true" />
+
+            <TextView
+                style="@style/TextCardViewContentBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/email" />
+
+            <EditText
+                android:id="@+id/et_email"
+                style="@style/TextCardViewContentBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/rounded_edittext"
+                android:hint="@string/email"
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true" />
+
             <TextView
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="wrap_content"

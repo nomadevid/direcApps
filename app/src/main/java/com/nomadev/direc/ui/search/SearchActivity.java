@@ -91,7 +91,7 @@ public class SearchActivity extends AppCompatActivity {
                             String alamat = data.getString("alamat");
                             Log.d("nama", i + 1 + ". " + nama);
 
-                            PasienModel pasienModel = new PasienModel(nama, "", telepon, alamat, "", false);
+                            PasienModel pasienModel = new PasienModel(nama, 0, telepon, alamat, "", false);
                             searchList.add(pasienModel);
                             idList.add(id);
                         }

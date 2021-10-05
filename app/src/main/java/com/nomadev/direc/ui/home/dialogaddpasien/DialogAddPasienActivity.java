@@ -47,6 +47,8 @@ public class DialogAddPasienActivity extends DialogFragment {
     private String telepon;
     private String alamat;
     private String tanggal_lahir;
+    private String email;
+    private int kelaminInteger;
 
     @Nullable
     @Override
@@ -87,11 +89,13 @@ public class DialogAddPasienActivity extends DialogFragment {
 
         // BUTTON SIMPAN
         binding.btnSimpan.setOnClickListener(v -> {
+            kelaminInteger = binding.spinnerJenisKelamin.getSelectedItemPosition();
             nama = String.valueOf(binding.etNamaLengkap.getText());
-            kelamin = String.valueOf(binding.spinnerJenisKelamin.getSelectedItem());
+            kelamin = String.valueOf(kelaminInteger);
             telepon = String.valueOf(binding.etNomorTelepon.getText());
             alamat = String.valueOf(binding.etAlamat.getText());
             tanggal_lahir = String.valueOf(binding.btnTanggalLahir.getText());
+            email = String.valueOf(binding.etEmail.getText());
 
             if (TextUtils.isEmpty(nama)) {
                 binding.etNamaLengkap.setError(getString(R.string.masukkan_nama_lengkap));
@@ -109,8 +113,12 @@ public class DialogAddPasienActivity extends DialogFragment {
                 binding.etAlamat.setError(getString(R.string.masukkan_alamat));
                 return;
             }
+            if (TextUtils.isEmpty(email)) {
+                binding.etEmail.setError(getString(R.string.masukkan_email));
+                return;
+            }
 
-            postDataWithId(nama, kelamin, telepon, alamat, tanggal_lahir);
+            postDataWithId(nama, kelamin, telepon, alamat, tanggal_lahir, email, kelaminInteger);
         });
 
         return view;
@@ -134,7 +142,7 @@ public class DialogAddPasienActivity extends DialogFragment {
         datePickerDialog.getWindow().setBackgroundDrawableResource(R.drawable.rounded_box_white);
     }
 
-    private void postDataWithId(String nama, String kelamin, String telepon, String alamat, String tanggalLahir) {
+    private void postDataWithId(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, String email, int kelaminInteger) {
         DocumentReference dbPasien = db.collection("pasien").document();
         String id = dbPasien.getId();
         DocumentReference dbData = db.collection("pasien").document(id);
@@ -142,10 +150,11 @@ public class DialogAddPasienActivity extends DialogFragment {
         Map<Object, Object> map = new HashMap<>();
         map.put("id", id);
         map.put("nama", nama);
-        map.put("kelamin", kelamin);
+        map.put("kelamin", kelaminInteger);
         map.put("telepon", telepon);
         map.put("alamat", alamat);
         map.put("tanggalLahir", tanggalLahir);
+        map.put("email", email);
 
         dbData.set(map).addOnSuccessListener(unused -> {
             Log.d("id", id);

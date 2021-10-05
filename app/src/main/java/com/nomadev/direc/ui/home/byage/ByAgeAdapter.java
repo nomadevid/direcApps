@@ -84,6 +84,7 @@ public class ByAgeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private final ItemByAgeBinding binding;
 
         private String nama, kelamin, telepon, alamat, tanggalLahir, id;
+        private int kelaminInteger;
 
         public ItemViewHolder(@NonNull ItemByAgeBinding binding) {
             super(binding.getRoot());
@@ -93,7 +94,8 @@ public class ByAgeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public void bind(PasienModel pasienModel) {
 
             nama = pasienModel.getNama();
-            kelamin = pasienModel.getKelamin();
+            kelaminInteger = pasienModel.getKelamin();
+            kelamin = String.valueOf(kelaminInteger);
             telepon = pasienModel.getTelepon();
             alamat = pasienModel.getAlamat();
             tanggalLahir = pasienModel.getTanggalLahir();

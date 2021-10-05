@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class DetailActivity extends AppCompatActivity implements DialogAddDataActivity.DialogAddDataListener, DialogUpdateDataActivity.DialogUpdateDataListener, DialogDeleteDataActiivity.DialogDeleteDataListener {
 
@@ -40,7 +41,10 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
     public static final String TANGGAL_LAHIR = "tanggal_lahir";
     public static final String ID = "id";
 
-    private String nama, kelamin, telepon, alamat, tanggalLahir, id;
+    private final int GENDER_LAKI = 0;
+
+    private String nama, telepon, alamat, tanggalLahir, id;
+    private int kelamin;
 
     private ActivityDetailBinding binding;
     private FirebaseFirestore db;
@@ -144,13 +148,17 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
             if (documentSnapshot.exists()) {
                 nama = documentSnapshot.getString("nama");
                 tanggalLahir = documentSnapshot.getString("tanggalLahir");
-                kelamin = documentSnapshot.getString("kelamin");
+                kelamin = Objects.requireNonNull(documentSnapshot.getLong("kelamin")).intValue();
                 telepon = documentSnapshot.getString("telepon");
                 alamat = documentSnapshot.getString("alamat");
 
                 binding.tvDataDiri.setText(nama);
                 binding.tvUsia.setText(getString(R.string.usia_terisi, calculateAge(tanggalLahir)));
-                binding.tvGender.setText(kelamin);
+                if (kelamin == GENDER_LAKI){
+                    binding.tvGender.setText(getString(R.string.gender_laki));
+                } else {
+                    binding.tvGender.setText(getString(R.string.gender_perempuan));
+                }
                 binding.tvTelepon.setText(telepon);
                 binding.tvAlamat.setText(alamat);
 

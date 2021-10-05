@@ -92,52 +92,60 @@
                                 android:background="@drawable/icon_edit"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="@+id/tv_data_diri" />
+
                             <ImageView
                                 android:id="@+id/iv_gender"
                                 android:layout_width="36dp"
-                                android:layout_height="0dp"
+                                android:layout_height="36dp"
                                 android:layout_below="@id/tv_data_diri"
-                                android:src="@drawable/icon_gender_kotak"
-                                app:layout_constraintBottom_toBottomOf="@+id/tv_gender"
-                                app:layout_constraintStart_toStartOf="@+id/tv_data_diri"
-                                app:layout_constraintTop_toTopOf="@+id/tv_usia"
-                                app:layout_constraintVertical_bias="1.0" />
-                            <TextView
-                                android:id="@+id/tv_usia"
-                                style="@style/TextCardViewContentWhite"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/tv_data_diri"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginTop="8dp"
-                                android:layout_toEndOf="@id/iv_gender"
-                                android:text="@string/usia"
-                                app:layout_constraintStart_toEndOf="@+id/iv_gender"
-                                app:layout_constraintTop_toBottomOf="@+id/tv_data_diri" />
-                            <TextView
-                                android:id="@+id/tv_gender"
-                                style="@style/TextCardViewContentWhite"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/tv_usia"
-                                android:layout_marginTop="4dp"
+                                android:layout_marginTop="16dp"
                                 android:layout_marginBottom="16dp"
-                                android:layout_toEndOf="@id/iv_gender"
-                                android:text="@string/gender"
+                                android:src="@drawable/icon_gender_kotak"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="@+id/tv_usia"
-                                app:layout_constraintTop_toBottomOf="@+id/tv_usia" />
+                                app:layout_constraintStart_toStartOf="@+id/tv_data_diri"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_data_diri" />
+
+                            <LinearLayout
+                                android:id="@+id/linearLayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:orientation="vertical"
+                                app:layout_constraintBottom_toBottomOf="@+id/iv_gender"
+                                app:layout_constraintStart_toEndOf="@+id/iv_gender"
+                                app:layout_constraintTop_toTopOf="@+id/iv_gender">
+
+                                <TextView
+                                    android:id="@+id/tv_usia"
+                                    style="@style/TextCardViewContentWhite"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/usia"
+                                    app:layout_constraintStart_toEndOf="@+id/iv_gender"
+                                    app:layout_constraintTop_toBottomOf="@+id/tv_data_diri" />
+
+                                <TextView
+                                    android:id="@+id/tv_gender"
+                                    style="@style/TextCardViewContentWhite"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/gender"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="@+id/tv_usia"
+                                    app:layout_constraintTop_toBottomOf="@+id/tv_usia" />
+                            </LinearLayout>
+
                             <ImageView
                                 android:id="@+id/iv_telepon"
                                 android:layout_width="36dp"
                                 android:layout_height="0dp"
                                 android:layout_below="@id/tv_data_diri"
-                                android:layout_marginStart="24dp"
-                                android:layout_toEndOf="@id/tv_gender"
+                                android:layout_marginStart="16dp"
                                 android:src="@drawable/icon_telepon_kotak"
                                 app:layout_constraintBottom_toBottomOf="@+id/iv_gender"
-                                app:layout_constraintStart_toEndOf="@+id/tv_gender"
-                                app:layout_constraintTop_toTopOf="@+id/iv_gender" />
+                                app:layout_constraintStart_toEndOf="@+id/linearLayout"
+                                app:layout_constraintTop_toTopOf="@+id/iv_gender"
+                                app:layout_constraintVertical_bias="0.0" />
 
                             <TextView
                                 android:id="@+id/tv_telepon"

@@ -115,7 +115,7 @@ public class ByNameFragment extends Fragment {
 
             if (!TextUtils.equals(lastHeader, header)) {
                 lastHeader = header;
-                listPasienSection.add(new PasienModel(header, "", "", "", "", true));
+                listPasienSection.add(new PasienModel(header, 0, "", "", "", true));
             }
             generateAlphabetItem(listPasienSection);
             listPasienSection.add(user);

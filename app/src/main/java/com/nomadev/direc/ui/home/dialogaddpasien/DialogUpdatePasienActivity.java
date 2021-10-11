@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 public class DialogUpdatePasienActivity extends DialogFragment {
 
@@ -46,6 +48,8 @@ public class DialogUpdatePasienActivity extends DialogFragment {
     private String telepon;
     private String alamat;
     private String tanggal_lahir;
+    private String email;
+    private int kelaminInteger;
 
     @Nullable
     @Override
@@ -94,14 +98,36 @@ public class DialogUpdatePasienActivity extends DialogFragment {
 
         // BUTTON SIMPAN
         binding.btnSimpan.setOnClickListener(v -> {
-            Log.d("BUTTON", "Button Pressed.");
+            kelaminInteger = binding.spinnerJenisKelamin.getSelectedItemPosition();
             nama = String.valueOf(binding.etNamaLengkap.getText());
-            kelamin = String.valueOf(binding.spinnerJenisKelamin.getSelectedItem());
+            kelamin = String.valueOf(kelaminInteger);
             telepon = String.valueOf(binding.etNomorTelepon.getText());
             alamat = String.valueOf(binding.etAlamat.getText());
             tanggal_lahir = String.valueOf(binding.btnTanggalLahir.getText());
+            email = String.valueOf(binding.etEmail.getText());
 
-            updateData(nama, kelamin, telepon, alamat, tanggal_lahir);
+            if (TextUtils.isEmpty(nama)) {
+                binding.etNamaLengkap.setError(getString(R.string.masukkan_nama_lengkap));
+                return;
+            }
+            if (TextUtils.isEmpty(tanggal_lahir)) {
+                binding.btnTanggalLahir.setError(getString(R.string.masukkan_tanggal_lahir));
+                return;
+            }
+            if (TextUtils.isEmpty(telepon)) {
+                binding.etNomorTelepon.setError(getString(R.string.masukkan_nomor_telepon));
+                return;
+            }
+            if (TextUtils.isEmpty(alamat)) {
+                binding.etAlamat.setError(getString(R.string.masukkan_alamat));
+                return;
+            }
+            if (TextUtils.isEmpty(email)) {
+                binding.etEmail.setError(getString(R.string.masukkan_email));
+                return;
+            }
+
+            updateData(nama, kelamin, telepon, alamat, tanggal_lahir, kelaminInteger);
         });
 
         return view;
@@ -125,13 +151,13 @@ public class DialogUpdatePasienActivity extends DialogFragment {
         datePickerDialog.getWindow().setBackgroundDrawableResource(R.drawable.rounded_box_white);
     }
 
-    private void updateData(String nama, String kelamin, String telepon, String alamat, String tanggalLahir) {
+    private void updateData(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, int kelaminInteger) {
         // creating a collection reference
         // for our Firebase Firetore database.
         DocumentReference dbPasien = db.collection("pasien").document(id);
 
         // adding our data to our courses object class.
-        PasienModel updatedPasienModel = new PasienModel(nama, kelamin, telepon, alamat, tanggalLahir, false);
+        PasienModel updatedPasienModel = new PasienModel(nama, kelaminInteger, telepon, alamat, tanggalLahir, false);
 
         // UPDATE TO "id" DOCUMENT
         dbPasien.update(
@@ -165,20 +191,18 @@ public class DialogUpdatePasienActivity extends DialogFragment {
         dbPasien.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
                 nama = documentSnapshot.getString("nama");
+                email = documentSnapshot.getString("email");
                 tanggal_lahir = documentSnapshot.getString("tanggalLahir");
                 telepon = documentSnapshot.getString("telepon");
                 alamat = documentSnapshot.getString("alamat");
-                kelamin = documentSnapshot.getString("kelamin");
-                if (kelamin != null) {
-                    if (kelamin.equals("Laki - laki")) setSpinner = 0;
-                    else setSpinner = 1;
-                }
+                kelaminInteger = Objects.requireNonNull(documentSnapshot.getLong("kelamin")).intValue();
 
                 binding.etNamaLengkap.setText(nama);
+                binding.etEmail.setText(email);
                 binding.etNomorTelepon.setText(telepon);
                 binding.etAlamat.setText(alamat);
                 binding.btnTanggalLahir.setText(tanggal_lahir);
-                binding.spinnerJenisKelamin.setSelection(setSpinner);
+                binding.spinnerJenisKelamin.setSelection(kelaminInteger);
 
                 Log.d("FEEDBACK", "Berhasil Mengambil Data.");
             } else {

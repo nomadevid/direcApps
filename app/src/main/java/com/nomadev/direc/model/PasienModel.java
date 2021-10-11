@@ -16,14 +16,15 @@ public class PasienModel {
     @Exclude
     private String id;
 
-    private String nama, kelamin, telepon, alamat, tanggal_lahir;
+    private String nama, telepon, alamat, tanggal_lahir;
+    private int kelamin;
     public boolean isSection;
 
     public PasienModel() {
 
     }
 
-    public PasienModel(String nama, String kelamin, String telepon, String alamat, String tanggal_lahir, boolean isSection) {
+    public PasienModel(String nama, int kelamin, String telepon, String alamat, String tanggal_lahir, boolean isSection) {
         this.nama = nama;
         this.kelamin = kelamin;
         this.telepon = telepon;
@@ -40,11 +41,11 @@ public class PasienModel {
         this.nama = nama;
     }
 
-    public String getKelamin() {
+    public int getKelamin() {
         return kelamin;
     }
 
-    public void setKelamin(String kelamin) {
+    public void setKelamin(int kelamin) {
         this.kelamin = kelamin;
     }
 

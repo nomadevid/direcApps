@@ -268,12 +268,9 @@ public class DialogAddDataActivity extends DialogFragment {
         String tanggal = df.format(c);
         Timestamp timestamp = new Timestamp(c);
 
-        // creating a collection reference
-        // for our Firebase Firetore database.
         DocumentReference dbData = db.collection("pasien").document(id).collection("history").document();
         idHistory = dbData.getId();
 
-        // adding our data to our courses object class.
         Map<Object, Object> map = new HashMap<>();
         map.put("id", id);
         map.put("pemeriksa", pemeriksa);
@@ -285,20 +282,18 @@ public class DialogAddDataActivity extends DialogFragment {
         map.put("timeStamp", timestamp);
         map.put("tagihan", tagihan);
 
-        // POST TO "pasien" COLLECTION
         dbData.set(map).addOnSuccessListener(documentReference -> {
             Log.d("SUCCESS", "Data terkirim: " + hasil_periksa + keluhan + tanggal + terapi);
-            postHistoryData(nama, penyakit, id, tanggal, tanggalLahir, tagihan, timestamp);
-            postHistoryAll(nama, penyakit, id, tanggalLahir, hasil_periksa, keluhan, terapi, tagihan, timestamp);
+            postHistoryAll(nama, penyakit, id, tanggal, tanggalLahir, hasil_periksa, keluhan, terapi, tagihan, timestamp);
         }).addOnFailureListener(e -> Log.d("GAGAL", "Error: " + e.toString()));
     }
 
-    private void postHistoryData(String nama, String penyakit, String idPasien, String addDate, String tanggalLahir, int tagihan, Timestamp timestamp) {
+    private void postHistoryAll(String nama, String penyakit, String idPasien, String addDate, String tanggalLahir, String hasil_periksa, String keluhan, String terapi, int tagihan, Timestamp timestamp) {
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat tf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         String time = tf.format(c);
 
-        DocumentReference dbPasien = db.collection("history_pasien").document(addDate).collection(addDate).document(idHistory);
+        DocumentReference dbRef = db.collection("history_pasien_all").document(idHistory);
 
         Map<Object, Object> map = new HashMap<>();
         map.put("idHistory", idHistory);
@@ -307,23 +302,6 @@ public class DialogAddDataActivity extends DialogFragment {
         map.put("penyakit", penyakit);
         map.put("addDate", addDate);
         map.put("addTime", time);
-        map.put("tanggalLahir", tanggalLahir);
-        map.put("tagihan", tagihan);
-        map.put("timeStamp", timestamp);
-
-        dbPasien.set(map).addOnSuccessListener(documentReference ->
-                Log.d("postHistoryData", "Data terkirim."))
-                .addOnFailureListener(e -> Log.d("postHistoryData", "Error: " + e.toString()));
-    }
-
-    private void postHistoryAll(String nama, String penyakit, String idPasien, String tanggalLahir, String hasil_periksa, String keluhan, String terapi, int tagihan, Timestamp timestamp) {
-        DocumentReference dbRef = db.collection("history_pasien_all").document(idHistory);
-
-        Map<Object, Object> map = new HashMap<>();
-        map.put("idHistory", idHistory);
-        map.put("idPasien", idPasien);
-        map.put("nama", nama);
-        map.put("penyakit", penyakit);
         map.put("tanggalLahir", tanggalLahir);
         map.put("hasil_periksa", hasil_periksa);
         map.put("keluhan", keluhan);

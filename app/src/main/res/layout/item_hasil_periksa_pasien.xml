@@ -43,10 +43,42 @@
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/tv_pemeriksa_title"
+                style="@style/TextCardViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pemeriksa_title" />
+
+            <TextView
+                android:id="@+id/tv_pemeriksa"
+                style="@style/TextCardViewContentGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/pemeriksa_title" />
+
+            <TextView
+                android:id="@+id/tv_penyakit_title"
+                style="@style/TextCardViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/penyakit_title" />
+
+            <TextView
+                android:id="@+id/tv_penyakit"
+                style="@style/TextCardViewContentGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/penyakit_title" />
+
+            <TextView
                 android:id="@+id/tv_keluhan_title"
                 style="@style/TextCardViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/keluhan_title" />
 
             <TextView
@@ -104,6 +136,23 @@
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_photo" />
+
+            <TextView
+                android:id="@+id/tv_tagihan_title"
+                style="@style/TextCardViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/tagihan_title" />
+
+            <TextView
+                android:id="@+id/tv_tagihan"
+                style="@style/TextCardViewContentGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/tagihan_title" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

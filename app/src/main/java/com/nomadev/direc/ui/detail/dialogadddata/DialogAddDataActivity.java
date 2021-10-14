@@ -135,7 +135,7 @@ public class DialogAddDataActivity extends DialogFragment {
                 return;
             }
 
-            if (bill_int < 100000){
+            if (bill_int < 100000) {
                 binding.etTagihan.setError("Minimaum Tagihan Rp 100.000");
                 return;
             }
@@ -288,32 +288,51 @@ public class DialogAddDataActivity extends DialogFragment {
         // POST TO "pasien" COLLECTION
         dbData.set(map).addOnSuccessListener(documentReference -> {
             Log.d("SUCCESS", "Data terkirim: " + hasil_periksa + keluhan + tanggal + terapi);
-            postHistoryData(nama, id, tanggal, tanggalLahir, timestamp);
+            postHistoryData(nama, penyakit, id, tanggal, tanggalLahir, tagihan, timestamp);
+            postHistoryAll(nama, penyakit, id, tanggalLahir, hasil_periksa, keluhan, terapi, tagihan, timestamp);
         }).addOnFailureListener(e -> Log.d("GAGAL", "Error: " + e.toString()));
     }
 
-    private void postHistoryData(String nama, String idPasien, String addDate, String tanggalLahir, Timestamp timestamp) {
+    private void postHistoryData(String nama, String penyakit, String idPasien, String addDate, String tanggalLahir, int tagihan, Timestamp timestamp) {
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat tf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         String time = tf.format(c);
 
-        // creating a collection reference
-        // for our Firebase Firetore database.
         DocumentReference dbPasien = db.collection("history_pasien").document(addDate).collection(addDate).document(idHistory);
 
-        // adding our data to our courses object class.
         Map<Object, Object> map = new HashMap<>();
         map.put("idHistory", idHistory);
         map.put("idPasien", idPasien);
         map.put("nama", nama);
+        map.put("penyakit", penyakit);
         map.put("addDate", addDate);
         map.put("addTime", time);
         map.put("tanggalLahir", tanggalLahir);
+        map.put("tagihan", tagihan);
         map.put("timeStamp", timestamp);
 
-        // POST TO COLLECTION
         dbPasien.set(map).addOnSuccessListener(documentReference ->
                 Log.d("postHistoryData", "Data terkirim."))
+                .addOnFailureListener(e -> Log.d("postHistoryData", "Error: " + e.toString()));
+    }
+
+    private void postHistoryAll(String nama, String penyakit, String idPasien, String tanggalLahir, String hasil_periksa, String keluhan, String terapi, int tagihan, Timestamp timestamp) {
+        DocumentReference dbRef = db.collection("history_pasien_all").document(idHistory);
+
+        Map<Object, Object> map = new HashMap<>();
+        map.put("idHistory", idHistory);
+        map.put("idPasien", idPasien);
+        map.put("nama", nama);
+        map.put("penyakit", penyakit);
+        map.put("tanggalLahir", tanggalLahir);
+        map.put("hasil_periksa", hasil_periksa);
+        map.put("keluhan", keluhan);
+        map.put("terapi", terapi);
+        map.put("tagihan", tagihan);
+        map.put("timeStamp", timestamp);
+
+        dbRef.set(map)
+                .addOnSuccessListener(unused -> Log.d("postHistoryAll", "Data terkirim."))
                 .addOnFailureListener(e -> Log.d("postHistoryData", "Error: " + e.toString()));
     }
 

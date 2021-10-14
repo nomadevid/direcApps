@@ -73,9 +73,9 @@
     <string name="penyakit_lainnya">Lainnya</string>
     <string name="jumlah_tagihan_title">Jumlah Tagihan</string>
     <string name="pemeriksa_title">Pemeriksa</string>
-    <string name="pemeriksa_title">Pemeriksa</string>
-    <string name="penyakit_title">Penyakit</string>
     <string name="tagihan_title">Tagihan</string>
     <string name="minimum_tagihan">100000</string>
+    <string name="sampai">sampai</string>
+    <string name="banyak_data">Banyak Data</string>
 
 </resources>

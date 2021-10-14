@@ -23,6 +23,7 @@ import com.nomadev.direc.databinding.ActivityHomeBinding;
 import com.nomadev.direc.ui.home.byage.ByAgeFragment;
 import com.nomadev.direc.ui.home.bycalendar.ByCalendarFragment;
 import com.nomadev.direc.ui.home.bycalendar.DatePickAdapter;
+import com.nomadev.direc.ui.home.bydiagnosa.ByDiagnosaFragment;
 import com.nomadev.direc.ui.home.byname.ByNameFragment;
 import com.nomadev.direc.ui.home.dialogaddpasien.DialogAddPasienActivity;
 import com.nomadev.direc.ui.home.laporerror.LaporErrorActivity;
@@ -137,6 +138,14 @@ public class HomeActivity extends AppCompatActivity {
                         .beginTransaction()
                         .setReorderingAllowed(true)
                         .replace(R.id.fragment_home, ByAgeFragment.class, null)
+                        .commit();
+                return true;
+            case R.id.diagnosa:
+                showCalendarLayout(false);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.fragment_home, ByDiagnosaFragment.class, null)
                         .commit();
                 return true;
             default:

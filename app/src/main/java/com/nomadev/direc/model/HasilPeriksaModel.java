@@ -18,8 +18,8 @@ public class HasilPeriksaModel {
 
     @Exclude
     private String id_data;
-
-    private String hasil_periksa, keluhan, tanggal, terapi, id;
+    private int tagihan;
+    private String hasil_periksa, keluhan, tanggal, terapi, id, penyakit, pemeriksa;
     private ArrayList<String> urlString;
     private Timestamp timestamp;
     public boolean isSection;
@@ -28,13 +28,16 @@ public class HasilPeriksaModel {
 
     }
 
-    public HasilPeriksaModel(String hasil_periksa, String keluhan, String tanggal, String terapi, Timestamp timestamp, boolean isSection) {
+    public HasilPeriksaModel(String pemeriksa, String penyakit, String hasil_periksa, String keluhan, String tanggal, String terapi, int tagihan, Timestamp timestamp, boolean isSection) {
         this.hasil_periksa = hasil_periksa;
         this.keluhan = keluhan;
         this.tanggal = tanggal;
         this.terapi = terapi;
         this.timestamp = timestamp;
         this.isSection = isSection;
+        this.penyakit = penyakit;
+        this.tagihan = tagihan;
+        this.pemeriksa = pemeriksa;
     }
 
     public Timestamp getTimestamp() {
@@ -93,4 +96,27 @@ public class HasilPeriksaModel {
         this.urlString = urlString;
     }
 
+    public String getPemeriksa() {
+        return pemeriksa;
+    }
+
+    public void setPemeriksa(String pemeriksa) {
+        this.pemeriksa = pemeriksa;
+    }
+
+    public String getPenyakit() {
+        return penyakit;
+    }
+
+    public void setPenyakit(String penyakit) {
+        this.penyakit = penyakit;
+    }
+
+    public int getTagihan() {
+        return tagihan;
+    }
+
+    public void setTagihan(int tagihan) {
+        this.tagihan = tagihan;
+    }
 }

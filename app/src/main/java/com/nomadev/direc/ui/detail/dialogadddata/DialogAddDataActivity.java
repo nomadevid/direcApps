@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -36,10 +37,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDialogAddDataBinding;
+import com.nomadev.direc.function.MoneyTextWatcher;
 import com.nomadev.direc.model.FotoModel;
 import com.nomadev.direc.ui.detail.DetailActivity;
 import com.nomadev.direc.ui.detail.FotoAdapter;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,7 +56,8 @@ public class DialogAddDataActivity extends DialogFragment {
     private ActivityDialogAddDataBinding binding;
     private FirebaseFirestore db;
     private String idHistory;
-    private String keluhan, hasil_periksa, terapi, id, nama, tanggalLahir;
+    private int penyakitInteger;
+    private String penyakit, keluhan, hasil_periksa, terapi, id, nama, tanggalLahir, pemeriksa;
     private ArrayList<Uri> ImageList;
     private ArrayList<FotoModel> fotoModelArrayList;
     private FotoAdapter fotoAdapter;
@@ -65,6 +69,7 @@ public class DialogAddDataActivity extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = ActivityDialogAddDataBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        pemeriksa = "dr. Dyah Purwita Trianggadewi, M.ked.Klin, Sp.M";
 
         db = FirebaseFirestore.getInstance();
         if (getArguments() != null) {
@@ -91,18 +96,31 @@ public class DialogAddDataActivity extends DialogFragment {
         layoutParams.width = width;
         getDialog().getWindow().setAttributes(layoutParams);
 
+        String[] penyakitList = {getString(R.string.penyakit_katarak), getString(R.string.penyakit_pterygium), getString(R.string.penyakit_hordeolum), getString(R.string.penyakit_Uveitis), getString(R.string.penyakit_poag), getString(R.string.penyakit_pacg), getString(R.string.penyakit_kelainan_refraksi), getString(R.string.penyakit_lainnya)};
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_text_style, penyakitList);
+        binding.spinnerPenyakit.setAdapter(arrayAdapter);
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         gridLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         binding.rvFoto.setLayoutManager(gridLayoutManager);
         binding.rvFoto.setAdapter(fotoAdapter);
         showProgressBar(false);
 
+        binding.etTagihan.addTextChangedListener(new MoneyTextWatcher(binding.etTagihan));
+        binding.etTagihan.setText(R.string.minimum_tagihan);
+
+        binding.tvPemeriksa.setText(pemeriksa);
         //Simpan
         binding.btnSimpan.setOnClickListener(v -> {
             Log.d("BUTTON", "Button Pressed.");
+            penyakitInteger = binding.spinnerPenyakit.getSelectedItemPosition();
+            penyakit = String.valueOf(penyakitInteger);
             keluhan = String.valueOf(binding.etKeluhan.getText());
             hasil_periksa = String.valueOf(binding.etHasilPeriksa.getText());
             terapi = String.valueOf(binding.etTerapi.getText());
+            //parse jumalh tagihan
+            BigDecimal bill = MoneyTextWatcher.parseCurrencyValue(binding.etTagihan.getText().toString());
+            int bill_int = bill.intValue();
 
             if (TextUtils.isEmpty(keluhan)) {
                 binding.etKeluhan.setError("Masukkan Keluhan Pasien");
@@ -117,10 +135,15 @@ public class DialogAddDataActivity extends DialogFragment {
                 return;
             }
 
+            if (bill_int < 100000){
+                binding.etTagihan.setError("Minimaum Tagihan Rp 100.000");
+                return;
+            }
+
             showProgressBar(true);
             binding.btnSimpan.setClickable(false);
             binding.btnSimpan.setEnabled(false);
-            postData(hasil_periksa, keluhan, terapi, id);
+            postData(pemeriksa, penyakit, hasil_periksa, keluhan, terapi, id, bill_int);
             if (ImageList.isEmpty()) getDialog().dismiss();
             else postImage();
         });
@@ -237,7 +260,7 @@ public class DialogAddDataActivity extends DialogFragment {
         ImageList.clear();
     }
 
-    private void postData(String hasil_periksa, String keluhan, String terapi, String id) {
+    private void postData(String pemeriksa, String penyakit, String hasil_periksa, String keluhan, String terapi, String id, int tagihan) {
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
 
@@ -253,11 +276,14 @@ public class DialogAddDataActivity extends DialogFragment {
         // adding our data to our courses object class.
         Map<Object, Object> map = new HashMap<>();
         map.put("id", id);
+        map.put("pemeriksa", pemeriksa);
+        map.put("penyakit", penyakit);
         map.put("hasil_periksa", hasil_periksa);
         map.put("keluhan", keluhan);
         map.put("terapi", terapi);
         map.put("tanggal", tanggal);
         map.put("timeStamp", timestamp);
+        map.put("tagihan", tagihan);
 
         // POST TO "pasien" COLLECTION
         dbData.set(map).addOnSuccessListener(documentReference -> {

@@ -30,6 +30,37 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/masukkan_rekam_data_pasien_anda" />
+
+            <TextView
+                style="@style/TextCardViewContentBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="@string/pemeriksa_title" />
+
+            <TextView
+                android:id="@+id/tv_pemeriksa"
+                style="@style/TextCardViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="dr. Trianggah Dewi Sp.M" />
+
+            <TextView
+                style="@style/TextCardViewContentBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="@string/penyakit_title" />
+
+            <Spinner
+                android:id="@+id/spinner_penyakit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/style_spinner"
+                android:popupBackground="@color/white" />
+
             <TextView
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="wrap_content"
@@ -122,6 +153,26 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <TextView
+                    style="@style/TextCardViewContentBilling"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/jumlah_tagihan_title" />
+
+                <EditText
+                    android:id="@+id/et_tagihan"
+                    style="@style/TextCardViewTitle"
+                    android:gravity="right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:importantForAutofill="no"
+                    android:inputType="number" />
+
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton

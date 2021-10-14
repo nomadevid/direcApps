@@ -62,5 +62,20 @@
     <string name="log_out">Keluar</string>
     <string name="email">Email</string>
     <string name="masukkan_email">Masukkan email</string>
+    <string name="penyakit_title">Penyakit</string>
+    <string name="penyakit_katarak">Katarak</string>
+    <string name="penyakit_pterygium">Pterygium</string>
+    <string name="penyakit_hordeolum">Hordeolum</string>
+    <string name="penyakit_Uveitis">Uveitis</string>
+    <string name="penyakit_poag">POAG</string>
+    <string name="penyakit_pacg">PACG</string>
+    <string name="penyakit_kelainan_refraksi">Kelainan Refraksi</string>
+    <string name="penyakit_lainnya">Lainnya</string>
+    <string name="jumlah_tagihan_title">Jumlah Tagihan</string>
+    <string name="pemeriksa_title">Pemeriksa</string>
+    <string name="pemeriksa_title">Pemeriksa</string>
+    <string name="penyakit_title">Penyakit</string>
+    <string name="tagihan_title">Tagihan</string>
+    <string name="minimum_tagihan">100000</string>
 
 </resources>

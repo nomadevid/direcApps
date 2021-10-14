@@ -22,10 +22,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ItemHasilPeriksaPasienBinding;
 import com.nomadev.direc.databinding.ItemHasilPeriksaPasienHeaderBinding;
+import com.nomadev.direc.function.MoneyTextWatcher;
 import com.nomadev.direc.model.HasilPeriksaModel;
 import com.nomadev.direc.ui.detail.dialogadddata.DialogUpdateDataActivity;
 import com.nomadev.direc.ui.detail.dialogdeletedata.DialogDeleteDataActiivity;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -115,6 +117,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public static final String ID_PASIEN = "id_pasien";
         public static final String ID_DATA = "id_data";
         public static final String TANGGAL_DATA = "tanggal_data";
+        public static final NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
         private FragmentManager fragmentManager;
         private FotoStreamAdapter fotoStreamAdapter;
 
@@ -128,6 +131,9 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             binding.tvHasilPeriksa.setText(hasilPeriksaModel.getHasil_periksa());
             binding.tvKeluhan.setText(hasilPeriksaModel.getKeluhan());
             binding.tvTerapi.setText(hasilPeriksaModel.getTerapi());
+            binding.tvPemeriksa.setText(hasilPeriksaModel.getPemeriksa());
+            binding.tvPenyakit.setText(hasilPeriksaModel.getPenyakit());
+            binding.tvTagihan.setText(formatRupiah.format(hasilPeriksaModel.getTagihan()));
             id_pasien = hasilPeriksaModel.getId();
             id_data = hasilPeriksaModel.getId_data();
             tanggal_data = hasilPeriksaModel.getTanggal();

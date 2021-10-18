@@ -64,8 +64,10 @@ public class ByCalendarFragment extends Fragment {
     }
 
     private void getHistoryData() {
-        CollectionReference dbPasien = db.collection("history_pasien").document(date).collection(date);
-        Query query = dbPasien.orderBy("addTime", Query.Direction.DESCENDING);
+        CollectionReference dbPasien = db.collection("history_pasien_all");
+        Query query = dbPasien.whereEqualTo("addDate", date)
+                .orderBy("timeStamp", Query.Direction.DESCENDING)
+                .limit(100);
 
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
             showProgressBar(false);
@@ -79,8 +81,10 @@ public class ByCalendarFragment extends Fragment {
                 }
                 adapter.notifyDataSetChanged();
                 showInfo(false);
+                binding.rvByCalendar.setVisibility(View.VISIBLE);
             } else {
                 showInfo(true);
+                binding.rvByCalendar.setVisibility(View.GONE);
             }
             binding.refreshLayout.setRefreshing(false);
         }).addOnFailureListener(e -> {

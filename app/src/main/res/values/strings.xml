@@ -81,5 +81,13 @@
     <string name="export_rekam_data_info">Hasil rekam data akan diexport dalam bentuk xls.</string>
     <string name="export">Export</string>
     <string name="cancel">Batal</string>
+    <string name="tambah_skema_1">Tambah Skema 1</string>
+    <string name="tambah_skema_2">Tambah Skema 2</string>
+    <string name="ganti_skema_1">Ganti Skema 1</string>
+    <string name="ganti_skema_2">Ganti Skema 2</string>
+    <string name="tahan_untuk_menghapus">*Tahan untuk menghapus</string>
+    <string name="gambar_skema_2">Gambar Skema 2</string>
+    <string name="tambah_gambar">Tambah Gambar</string>
+    <string name="gambar_skema_1">Gambar Skema 1</string>
 
 </resources>

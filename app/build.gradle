@@ -17,6 +17,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        renderscriptTargetApi 21
+        renderscriptSupportModeEnabled true
+
         buildConfigField("String", "ALGOLIA_APP_ID", ALGOLIA_APP_ID)
         buildConfigField("String", "ALGOLIA_ADMIN_API_KEY", ALGOLIA_ADMIN_API_KEY)
         buildConfigField("String", "ADMIN_EMAIL", ADMIN_EMAIL)
@@ -90,4 +93,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:23.0.4'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.google.firebase:firebase-storage:20.0.0'
+    //photo editor
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
 }

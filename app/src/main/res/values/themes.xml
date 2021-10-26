@@ -124,6 +124,14 @@
         <item name="fontFamily">@font/lato_bold</item>
     </style>
 
+    <style name="TextCardViewItallic">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/lato_lightitalic</item>
+    </style>
+
     <style name="TextCardViewContentWhite">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -146,6 +154,14 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/lato_regular</item>
+    </style>
+
+    <style name="TextButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/direc_green_dark</item>
+        <item name="fontFamily">@font/lato_black</item>
     </style>
 
     <!-- xlarge -->

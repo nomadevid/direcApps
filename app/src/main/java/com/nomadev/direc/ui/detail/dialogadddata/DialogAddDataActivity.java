@@ -1,7 +1,10 @@
 package com.nomadev.direc.ui.detail.dialogadddata;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,6 +32,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.dsphotoeditor.sdk.activity.DsPhotoEditorActivity;
+import com.dsphotoeditor.sdk.utils.DsPhotoEditorConstants;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -56,9 +61,8 @@ public class DialogAddDataActivity extends DialogFragment {
     private ActivityDialogAddDataBinding binding;
     private FirebaseFirestore db;
     private String idHistory;
-    private int penyakitInteger;
     private String penyakit, keluhan, hasil_periksa, terapi, id, nama, tanggalLahir, pemeriksa;
-    private ArrayList<Uri> ImageList;
+    private ArrayList<Uri> ImageList, schemeList;
     private ArrayList<FotoModel> fotoModelArrayList;
     private FotoAdapter fotoAdapter;
     private ArrayList<String> urlStrings;
@@ -81,6 +85,9 @@ public class DialogAddDataActivity extends DialogFragment {
         ImageList = new ArrayList<>();
         fotoModelArrayList = new ArrayList<>();
         fotoAdapter = new FotoAdapter(this.fotoModelArrayList);
+        schemeList = new ArrayList<>();
+        schemeList.add(0, null);
+        schemeList.add(1, null);
 
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
 
@@ -109,12 +116,14 @@ public class DialogAddDataActivity extends DialogFragment {
         binding.etTagihan.addTextChangedListener(new MoneyTextWatcher(binding.etTagihan));
         binding.etTagihan.setText(R.string.minimum_tagihan);
 
+        binding.ivScheme1.setVisibility(View.GONE);
+        binding.ivScheme2.setVisibility(View.GONE);
+
         binding.tvPemeriksa.setText(pemeriksa);
         //Simpan
         binding.btnSimpan.setOnClickListener(v -> {
             Log.d("BUTTON", "Button Pressed.");
-            penyakitInteger = binding.spinnerPenyakit.getSelectedItemPosition();
-            penyakit = String.valueOf(penyakitInteger);
+            penyakit = binding.spinnerPenyakit.getSelectedItem().toString();
             keluhan = String.valueOf(binding.etKeluhan.getText());
             hasil_periksa = String.valueOf(binding.etHasilPeriksa.getText());
             terapi = String.valueOf(binding.etTerapi.getText());
@@ -144,6 +153,7 @@ public class DialogAddDataActivity extends DialogFragment {
             binding.btnSimpan.setClickable(false);
             binding.btnSimpan.setEnabled(false);
             postData(pemeriksa, penyakit, hasil_periksa, keluhan, terapi, id, bill_int);
+            postScheme();
             if (ImageList.isEmpty()) getDialog().dismiss();
             else postImage();
         });
@@ -155,7 +165,86 @@ public class DialogAddDataActivity extends DialogFragment {
             activityResultLauncher.launch(intent);
         });
 
+        binding.tbAddScheme1.setOnClickListener(v -> {
+            Uri imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                    "://" + getResources().getResourcePackageName(R.drawable.skema1)
+                    + '/' + getResources().getResourceTypeName(R.drawable.skema1) + '/'
+                    + getResources().getResourceEntryName(R.drawable.skema1));
+            Intent intent = new Intent(getActivity(), DsPhotoEditorActivity.class);
+            intent.setData(imageUri);
+            //Set ToolBar
+            intent.putExtra(DsPhotoEditorConstants.DS_PHOTO_EDITOR_OUTPUT_DIRECTORY,
+                    "Direc");
+            intent.putExtra(DsPhotoEditorConstants.DS_TOOL_BAR_BACKGROUND_COLOR,
+                    Color.parseColor("#FF12B69E"));
+            intent.putExtra(DsPhotoEditorConstants.DS_MAIN_BACKGROUND_COLOR,
+                    Color.parseColor("#DDDDDD"));
+            intent.putExtra(DsPhotoEditorConstants.DS_PHOTO_EDITOR_TOOLS_TO_HIDE,
+                    new int[]{0, 1, 2, 3, 4, 5, 8, 9, 10, 11});
+            //Start Activity
+            startActivityForResult(intent, 101);
+            Log.d("TAG", "onCreateView: clicked");
+        });
+
+        binding.tbAddScheme2.setOnClickListener(v -> {
+            Uri imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                    "://" + getResources().getResourcePackageName(R.drawable.skema2)
+                    + '/' + getResources().getResourceTypeName(R.drawable.skema2) + '/'
+                    + getResources().getResourceEntryName(R.drawable.skema2));
+            Intent intent = new Intent(getActivity(), DsPhotoEditorActivity.class);
+            intent.setData(imageUri);
+            //Set ToolBar
+            intent.putExtra(DsPhotoEditorConstants.DS_PHOTO_EDITOR_OUTPUT_DIRECTORY,
+                    "Direc");
+            intent.putExtra(DsPhotoEditorConstants.DS_TOOL_BAR_BACKGROUND_COLOR,
+                    Color.parseColor("#FF12B69E"));
+            intent.putExtra(DsPhotoEditorConstants.DS_MAIN_BACKGROUND_COLOR,
+                    Color.parseColor("#DDDDDD"));
+            intent.putExtra(DsPhotoEditorConstants.DS_PHOTO_EDITOR_TOOLS_TO_HIDE,
+                    new int[]{0, 1, 2, 3, 4, 5, 8, 9, 10, 11});
+            //Start Activity
+            startActivityForResult(intent, 102);
+            Log.d("TAG", "onCreateView: clicked");
+        });
+
+        binding.ivScheme1.setOnLongClickListener(v -> {
+            schemeList.add(0, null);
+            binding.ivScheme1.setVisibility(View.GONE);
+            binding.tbAddScheme1.setText(R.string.tambah_skema_1);
+            Toast.makeText(getActivity(), "Skema Dihapus", Toast.LENGTH_SHORT).show();
+            return true;
+        });
+
+        binding.ivScheme2.setOnLongClickListener(v -> {
+            schemeList.add(1, null);
+            binding.ivScheme2.setVisibility(View.GONE);
+            binding.tbAddScheme1.setText(R.string.tambah_skema_2);
+            Toast.makeText(getActivity(), "Skema Dihapus", Toast.LENGTH_SHORT).show();
+            return true;
+        });
+
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            assert data != null;
+            Uri uri = data.getData();
+            if (requestCode == 101) {
+                schemeList.add(0, uri);
+                binding.ivScheme1.setImageURI(uri);
+                binding.ivScheme1.setVisibility(View.VISIBLE);
+                binding.tbAddScheme1.setText(R.string.ganti_skema_1);
+            }
+            if (requestCode == 102) {
+                schemeList.add(1, uri);
+                binding.ivScheme2.setImageURI(uri);
+                binding.ivScheme2.setVisibility(View.VISIBLE);
+                binding.tbAddScheme1.setText(R.string.ganti_skema_2);
+            }
+        }
     }
 
     ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
@@ -167,7 +256,7 @@ public class DialogAddDataActivity extends DialogFragment {
                     int resultCode = result.getResultCode();
                     Intent data = result.getData();
                     getActivity();
-                    if (resultCode == Activity.RESULT_OK) {
+                    if (resultCode == RESULT_OK) {
                         if (data != null) {
                             if (data.getData() != null) {
                                 ImageList.add(data.getData());
@@ -242,6 +331,41 @@ public class DialogAddDataActivity extends DialogFragment {
         }
     }
 
+    private void postScheme() {
+        Uri IndividuScheme;
+        Log.d("SCHEME", "1");
+        DocumentReference dbData = db.collection("pasien").document(id).collection("history").document(idHistory);
+        StorageReference SchemeFolder = FirebaseStorage.getInstance().getReference().child(idHistory).child("scheme");
+
+        Log.d("SCHEME", "2");
+
+        if (schemeList.get(0) != null) {
+            IndividuScheme = schemeList.get(0);
+
+            StorageReference SchemeName = SchemeFolder.child("Scheme" + IndividuScheme.getLastPathSegment());
+
+            SchemeName.putFile(IndividuScheme).addOnSuccessListener(
+                    taskSnapshot -> SchemeName.getDownloadUrl().addOnSuccessListener(uri ->
+                            dbData.update(
+                                    "skema1", String.valueOf(uri)
+                            ).addOnSuccessListener(unused -> Log.d("SUCCESS", "Foto terkirim: " + uri))
+                                    .addOnFailureListener(e -> Log.e("FAILURE", "ERROR : " + e.toString()))));
+        }
+
+        if (schemeList.get(1) != null) {
+            IndividuScheme = schemeList.get(1);
+
+            StorageReference SchemeName = SchemeFolder.child("Scheme" + IndividuScheme.getLastPathSegment());
+
+            SchemeName.putFile(IndividuScheme).addOnSuccessListener(
+                    taskSnapshot -> SchemeName.getDownloadUrl().addOnSuccessListener(uri ->
+                            dbData.update(
+                                    "skema2", String.valueOf(uri)
+                            ).addOnSuccessListener(unused -> Log.d("SUCCESS", "Foto terkirim: " + uri))
+                                    .addOnFailureListener(e -> Log.e("FAILURE", "ERROR : " + e.toString()))));
+        }
+    }
+
     private void storeLink(ArrayList<String> urlStrings) {
 
         for (int i = 0; i < urlStrings.size(); i++) {
@@ -281,6 +405,8 @@ public class DialogAddDataActivity extends DialogFragment {
         map.put("tanggal", tanggal);
         map.put("timeStamp", timestamp);
         map.put("tagihan", tagihan);
+        map.put("skema1", null);
+        map.put("skema2", null);
 
         dbData.set(map).addOnSuccessListener(documentReference -> {
             Log.d("SUCCESS", "Data terkirim: " + hasil_periksa + keluhan + tanggal + terapi);

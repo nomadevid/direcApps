@@ -1,13 +1,18 @@
 package com.nomadev.direc.ui.detail;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -24,6 +29,15 @@ import com.nomadev.direc.ui.detail.dialogadddata.DialogUpdateDataActivity;
 import com.nomadev.direc.ui.detail.dialogdeletedata.DialogDeleteDataActiivity;
 import com.nomadev.direc.ui.home.dialogaddpasien.DialogUpdatePasienActivity;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,7 +46,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class DetailActivity extends AppCompatActivity implements DialogAddDataActivity.DialogAddDataListener, DialogUpdateDataActivity.DialogUpdateDataListener, DialogDeleteDataActiivity.DialogDeleteDataListener {
+public class DetailActivity extends AppCompatActivity implements
+        DialogAddDataActivity.DialogAddDataListener,
+        DialogUpdateDataActivity.DialogUpdateDataListener,
+        DialogDeleteDataActiivity.DialogDeleteDataListener,
+        DialogExport.DialogExportListener {
 
     public static final String NAMA = "nama";
     public static final String GENDER = "gender";
@@ -58,9 +76,12 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl");
+
         id = getIntent().getStringExtra(ID);
 
-        //Recycle View Build Firebase
         hasilPeriksaModelArrayList = new ArrayList<>();
         listSection = new ArrayList<>();
         hasilPeriksaAdapter = new HasilPeriksaAdapter(listSection);
@@ -98,6 +119,11 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
         });
 
         binding.ibBack.setOnClickListener(v -> onBackPressed());
+
+        binding.btnSaveCsv.setOnClickListener(v -> {
+            DialogExport dialog = new DialogExport();
+            dialog.show(getSupportFragmentManager(), "DialogExport");
+        });
     }
 
     private void showRecyclerView() {
@@ -141,6 +167,118 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
         binding.refreshLayout.setRefreshing(false);
     }
 
+    private void createFile(List<HasilPeriksaModel> list) {
+        Workbook wb = new HSSFWorkbook();
+
+        Cell cell;
+
+        Sheet sheet;
+        sheet = wb.createSheet("Direc_" + nama);
+
+        //Now column and row
+        Row row = sheet.createRow(0);
+
+        cell = row.createCell(0);
+        cell.setCellValue("TANGGAL");
+
+        cell = row.createCell(1);
+        cell.setCellValue("NAMA PASIEN");
+
+        cell = row.createCell(2);
+        cell.setCellValue("PEMERIKSA");
+
+        cell = row.createCell(3);
+        cell.setCellValue("PENYAKIT");
+
+        cell = row.createCell(4);
+        cell.setCellValue("KELUHAN");
+
+        cell = row.createCell(5);
+        cell.setCellValue("HASIL PERIKSA");
+
+        cell = row.createCell(6);
+        cell.setCellValue("TERAPI");
+
+        cell = row.createCell(7);
+        cell.setCellValue("TAGIHAN");
+
+        //column width
+        sheet.setColumnWidth(0, (30 * 200));
+        sheet.setColumnWidth(1, (30 * 200));
+        sheet.setColumnWidth(2, (60 * 200));
+        sheet.setColumnWidth(3, (20 * 200));
+        sheet.setColumnWidth(4, (30 * 200));
+        sheet.setColumnWidth(5, (30 * 200));
+        sheet.setColumnWidth(6, (30 * 200));
+        sheet.setColumnWidth(7, (20 * 200));
+
+        for (int i = 0; i < list.size(); i++) {
+            Row row1 = sheet.createRow(i + 1);
+
+            cell = row1.createCell(0);
+            cell.setCellValue(list.get(i).getTanggal());
+
+            cell = row1.createCell(1);
+            cell.setCellValue(nama);
+
+            cell = row1.createCell(2);
+            cell.setCellValue(list.get(i).getPemeriksa());
+
+            cell = row1.createCell(3);
+            cell.setCellValue(list.get(i).getPenyakit());
+
+            cell = row1.createCell(4);
+            cell.setCellValue(list.get(i).getKeluhan());
+
+            cell = row1.createCell(5);
+            cell.setCellValue(list.get(i).getHasil_periksa());
+
+            cell = row1.createCell(6);
+            cell.setCellValue(list.get(i).getTerapi());
+
+            cell = row1.createCell(7);
+            cell.setCellValue(list.get(i).getTagihan());
+
+            sheet.setColumnWidth(0, (30 * 200));
+            sheet.setColumnWidth(1, (30 * 200));
+            sheet.setColumnWidth(2, (60 * 200));
+            sheet.setColumnWidth(3, (20 * 200));
+            sheet.setColumnWidth(4, (30 * 200));
+            sheet.setColumnWidth(5, (30 * 200));
+            sheet.setColumnWidth(6, (30 * 200));
+            sheet.setColumnWidth(7, (20 * 200));
+        }
+
+        String folderName = "Direc";
+        String fileName = folderName + "_" + nama + "_" + System.currentTimeMillis() + ".xls";
+        String path = Environment.getExternalStorageDirectory() + File.separator + folderName + File.separator + fileName;
+
+        File file = new File(Environment.getExternalStorageDirectory() + File.separator + folderName);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+
+        FileOutputStream outputStream = null;
+
+        try {
+            outputStream = new FileOutputStream(path);
+            wb.write(outputStream);
+            Toast.makeText(getApplicationContext(), "Rekam Data exported in " + path, Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            Toast.makeText(getApplicationContext(), "Failed: " + e.toString(), Toast.LENGTH_LONG).show();
+            try {
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+
+            }
+        }
+    }
+
     private void getPasienData() {
         DocumentReference dbPasien = db.collection("pasien").document(id);
 
@@ -154,7 +292,7 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
 
                 binding.tvDataDiri.setText(nama);
                 binding.tvUsia.setText(getString(R.string.usia_terisi, calculateAge(tanggalLahir)));
-                if (kelamin == GENDER_LAKI){
+                if (kelamin == GENDER_LAKI) {
                     binding.tvGender.setText(getString(R.string.gender_laki));
                 } else {
                     binding.tvGender.setText(getString(R.string.gender_perempuan));
@@ -183,7 +321,7 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
 
             if (!TextUtils.equals(lastHeader, header)) {
                 lastHeader = header;
-                listSection.add(new HasilPeriksaModel("","", "", "", header, "", 0, null, true));
+                listSection.add(new HasilPeriksaModel("", "", "", "", header, "", 0, null, true));
             }
             listSection.add(user);
         }
@@ -236,5 +374,31 @@ public class DetailActivity extends AppCompatActivity implements DialogAddDataAc
     @Override
     public void RefreshLayout(Boolean state) {
         if (state) getHasilPeriksaData();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            createFile(hasilPeriksaModelArrayList);
+        } else {
+            Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onExport(Boolean state) {
+        if (state) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                if (getApplicationContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                    String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                    requestPermissions(permissions, 1);
+                } else {
+                    createFile(hasilPeriksaModelArrayList);
+                }
+            } else {
+                createFile(hasilPeriksaModelArrayList);
+            }
+        }
     }
 }

@@ -22,10 +22,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ItemHasilPeriksaPasienBinding;
 import com.nomadev.direc.databinding.ItemHasilPeriksaPasienHeaderBinding;
-import com.nomadev.direc.function.MoneyTextWatcher;
 import com.nomadev.direc.model.HasilPeriksaModel;
 import com.nomadev.direc.ui.detail.dialogadddata.DialogUpdateDataActivity;
 import com.nomadev.direc.ui.detail.dialogdeletedata.DialogDeleteDataActiivity;
+import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -113,18 +113,36 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
         private final ItemHasilPeriksaPasienBinding binding;
-        private String id_pasien, id_data, tanggal_data, nama;
+        private String id_pasien, id_data, tanggal_data, nama, skema1, skema2;
         public static final String ID_PASIEN = "id_pasien";
         public static final String ID_DATA = "id_data";
         public static final String TANGGAL_DATA = "tanggal_data";
+        public static final String URL_FOTO = "url";
+        public static final String NAMA = "nama";
+        public static final String TANGGAL_PERIKSA = "tanggal_periksa";
         public static final NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
         private FragmentManager fragmentManager;
-        private FotoStreamAdapter fotoStreamAdapter;
 
         public ViewHolder(@NonNull ItemHasilPeriksaPasienBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             binding.ibEditDown.setOnClickListener(this);
+            binding.ivScheme1.setOnClickListener(v -> viewImage(v, skema1));
+            binding.ivScheme2.setOnClickListener(v -> viewImage(v, skema2));
+        }
+
+        private void viewImage(View v, String skema) {
+            FragmentActivity fragmentActivity = (FragmentActivity) (v.getContext());
+            fragmentManager = fragmentActivity.getSupportFragmentManager();
+            DialogFotoActivity dialog = new DialogFotoActivity();
+            Bundle bundle = new Bundle();
+            bundle.putString(URL_FOTO, skema);
+            bundle.putString(NAMA, nama);
+            Log.d("DIALOG", "ViewHolder: " + nama);
+            bundle.putString(TANGGAL_PERIKSA, tanggal_data);
+            dialog.setArguments(bundle);
+            dialog.show(fragmentManager, "Dialog Edit Data");
+            Log.d("TAG", "ViewHolder: Jalan");
         }
 
         public void bind(HasilPeriksaModel hasilPeriksaModel) {
@@ -137,13 +155,30 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             id_pasien = hasilPeriksaModel.getId();
             id_data = hasilPeriksaModel.getId_data();
             tanggal_data = hasilPeriksaModel.getTanggal();
+            skema1 = hasilPeriksaModel.getSkema1();
+            skema2 = hasilPeriksaModel.getSkema2();
+            setScheme(skema1, skema2);
             Log.d("TAG", "bind: " + hasilPeriksaModel.getUrlString());
             if (hasilPeriksaModel.getUrlString() != null) {
                 setAdapter(hasilPeriksaModel.getUrlString());
-            } else {
+            } else binding.rvPhoto.setVisibility(View.GONE);
+
+            if ((hasilPeriksaModel.getUrlString() == null) && (skema1 == null) && (skema2 == null))
                 binding.tvFoto.setVisibility(View.GONE);
-                binding.rvPhoto.setVisibility(View.GONE);
-            }
+            getPasien();
+        }
+
+        private void getPasien() {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference dbPasien = db.collection("pasien").document(id_pasien);
+            dbPasien.get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    nama = documentSnapshot.getString("nama");
+                    Log.d("FEEDBACK", "Berhasil Mengambil Data." + nama);
+                }
+                else Log.d("FEEDBACK", "Data Kosong.");
+            }).addOnFailureListener(e -> Toast.makeText(itemView.getContext(), "Error: " +
+                    e.toString(), Toast.LENGTH_SHORT).show());
         }
 
         @Override
@@ -159,6 +194,25 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             popupMenu.inflate(R.menu.edit_menu);
             popupMenu.setOnMenuItemClickListener(this);
             popupMenu.show();
+        }
+
+        private void setScheme(String skema1, String skema2) {
+
+            if (skema1 == null){
+                binding.ivScheme1.setVisibility(View.GONE);
+            }
+            else {
+                Picasso.get().load(skema1).fit().into(binding.ivScheme1);
+                binding.ivScheme1.setVisibility(View.VISIBLE);
+            }
+
+            if (skema2 == null){
+                binding.ivScheme2.setVisibility(View.GONE);
+            }
+            else {
+                Picasso.get().load(skema2).fit().into(binding.ivScheme2);
+                binding.ivScheme2.setVisibility(View.VISIBLE);
+            }
         }
 
         @SuppressLint("NonConstantResourceId")
@@ -194,22 +248,12 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @SuppressLint("NotifyDataSetChanged")
         public void setAdapter(ArrayList<String> listData) {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            DocumentReference dbPasien = db.collection("pasien").document(id_pasien);
-
-            dbPasien.get().addOnSuccessListener(documentSnapshot -> {
-                if (documentSnapshot.exists()) {
-                    nama = documentSnapshot.getString("nama");
-                    fotoStreamAdapter = new FotoStreamAdapter(listData, nama, tanggal_data);
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(itemView.getContext(), 4);
-                    gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    binding.rvPhoto.setLayoutManager(gridLayoutManager);
-                    binding.rvPhoto.setAdapter(fotoStreamAdapter);
-                    fotoStreamAdapter.notifyDataSetChanged();
-                    Log.d("FEEDBACK", "Berhasil Mengambil Data." + nama);
-                } else Log.d("FEEDBACK", "Data Kosong.");
-
-            }).addOnFailureListener(e -> Toast.makeText(itemView.getContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());
+            FotoStreamAdapter fotoStreamAdapter = new FotoStreamAdapter(listData, nama, tanggal_data);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(itemView.getContext(), 4);
+            gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            binding.rvPhoto.setLayoutManager(gridLayoutManager);
+            binding.rvPhoto.setAdapter(fotoStreamAdapter);
+            fotoStreamAdapter.notifyDataSetChanged();
         }
     }
 }

@@ -321,7 +321,7 @@ public class DetailActivity extends AppCompatActivity implements
 
             if (!TextUtils.equals(lastHeader, header)) {
                 lastHeader = header;
-                listSection.add(new HasilPeriksaModel("", "", "", "", header, "", 0, null, true));
+                listSection.add(new HasilPeriksaModel("", "", "", "", header, "", 0, "", "", null, true));
             }
             listSection.add(user);
         }

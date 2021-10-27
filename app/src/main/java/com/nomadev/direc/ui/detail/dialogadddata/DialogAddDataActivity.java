@@ -3,7 +3,6 @@ package com.nomadev.direc.ui.detail.dialogadddata;
 import static android.app.Activity.RESULT_OK;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;

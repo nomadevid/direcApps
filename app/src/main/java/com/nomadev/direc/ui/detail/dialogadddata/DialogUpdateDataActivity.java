@@ -41,6 +41,8 @@ import com.nomadev.direc.ui.detail.FotoStreamUpdateAdapater;
 import com.nomadev.direc.ui.detail.HasilPeriksaAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DialogUpdateDataActivity extends DialogFragment {
 
@@ -116,6 +118,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
             binding.btnSimpan.setClickable(false);
             binding.btnSimpan.setEnabled(false);
             updateData(hasil_periksa, keluhan, terapi);
+            updateHistoryAll(tanggal, hasil_periksa, keluhan, terapi);
             if (ImageList.isEmpty()) getDialog().dismiss();
             else postImage();
         });
@@ -283,6 +286,21 @@ public class DialogUpdateDataActivity extends DialogFragment {
                 "terapi", terapi
         ).addOnSuccessListener(unused -> Log.d("SUCCESS", "Data terkirim: " + hasil_periksa + keluhan + tanggal + terapi))
                 .addOnFailureListener(e -> Log.d("GAGAL", "Error: " + e.toString()));
+    }
+
+    private void updateHistoryAll(String tanggalLahir, String hasil_periksa, String keluhan, String terapi) {
+
+        DocumentReference dbRef = db.collection("history_pasien_all").document(id_data);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("tanggalLahir", tanggalLahir);
+        map.put("hasil_periksa", hasil_periksa);
+        map.put("keluhan", keluhan);
+        map.put("terapi", terapi);
+
+        dbRef.update(map)
+                .addOnSuccessListener(unused -> Log.d("postHistoryAll", "Data terkirim."))
+                .addOnFailureListener(e -> Log.d("postHistoryData", "Error: " + e.toString()));
     }
 
     private void showProgressBar(Boolean state) {

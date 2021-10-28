@@ -75,7 +75,7 @@ public class DialogDeleteDataActiivity extends DialogFragment {
     }
 
     private void deleteHistory() {
-        DocumentReference dbHistory = db.collection("history_pasien").document(tanggal_data).collection(tanggal_data).document(id_data);
+        DocumentReference dbHistory = db.collection("history_pasien_all").document(id_data);
 
         dbHistory.delete().addOnCompleteListener(task -> {
             if (task.isComplete()) {

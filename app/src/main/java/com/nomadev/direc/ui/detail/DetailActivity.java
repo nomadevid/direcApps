@@ -121,8 +121,12 @@ public class DetailActivity extends AppCompatActivity implements
         binding.ibBack.setOnClickListener(v -> onBackPressed());
 
         binding.btnSaveCsv.setOnClickListener(v -> {
-            DialogExport dialog = new DialogExport();
-            dialog.show(getSupportFragmentManager(), "DialogExport");
+            if (hasilPeriksaModelArrayList.size() > 0) {
+                DialogExport dialog = new DialogExport();
+                dialog.show(getSupportFragmentManager(), "DialogExport");
+            } else {
+                Toast.makeText(getApplicationContext(), getString(R.string.riwayat_kosong), Toast.LENGTH_LONG).show();
+            }
         });
     }
 

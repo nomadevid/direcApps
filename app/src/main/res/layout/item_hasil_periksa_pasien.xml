@@ -122,12 +122,12 @@
                 android:text="@string/terapi" />
 
             <TextView
-                android:id="@+id/tv_foto"
+                android:id="@+id/tv_skema"
                 style="@style/TextCardViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/foto_title" />
+                android:text="@string/skema_title" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -166,9 +166,15 @@
                         android:contentDescription="@string/gambar_skema_1"
                         android:scaleType="centerCrop" />
                 </androidx.cardview.widget.CardView>
-
-
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_foto"
+                style="@style/TextCardViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/foto_title" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_photo"

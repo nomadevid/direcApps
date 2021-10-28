@@ -161,10 +161,15 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             Log.d("TAG", "bind: " + hasilPeriksaModel.getUrlString());
             if (hasilPeriksaModel.getUrlString() != null) {
                 setAdapter(hasilPeriksaModel.getUrlString());
-            } else binding.rvPhoto.setVisibility(View.GONE);
-
-            if ((hasilPeriksaModel.getUrlString() == null) && (skema1 == null) && (skema2 == null))
+            } else {
+                binding.rvPhoto.setVisibility(View.GONE);
                 binding.tvFoto.setVisibility(View.GONE);
+            }
+
+            if ((skema1 == null) && (skema2 == null))
+                binding.tvSkema.setVisibility(View.GONE);
+
+
             getPasien();
         }
 

@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +35,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.dsphotoeditor.sdk.activity.DsPhotoEditorActivity;
 import com.dsphotoeditor.sdk.utils.DsPhotoEditorConstants;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -72,13 +75,19 @@ public class DialogAddDataActivity extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = ActivityDialogAddDataBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        pemeriksa = "dr. Dyah Purwita Trianggadewi, M.ked.Klin, Sp.M";
 
         db = FirebaseFirestore.getInstance();
         if (getArguments() != null) {
             id = getArguments().getString(DetailActivity.ID);
             nama = getArguments().getString(DetailActivity.NAMA);
             tanggalLahir = getArguments().getString(DetailActivity.TANGGAL_LAHIR);
+        }
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        if (firebaseUser != null) {
+            pemeriksa = firebaseUser.getUid();
         }
 
         ImageList = new ArrayList<>();
@@ -155,6 +164,7 @@ public class DialogAddDataActivity extends DialogFragment {
             postScheme();
             if (ImageList.isEmpty()) getDialog().dismiss();
             else postImage();
+
         });
 
         binding.ibAddPhoto.setOnClickListener(v -> {
@@ -207,7 +217,7 @@ public class DialogAddDataActivity extends DialogFragment {
         });
 
         binding.ivScheme1.setOnLongClickListener(v -> {
-            schemeList.add(0, null);
+            schemeList.set(0, null);
             binding.ivScheme1.setVisibility(View.GONE);
             binding.tbAddScheme1.setText(R.string.tambah_skema_1);
             Toast.makeText(getActivity(), "Skema Dihapus", Toast.LENGTH_SHORT).show();
@@ -215,7 +225,7 @@ public class DialogAddDataActivity extends DialogFragment {
         });
 
         binding.ivScheme2.setOnLongClickListener(v -> {
-            schemeList.add(1, null);
+            schemeList.set(1, null);
             binding.ivScheme2.setVisibility(View.GONE);
             binding.tbAddScheme1.setText(R.string.tambah_skema_2);
             Toast.makeText(getActivity(), "Skema Dihapus", Toast.LENGTH_SHORT).show();
@@ -232,13 +242,13 @@ public class DialogAddDataActivity extends DialogFragment {
             assert data != null;
             Uri uri = data.getData();
             if (requestCode == 101) {
-                schemeList.add(0, uri);
+                schemeList.set(0, uri);
                 binding.ivScheme1.setImageURI(uri);
                 binding.ivScheme1.setVisibility(View.VISIBLE);
                 binding.tbAddScheme1.setText(R.string.ganti_skema_1);
             }
             if (requestCode == 102) {
-                schemeList.add(1, uri);
+                schemeList.set(1, uri);
                 binding.ivScheme2.setImageURI(uri);
                 binding.ivScheme2.setVisibility(View.VISIBLE);
                 binding.tbAddScheme1.setText(R.string.ganti_skema_2);
@@ -458,8 +468,11 @@ public class DialogAddDataActivity extends DialogFragment {
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
-        listener.RefreshLayout(true);
-        showProgressBar(false);
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            listener.RefreshLayout(true);
+            showProgressBar(false);
+        }, 2000);
     }
 
     public interface DialogAddDataListener {

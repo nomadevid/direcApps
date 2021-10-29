@@ -256,6 +256,7 @@ public class DetailActivity extends AppCompatActivity implements
         String folderName = "Direc";
         String fileName = folderName + "_" + nama + "_" + System.currentTimeMillis() + ".xls";
         String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + folderName + File.separator + fileName;
+
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + folderName);
         if (!file.exists()) {
             file.mkdirs();

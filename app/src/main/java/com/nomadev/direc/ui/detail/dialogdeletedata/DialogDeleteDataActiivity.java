@@ -63,7 +63,7 @@ public class DialogDeleteDataActiivity extends DialogFragment {
             if (task.isComplete()) deleteHistory();
         });
 
-        StorageReference deleteFileImage = FirebaseStorage.getInstance().getReference(id_data);
+        StorageReference deleteFileImage = FirebaseStorage.getInstance().getReference().child(id_data);
 
         deleteFileImage.delete().addOnSuccessListener(unused -> Log.d("SUCCESS", "onSuccess: Data Storage Dihapus"))
                 .addOnFailureListener(e -> Log.e("FAIL", "deleteData: ", e));

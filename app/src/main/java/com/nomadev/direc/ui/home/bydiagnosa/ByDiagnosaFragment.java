@@ -101,7 +101,6 @@ public class ByDiagnosaFragment extends Fragment {
         showProgressBar(true);
         initStartDatePicker(df);
         initEndDatePicker(df);
-        getHistory(startDate, endDate);
         showRecyclerView();
     }
 
@@ -154,7 +153,7 @@ public class ByDiagnosaFragment extends Fragment {
     private void getHistory(Date dateStart, Date dateEnd) {
         listHistory.clear();
         CollectionReference dbRef = db.collection("history_pasien_all");
-        Query query = dbRef.whereEqualTo("penyakit", String.valueOf(binding.spinnerKetegori.getSelectedItemPosition()))
+        Query query = dbRef.whereEqualTo("penyakit", String.valueOf(binding.spinnerKetegori.getSelectedItem()))
                 .orderBy("timeStamp", Query.Direction.ASCENDING)
                 .startAt(dateStart)
                 .endAt(dateEnd)
@@ -173,10 +172,11 @@ public class ByDiagnosaFragment extends Fragment {
                 showInfo(false);
                 binding.refreshLayout.setRefreshing(false);
                 binding.tvBanyakData.setVisibility(View.VISIBLE);
-                binding.tvBanyakData.setText("Terdapat " + listHistory.size() + " data untuk diagnosa ini.");
+                binding.tvBanyakData.setText(getString(R.string.banyak_data_info, listHistory.size()));
                 binding.rv.setVisibility(View.VISIBLE);
             } else {
                 showInfo(true);
+                binding.refreshLayout.setRefreshing(false);
                 binding.tvBanyakData.setVisibility(View.GONE);
                 binding.rv.setVisibility(View.GONE);
             }

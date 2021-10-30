@@ -37,6 +37,7 @@ import com.dsphotoeditor.sdk.utils.DsPhotoEditorConstants;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -81,13 +82,6 @@ public class DialogAddDataActivity extends DialogFragment {
             id = getArguments().getString(DetailActivity.ID);
             nama = getArguments().getString(DetailActivity.NAMA);
             tanggalLahir = getArguments().getString(DetailActivity.TANGGAL_LAHIR);
-        }
-
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-
-        if (firebaseUser != null) {
-            pemeriksa = firebaseUser.getUid();
         }
 
         ImageList = new ArrayList<>();
@@ -232,7 +226,31 @@ public class DialogAddDataActivity extends DialogFragment {
             return true;
         });
 
+        getUser();
+
         return view;
+    }
+
+    private void getUser() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        String idUser;
+
+        if (firebaseUser != null) {
+            idUser = firebaseUser.getUid();
+
+            CollectionReference collection = db.collection("users");
+            DocumentReference dbRef = collection.document(idUser);
+
+            dbRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    if (task.getResult() != null) {
+                        pemeriksa = task.getResult().getString("nama");
+                    }
+                }
+            });
+        }
     }
 
     @Override

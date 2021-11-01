@@ -1,6 +1,7 @@
 package com.nomadev.direc.ui.home.bydiagnosa;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +9,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ItemByDiagnosaBinding;
 import com.nomadev.direc.model.HistoryModel;
 import com.nomadev.direc.ui.detail.DetailActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class ByDiagnosaAdapter extends RecyclerView.Adapter<ByDiagnosaAdapter.ViewHolder> {
 
@@ -51,12 +57,41 @@ public class ByDiagnosaAdapter extends RecyclerView.Adapter<ByDiagnosaAdapter.Vi
             String idPasien = data.getIdPasien();
 
             binding.tvNama.setText(data.getNama());
-            binding.tvDiagnosa.setText(data.getTanggalLahir());
+            binding.tvDiagnosa.setText(itemView.getContext().getString(R.string.usia_terisi, calculateAge(data.getTanggalLahir())));
             binding.getRoot().setOnClickListener(v -> {
                 Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
                 intent.putExtra(DetailActivity.ID, idPasien);
                 itemView.getContext().startActivity(intent);
             });
+        }
+
+        private String calculateAge(String tanggalLahir) {
+            // KONVERSI STRING KE DATE
+            String ageString = "";
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            try {
+                Date date = format.parse(tanggalLahir);
+
+                // HITUNG USIA
+                Calendar dob = Calendar.getInstance();
+                Calendar today = Calendar.getInstance();
+
+                if (date != null) {
+                    dob.setTime(date);
+
+                    int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+                    if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+                        age--;
+                    }
+
+                    ageString = String.valueOf(age);
+                    Log.d("usia", ageString);
+                }
+            } catch (Exception e) {
+                Log.d("Exception", e.toString());
+            }
+
+            return ageString;
         }
     }
 }

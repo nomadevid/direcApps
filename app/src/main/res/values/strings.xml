@@ -77,6 +77,7 @@
     <string name="minimum_tagihan">100000</string>
     <string name="sampai">sampai</string>
     <string name="banyak_data">Banyak Data</string>
+    <string name="banyak_data_info">Terdapat %d data untuk diagnosa ini.</string>
     <string name="export_rekam_data">Export Rekam Data</string>
     <string name="export_rekam_data_info">Hasil rekam data akan diexport dalam bentuk xls.</string>
     <string name="export">Export</string>

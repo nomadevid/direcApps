@@ -7,14 +7,17 @@
     android:layout_marginVertical="16dp"
     app:cardCornerRadius="8dp"
     tools:context=".ui.home.dialogaddpasien.DialogAddPasienActivity">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             style="@style/DialogStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
 
             <TextView
                 android:id="@+id/et_title"
@@ -34,6 +37,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/masukkan_biodata_pasien_anda" />
+
             <TextView
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="wrap_content"
@@ -107,6 +111,7 @@
                 android:textOff=""
                 android:textOn=""
                 android:textSize="14sp" />
+
             <TextView
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="wrap_content"
@@ -123,6 +128,7 @@
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/style_spinner"
                 android:popupBackground="@color/white" />
+
             <TextView
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="wrap_content"
@@ -145,6 +151,7 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:singleLine="true" />
+
             <TextView
                 style="@style/TextCardViewContentBlack"
                 android:layout_width="wrap_content"
@@ -173,9 +180,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="8dp"
                 android:background="@drawable/gradient_button_masuk"
                 android:text="@string/simpan" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_delete"
+                style="@style/ButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/gradient_button_masuk"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:text="@string/hapus"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </androidx.cardview.widget.CardView>

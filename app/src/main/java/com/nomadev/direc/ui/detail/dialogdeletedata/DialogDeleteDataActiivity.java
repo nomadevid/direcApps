@@ -27,6 +27,7 @@ public class DialogDeleteDataActiivity extends DialogFragment {
     private ActivityDialogDeleteDataActiivityBinding binding;
     private FirebaseFirestore db;
     private String id_data, id_pasien, tanggal_data;
+    private int type;
     private DialogDeleteDataListener listener;
 
     @Nullable
@@ -40,6 +41,7 @@ public class DialogDeleteDataActiivity extends DialogFragment {
             id_data = getArguments().getString(HasilPeriksaAdapter.ViewHolder.ID_DATA);
             id_pasien = getArguments().getString(HasilPeriksaAdapter.ViewHolder.ID_PASIEN);
             tanggal_data = getArguments().getString(HasilPeriksaAdapter.ViewHolder.TANGGAL_DATA);
+            type = getArguments().getInt("type", 0);
         }
 
         if (getDialog() != null) {
@@ -49,11 +51,31 @@ public class DialogDeleteDataActiivity extends DialogFragment {
             getDialog().show();
         }
 
-        binding.btnHapus.setOnClickListener(v -> deleteData());
+        if (type == 0) {
+            binding.btnHapus.setOnClickListener(v -> deleteData());
+        } else {
+            binding.btnHapus.setOnClickListener(v -> deletePasien());
+        }
 
         binding.btnTidak.setOnClickListener(v -> getDialog().dismiss());
 
         return view;
+    }
+
+    private void deletePasien() {
+        DocumentReference dbRef = db.collection("pasien").document(id_pasien);
+        dbRef.delete().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d("SUCCESS", "onSuccess: Dihapus");
+            }
+
+            if (getDialog() != null) {
+                getDialog().dismiss();
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
+            }
+        });
     }
 
     private void deleteData() {

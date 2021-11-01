@@ -243,6 +243,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     bundle1.putString(ID_DATA, id_data);
                     bundle1.putString(ID_PASIEN, id_pasien);
                     bundle1.putString(TANGGAL_DATA, tanggal_data);
+                    bundle1.putInt("type", 0);
                     dialogDeleteDataActiivity.setArguments(bundle1);
                     dialogDeleteDataActiivity.show(fragmentManager, "Dialog Delete Data");
                     return true;

@@ -26,6 +26,7 @@ import com.nomadev.direc.BuildConfig;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDialogAddPasienBinding;
 import com.nomadev.direc.model.PasienModel;
+import com.nomadev.direc.ui.detail.dialogdeletedata.DialogDeleteDataActiivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -128,6 +129,18 @@ public class DialogUpdatePasienActivity extends DialogFragment {
             }
 
             updateData(nama, kelamin, telepon, alamat, tanggal_lahir, kelaminInteger);
+        });
+
+        binding.btnDelete.setVisibility(View.VISIBLE);
+        binding.btnDelete.setOnClickListener(v -> {
+            DialogDeleteDataActiivity dialog = new DialogDeleteDataActiivity();
+            Bundle bundle = new Bundle();
+            bundle.putString("id_pasien", id);
+            bundle.putInt("type", 1);
+            dialog.setArguments(bundle);
+            if (getActivity()!=null){
+                dialog.show(getActivity().getSupportFragmentManager(), "Dialog Delete Data");
+            }
         });
 
         return view;

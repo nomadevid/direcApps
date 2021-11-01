@@ -113,11 +113,18 @@ public class SearchActivity extends AppCompatActivity {
         ArrayList<JSONObject> array = new ArrayList<>();
         try {
             for (int i = 0; i < list.size(); i++) {
+                int genderInt = list.get(i).getKelamin();
+                String gender = "";
+                if (genderInt == 0) {
+                    gender = "Laki-laki";
+                } else {
+                    gender = "Perempuan";
+                }
                 array.add(
                         new JSONObject()
                                 .put("objectID", list.get(i).getId())
                                 .put("nama", list.get(i).getNama())
-                                .put("kelamin", list.get(i).getKelamin())
+                                .put("kelamin", gender)
                                 .put("tanggalLahir", list.get(i).getTanggalLahir())
                                 .put("telepon", list.get(i).getTelepon())
                                 .put("alamat", list.get(i).getAlamat())

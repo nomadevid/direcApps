@@ -182,7 +182,6 @@ public class DialogUpdatePasienActivity extends DialogFragment {
         ).addOnSuccessListener(unused -> {
             Log.d("SUCCESS", "Data terkirim: " + nama + kelamin + telepon + alamat + tanggalLahir);
             Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
-            updateAlgolia(nama, kelamin, telepon, alamat, tanggalLahir);
             if (getDialog() != null) {
                 getDialog().dismiss();
             }
@@ -239,28 +238,5 @@ public class DialogUpdatePasienActivity extends DialogFragment {
 
         String ageStr = String.valueOf(age);
         Log.d("usia", ageStr);
-    }
-
-    private void updateAlgolia(String nama, String kelamin, String telepon, String alamat, String tanggalLahir) {
-        Client client = new Client(BuildConfig.ALGOLIA_APP_ID, BuildConfig.ALGOLIA_ADMIN_API_KEY);
-        Index index = client.getIndex("pasien");
-
-        List<JSONObject> array = new ArrayList<>();
-
-        try {
-            array.add(
-                    new JSONObject()
-                            .put("objectID", id)
-                            .put("nama", nama)
-                            .put("kelamin", kelamin)
-                            .put("telepon", telepon)
-                            .put("alamat", alamat)
-                            .put("tanggalLahir", tanggalLahir)
-            );
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        index.partialUpdateObjectsAsync(new JSONArray(array), null);
     }
 }

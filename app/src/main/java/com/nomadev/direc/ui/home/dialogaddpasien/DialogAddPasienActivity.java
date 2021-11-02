@@ -18,20 +18,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.algolia.search.saas.Client;
-import com.algolia.search.saas.Index;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.nomadev.direc.BuildConfig;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDialogAddPasienBinding;
 import com.nomadev.direc.ui.detail.DetailActivity;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -158,36 +150,12 @@ public class DialogAddPasienActivity extends DialogFragment {
 
         dbData.set(map).addOnSuccessListener(unused -> {
             Log.d("id", id);
-            postAlgolia(nama, kelamin, telepon, alamat, tanggal_lahir, id);
             Objects.requireNonNull(getDialog()).dismiss();
             intentToDetail(nama, kelamin, telepon, alamat, tanggalLahir, id);
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
             Objects.requireNonNull(getDialog()).dismiss();
         });
-    }
-
-    private void postAlgolia(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, String id) {
-        Client client = new Client(BuildConfig.ALGOLIA_APP_ID, BuildConfig.ALGOLIA_ADMIN_API_KEY);
-        Index index = client.getIndex("pasien");
-
-        ArrayList<JSONObject> array = new ArrayList<>();
-
-        try {
-            array.add(
-                    new JSONObject()
-                            .put("objectID", id)
-                            .put("nama", nama)
-                            .put("kelamin", kelamin)
-                            .put("tanggalLahir", tanggalLahir)
-                            .put("telepon", telepon)
-                            .put("alamat", alamat)
-            );
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        index.addObjectsAsync(new JSONArray(array), null);
     }
 
     private void intentToDetail(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, String id) {

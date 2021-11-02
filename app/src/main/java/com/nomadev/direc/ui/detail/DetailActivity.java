@@ -61,7 +61,7 @@ public class DetailActivity extends AppCompatActivity implements
 
     private final int GENDER_LAKI = 0;
 
-    private String nama, telepon, alamat, tanggalLahir, id;
+    private String nama, telepon, alamat, tanggalLahir, id, email;
     private int kelamin;
 
     private ActivityDetailBinding binding;
@@ -183,74 +183,106 @@ public class DetailActivity extends AppCompatActivity implements
         Row row = sheet.createRow(0);
 
         cell = row.createCell(0);
-        cell.setCellValue("TANGGAL");
+        cell.setCellValue("ID");
 
         cell = row.createCell(1);
-        cell.setCellValue("NAMA PASIEN");
+        cell.setCellValue("TANGGAL");
 
         cell = row.createCell(2);
-        cell.setCellValue("PEMERIKSA");
+        cell.setCellValue("NAMA PASIEN");
 
         cell = row.createCell(3);
-        cell.setCellValue("PENYAKIT");
+        cell.setCellValue("EMAIL");
 
         cell = row.createCell(4);
-        cell.setCellValue("KELUHAN");
+        cell.setCellValue("NO. TELEPON");
 
         cell = row.createCell(5);
-        cell.setCellValue("HASIL PERIKSA");
+        cell.setCellValue("ALAMAT");
 
         cell = row.createCell(6);
-        cell.setCellValue("TERAPI");
+        cell.setCellValue("PEMERIKSA");
 
         cell = row.createCell(7);
+        cell.setCellValue("PENYAKIT");
+
+        cell = row.createCell(8);
+        cell.setCellValue("KELUHAN");
+
+        cell = row.createCell(9);
+        cell.setCellValue("HASIL PERIKSA");
+
+        cell = row.createCell(10);
+        cell.setCellValue("TERAPI");
+
+        cell = row.createCell(11);
         cell.setCellValue("TAGIHAN");
 
         //column width
-        sheet.setColumnWidth(0, (30 * 200));
+        sheet.setColumnWidth(0, (10 * 200));
         sheet.setColumnWidth(1, (30 * 200));
-        sheet.setColumnWidth(2, (60 * 200));
-        sheet.setColumnWidth(3, (20 * 200));
+        sheet.setColumnWidth(2, (30 * 200));
+        sheet.setColumnWidth(3, (30 * 200));
         sheet.setColumnWidth(4, (30 * 200));
         sheet.setColumnWidth(5, (30 * 200));
-        sheet.setColumnWidth(6, (30 * 200));
+        sheet.setColumnWidth(6, (60 * 200));
         sheet.setColumnWidth(7, (20 * 200));
+        sheet.setColumnWidth(8, (30 * 200));
+        sheet.setColumnWidth(9, (30 * 200));
+        sheet.setColumnWidth(10, (30 * 200));
+        sheet.setColumnWidth(11, (20 * 200));
 
         for (int i = 0; i < list.size(); i++) {
             Row row1 = sheet.createRow(i + 1);
 
             cell = row1.createCell(0);
-            cell.setCellValue(list.get(i).getTanggal());
+            cell.setCellValue("INI ID");
 
             cell = row1.createCell(1);
-            cell.setCellValue(nama);
+            cell.setCellValue(list.get(i).getTanggal());
 
             cell = row1.createCell(2);
-            cell.setCellValue(list.get(i).getPemeriksa());
+            cell.setCellValue(nama);
 
             cell = row1.createCell(3);
-            cell.setCellValue(list.get(i).getPenyakit());
+            cell.setCellValue(email);
 
             cell = row1.createCell(4);
-            cell.setCellValue(list.get(i).getKeluhan());
+            cell.setCellValue(telepon);
 
             cell = row1.createCell(5);
-            cell.setCellValue(list.get(i).getHasil_periksa());
+            cell.setCellValue(alamat);
 
             cell = row1.createCell(6);
-            cell.setCellValue(list.get(i).getTerapi());
+            cell.setCellValue(list.get(i).getPemeriksa());
 
             cell = row1.createCell(7);
+            cell.setCellValue(list.get(i).getPenyakit());
+
+            cell = row1.createCell(8);
+            cell.setCellValue(list.get(i).getKeluhan());
+
+            cell = row1.createCell(9);
+            cell.setCellValue(list.get(i).getHasil_periksa());
+
+            cell = row1.createCell(10);
+            cell.setCellValue(list.get(i).getTerapi());
+
+            cell = row1.createCell(11);
             cell.setCellValue(list.get(i).getTagihan());
 
-            sheet.setColumnWidth(0, (30 * 200));
+            sheet.setColumnWidth(0, (10 * 200));
             sheet.setColumnWidth(1, (30 * 200));
-            sheet.setColumnWidth(2, (60 * 200));
-            sheet.setColumnWidth(3, (20 * 200));
+            sheet.setColumnWidth(2, (30 * 200));
+            sheet.setColumnWidth(3, (30 * 200));
             sheet.setColumnWidth(4, (30 * 200));
             sheet.setColumnWidth(5, (30 * 200));
-            sheet.setColumnWidth(6, (30 * 200));
+            sheet.setColumnWidth(6, (60 * 200));
             sheet.setColumnWidth(7, (20 * 200));
+            sheet.setColumnWidth(8, (30 * 200));
+            sheet.setColumnWidth(9, (30 * 200));
+            sheet.setColumnWidth(10, (30 * 200));
+            sheet.setColumnWidth(11, (20 * 200));
         }
 
         String folderName = "Direc";
@@ -294,6 +326,7 @@ public class DetailActivity extends AppCompatActivity implements
                 kelamin = Objects.requireNonNull(documentSnapshot.getLong("kelamin")).intValue();
                 telepon = documentSnapshot.getString("telepon");
                 alamat = documentSnapshot.getString("alamat");
+                email = documentSnapshot.getString("email");
 
                 binding.tvDataDiri.setText(nama);
                 binding.tvUsia.setText(getString(R.string.usia_terisi, calculateAge(tanggalLahir)));

@@ -18,23 +18,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.algolia.search.saas.Client;
-import com.algolia.search.saas.Index;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.nomadev.direc.BuildConfig;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ActivityDialogAddPasienBinding;
 import com.nomadev.direc.model.PasienModel;
 import com.nomadev.direc.ui.detail.dialogdeletedata.DialogDeleteDataActiivity;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Objects;
 
 public class DialogUpdatePasienActivity extends DialogFragment {
@@ -42,7 +33,6 @@ public class DialogUpdatePasienActivity extends DialogFragment {
     private ActivityDialogAddPasienBinding binding;
     private DatePickerDialog datePickerDialog;
     private FirebaseFirestore db;
-    private int setSpinner;
     private String id;
     private String nama;
     private String kelamin;
@@ -138,7 +128,7 @@ public class DialogUpdatePasienActivity extends DialogFragment {
             bundle.putString("id_pasien", id);
             bundle.putInt("type", 1);
             dialog.setArguments(bundle);
-            if (getActivity()!=null){
+            if (getActivity() != null) {
                 dialog.show(getActivity().getSupportFragmentManager(), "Dialog Delete Data");
             }
         });

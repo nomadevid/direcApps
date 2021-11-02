@@ -225,7 +225,7 @@ public class DetailActivity extends AppCompatActivity implements
         sheet.setColumnWidth(3, (30 * 200));
         sheet.setColumnWidth(4, (30 * 200));
         sheet.setColumnWidth(5, (30 * 200));
-        sheet.setColumnWidth(6, (60 * 200));
+        sheet.setColumnWidth(6, (30 * 200));
         sheet.setColumnWidth(7, (20 * 200));
         sheet.setColumnWidth(8, (30 * 200));
         sheet.setColumnWidth(9, (30 * 200));
@@ -277,7 +277,7 @@ public class DetailActivity extends AppCompatActivity implements
             sheet.setColumnWidth(3, (30 * 200));
             sheet.setColumnWidth(4, (30 * 200));
             sheet.setColumnWidth(5, (30 * 200));
-            sheet.setColumnWidth(6, (60 * 200));
+            sheet.setColumnWidth(6, (30 * 200));
             sheet.setColumnWidth(7, (20 * 200));
             sheet.setColumnWidth(8, (30 * 200));
             sheet.setColumnWidth(9, (30 * 200));

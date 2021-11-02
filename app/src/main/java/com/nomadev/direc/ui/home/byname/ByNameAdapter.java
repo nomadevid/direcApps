@@ -103,7 +103,6 @@ public class ByNameAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private final ItemByNameBinding binding;
 
         private String nama, kelamin, telepon, alamat, tanggalLahir, id, ageString;
-        private int kelaminInteger;
 
         public ItemViewHolder(@NonNull ItemByNameBinding binding) {
             super(binding.getRoot());
@@ -112,7 +111,7 @@ public class ByNameAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public void bind(PasienModel pasienModel) {
 
-            kelaminInteger = pasienModel.getKelamin();
+            int kelaminInteger = pasienModel.getKelamin();
             nama = pasienModel.getNama();
             kelamin = String.valueOf(kelaminInteger);
             telepon = pasienModel.getTelepon();

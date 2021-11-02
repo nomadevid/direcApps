@@ -330,8 +330,8 @@ public class DialogUpdateDataActivity extends DialogFragment {
                 pemeriksa = documentSnapshot.getString("pemeriksa");
                 schemeUrlList.add(0, documentSnapshot.getString("skema1"));
                 schemeUrlList.add(1, documentSnapshot.getString("skema2"));
-
-                getPenyakit(documentSnapshot.getString("penyakit"));
+                penyakit = documentSnapshot.getString("penyakit");
+                getPenyakit();
 
                 if (schemeUrlList.get(0) != null) {
                     Picasso.get().load(schemeUrlList.get(0)).fit().into(binding.ivScheme1);
@@ -367,7 +367,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
 
     }
 
-    private void getPenyakit(String penyakit) {
+    private void getPenyakit() {
         if (penyakit.equals(getString(R.string.penyakit_katarak)))
             binding.spinnerPenyakit.setSelection(0);
         else if (penyakit.equals(getString(R.string.penyakit_pterygium)))

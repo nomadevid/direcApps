@@ -26,7 +26,8 @@ public class DialogDeleteDataActiivity extends DialogFragment {
 
     private ActivityDialogDeleteDataActiivityBinding binding;
     private FirebaseFirestore db;
-    private String id_data, id_pasien, tanggal_data;
+    private String id_data;
+    private String id_pasien;
     private int type;
     private DialogDeleteDataListener listener;
 
@@ -40,7 +41,6 @@ public class DialogDeleteDataActiivity extends DialogFragment {
         if (getArguments() != null) {
             id_data = getArguments().getString(HasilPeriksaAdapter.ViewHolder.ID_DATA);
             id_pasien = getArguments().getString(HasilPeriksaAdapter.ViewHolder.ID_PASIEN);
-            tanggal_data = getArguments().getString(HasilPeriksaAdapter.ViewHolder.TANGGAL_DATA);
             type = getArguments().getInt("type", 0);
         }
 
@@ -65,7 +65,7 @@ public class DialogDeleteDataActiivity extends DialogFragment {
     private void deletePasien() {
         DocumentReference dbRef = db.collection("pasien").document(id_pasien);
         dbRef.collection("history").get().addOnSuccessListener(queryDocumentSnapshots -> {
-            for (int i = 0; i < queryDocumentSnapshots.size(); i++){
+            for (int i = 0; i < queryDocumentSnapshots.size(); i++) {
                 id_data = queryDocumentSnapshots.getDocuments().get(i).getId();
                 deleteDbData();
                 deleteStorImage();
@@ -95,7 +95,7 @@ public class DialogDeleteDataActiivity extends DialogFragment {
         listener.RefreshLayout(true);
     }
 
-    private void deleteDbData(){
+    private void deleteDbData() {
         DocumentReference dbPasien = db.collection("pasien").document(id_pasien).collection("history").document(id_data);
         DocumentReference dbHistory = db.collection("history_pasien_all").document(id_data);
 
@@ -103,19 +103,19 @@ public class DialogDeleteDataActiivity extends DialogFragment {
         dbHistory.delete();
     }
 
-    private void deleteStorImage(){
+    private void deleteStorImage() {
         StorageReference deleteFileScheme = FirebaseStorage.getInstance().getReference().child(id_data).child("scheme");
         StorageReference deleteFileImage = FirebaseStorage.getInstance().getReference().child(id_data);
 
         deleteFileScheme.listAll().addOnSuccessListener(listResult -> {
-            for (int i = 0; i< listResult.getItems().size(); i++){
+            for (int i = 0; i < listResult.getItems().size(); i++) {
                 listResult.getItems().get(i).delete();
             }
             Log.d("SUCCESS", "onSuccess: Data Storage Dihapus");
         }).addOnFailureListener(e -> Log.e("FAIL", "deleteData: ", e));
 
         deleteFileImage.listAll().addOnSuccessListener(listResult -> {
-            for (int i = 0; i< listResult.getItems().size(); i++){
+            for (int i = 0; i < listResult.getItems().size(); i++) {
                 listResult.getItems().get(i).delete();
             }
             Log.d("SUCCESS", "onSuccess: Data Storage Dihapus");

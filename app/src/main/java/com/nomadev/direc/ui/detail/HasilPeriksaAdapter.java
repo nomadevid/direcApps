@@ -17,9 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.nomadev.direc.R;
 import com.nomadev.direc.databinding.ItemHasilPeriksaPasienBinding;
@@ -182,8 +180,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (documentSnapshot.exists()) {
                     nama = documentSnapshot.getString("nama");
                     Log.d("FEEDBACK", "Berhasil Mengambil Data." + nama);
-                }
-                else Log.d("FEEDBACK", "Data Kosong.");
+                } else Log.d("FEEDBACK", "Data Kosong.");
             }).addOnFailureListener(e -> Toast.makeText(itemView.getContext(), "Error: " +
                     e.toString(), Toast.LENGTH_SHORT).show());
         }
@@ -205,18 +202,16 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         private void setScheme(String skema1, String skema2) {
 
-            if (skema1 == null){
+            if (skema1 == null) {
                 binding.ivScheme1.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 Picasso.get().load(skema1).fit().into(binding.ivScheme1);
                 binding.ivScheme1.setVisibility(View.VISIBLE);
             }
 
-            if (skema2 == null){
+            if (skema2 == null) {
                 binding.ivScheme2.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 Picasso.get().load(skema2).fit().into(binding.ivScheme2);
                 binding.ivScheme2.setVisibility(View.VISIBLE);
             }
@@ -260,7 +255,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             DocumentReference dbPasien = db.collection("pasien").document(id_pasien);
 
             dbPasien.get().addOnSuccessListener(documentSnapshot -> {
-                if (documentSnapshot.exists()){
+                if (documentSnapshot.exists()) {
                     String name = documentSnapshot.getString("nama");
                     FotoStreamAdapter fotoStreamAdapter = new FotoStreamAdapter(listData, name, tanggal_data);
                     GridLayoutManager gridLayoutManager = new GridLayoutManager(itemView.getContext(), 4);
@@ -269,8 +264,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     binding.rvPhoto.setAdapter(fotoStreamAdapter);
                     fotoStreamAdapter.notifyDataSetChanged();
                     Log.d("FEEDBACK", "Berhasil Mengambil Data." + name);
-                }
-                else {
+                } else {
                     Log.d("FEEDBACK", "Data Kosong.");
                 }
             }).addOnFailureListener(e -> Toast.makeText(itemView.getContext(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show());

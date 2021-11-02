@@ -19,7 +19,7 @@ public class HasilPeriksaModel {
     @Exclude
     private String id_data;
     private int tagihan;
-    private String hasil_periksa, keluhan, tanggal, terapi, id, penyakit, pemeriksa, skema1, skema2;
+    private String hasil_periksa, keluhan, tanggal, terapi, id, penyakit, pemeriksa, skema1, skema2, idData;
     private ArrayList<String> urlString;
     private Timestamp timestamp;
     public boolean isSection;
@@ -28,7 +28,8 @@ public class HasilPeriksaModel {
 
     }
 
-    public HasilPeriksaModel(String pemeriksa, String penyakit, String hasil_periksa, String keluhan, String tanggal, String terapi, int tagihan, String skema1, String skema2, Timestamp timestamp, boolean isSection) {
+    public HasilPeriksaModel(String idData, String pemeriksa, String penyakit, String hasil_periksa, String keluhan, String tanggal, String terapi, int tagihan, String skema1, String skema2, Timestamp timestamp, boolean isSection) {
+        this.idData = idData;
         this.hasil_periksa = hasil_periksa;
         this.keluhan = keluhan;
         this.tanggal = tanggal;
@@ -136,5 +137,13 @@ public class HasilPeriksaModel {
 
     public void setSkema2(String skema2) {
         this.skema2 = skema2;
+    }
+
+    public String getIdData() {
+        return idData;
+    }
+
+    public void setIdData(String idData) {
+        this.idData = idData;
     }
 }

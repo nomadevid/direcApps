@@ -148,6 +148,7 @@ public class HasilPeriksaAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void bind(HasilPeriksaModel hasilPeriksaModel) {
+            binding.tvId.setText(hasilPeriksaModel.getIdData());
             binding.tvHasilPeriksa.setText(hasilPeriksaModel.getHasil_periksa());
             binding.tvKeluhan.setText(hasilPeriksaModel.getKeluhan());
             binding.tvTerapi.setText(hasilPeriksaModel.getTerapi());

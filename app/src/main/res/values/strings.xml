@@ -93,5 +93,6 @@
     <string name="skema_title">Skema</string>
     <string name="penyakit_ulkus_kornea">Ulkus Kornea</string>
     <string name="penyakit_dry_eye_disease">Dry Eye Disease</string>
+    <string name="id">ID</string>
 
 </resources>

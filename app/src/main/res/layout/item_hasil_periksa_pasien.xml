@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         android:layout_marginEnd="16dp"
         android:background="@color/direc_grey" />
+
     <androidx.cardview.widget.CardView
         style="@style/CardViewStyle"
         android:layout_width="match_parent"
@@ -43,10 +44,26 @@
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/tv_id_title"
+                style="@style/TextCardViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/id" />
+
+            <TextView
+                android:id="@+id/tv_id"
+                style="@style/TextCardViewContentGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/id" />
+
+            <TextView
                 android:id="@+id/tv_pemeriksa_title"
                 style="@style/TextCardViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/pemeriksa_title" />
 
             <TextView
@@ -140,9 +157,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
                     app:cardCornerRadius="4dp"
-                    app:cardElevation="0dp"
-                    android:layout_weight="1">
+                    app:cardElevation="0dp">
 
                     <ImageView
                         android:id="@+id/iv_scheme1"
@@ -155,9 +172,9 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     app:cardCornerRadius="4dp"
-                    app:cardElevation="0dp"
-                    android:layout_weight="1">
+                    app:cardElevation="0dp">
 
                     <ImageView
                         android:id="@+id/iv_scheme2"

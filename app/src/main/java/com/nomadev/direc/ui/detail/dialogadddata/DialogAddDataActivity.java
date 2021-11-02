@@ -419,11 +419,15 @@ public class DialogAddDataActivity extends DialogFragment {
         String tanggal = df.format(c);
         Timestamp timestamp = new Timestamp(c);
 
+        SimpleDateFormat dfId = new SimpleDateFormat("ddMMyyhhmmssSS", Locale.getDefault());
+        String idData = dfId.format(c);
+
         DocumentReference dbData = db.collection("pasien").document(id).collection("history").document();
         idHistory = dbData.getId();
 
         Map<Object, Object> map = new HashMap<>();
         map.put("id", id);
+        map.put("idData", idData);
         map.put("pemeriksa", pemeriksa);
         map.put("penyakit", penyakit);
         map.put("hasil_periksa", hasil_periksa);

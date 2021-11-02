@@ -236,7 +236,7 @@ public class DetailActivity extends AppCompatActivity implements
             Row row1 = sheet.createRow(i + 1);
 
             cell = row1.createCell(0);
-            cell.setCellValue("INI ID");
+            cell.setCellValue(list.get(i).getIdData());
 
             cell = row1.createCell(1);
             cell.setCellValue(list.get(i).getTanggal());
@@ -359,7 +359,7 @@ public class DetailActivity extends AppCompatActivity implements
 
             if (!TextUtils.equals(lastHeader, header)) {
                 lastHeader = header;
-                listSection.add(new HasilPeriksaModel("", "", "", "", header, "", 0, "", "", null, true));
+                listSection.add(new HasilPeriksaModel("", "", "", "", "", header, "", 0, "", "", null, true));
             }
             listSection.add(user);
         }

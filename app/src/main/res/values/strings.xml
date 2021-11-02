@@ -91,5 +91,7 @@
     <string name="tambah_gambar">Tambah Gambar</string>
     <string name="gambar_skema_1">Gambar Skema 1</string>
     <string name="skema_title">Skema</string>
+    <string name="penyakit_ulkus_kornea">Ulkus Kornea</string>
+    <string name="penyakit_dry_eye_disease">Dry Eye Disease</string>
 
 </resources>

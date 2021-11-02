@@ -100,7 +100,7 @@ public class DialogUpdateDataActivity extends DialogFragment {
 
         binding.etTagihan.addTextChangedListener(new MoneyTextWatcher(binding.etTagihan));
 
-        String[] penyakitList = {getString(R.string.penyakit_katarak), getString(R.string.penyakit_pterygium), getString(R.string.penyakit_hordeolum), getString(R.string.penyakit_Uveitis), getString(R.string.penyakit_poag), getString(R.string.penyakit_pacg), getString(R.string.penyakit_kelainan_refraksi), getString(R.string.penyakit_lainnya)};
+        String[] penyakitList = {getString(R.string.penyakit_katarak), getString(R.string.penyakit_pterygium), getString(R.string.penyakit_hordeolum), getString(R.string.penyakit_Uveitis), getString(R.string.penyakit_poag), getString(R.string.penyakit_pacg), getString(R.string.penyakit_kelainan_refraksi), getString(R.string.penyakit_ulkus_kornea), getString(R.string.penyakit_dry_eye_disease), getString(R.string.penyakit_lainnya)};
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_text_style, penyakitList);
         binding.spinnerPenyakit.setAdapter(arrayAdapter);
 

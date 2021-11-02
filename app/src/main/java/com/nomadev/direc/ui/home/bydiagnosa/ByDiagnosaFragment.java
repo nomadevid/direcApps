@@ -1,5 +1,6 @@
 package com.nomadev.direc.ui.home.bydiagnosa;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.os.Handler;
@@ -83,7 +84,7 @@ public class ByDiagnosaFragment extends Fragment {
         binding.btnStartDate.setOnClickListener(v -> startDatePicker.show());
         binding.btnEndDate.setOnClickListener(v -> endDatePicker.show());
 
-        String[] penyakit = {getString(R.string.penyakit_katarak), getString(R.string.penyakit_pterygium), getString(R.string.penyakit_hordeolum), getString(R.string.penyakit_Uveitis), getString(R.string.penyakit_poag), getString(R.string.penyakit_pacg), getString(R.string.penyakit_kelainan_refraksi), getString(R.string.penyakit_lainnya)};
+        String[] penyakit = {getString(R.string.penyakit_katarak), getString(R.string.penyakit_pterygium), getString(R.string.penyakit_hordeolum), getString(R.string.penyakit_Uveitis), getString(R.string.penyakit_poag), getString(R.string.penyakit_pacg), getString(R.string.penyakit_kelainan_refraksi), getString(R.string.penyakit_ulkus_kornea), getString(R.string.penyakit_dry_eye_disease), getString(R.string.penyakit_lainnya)};
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_text_style, penyakit);
         binding.spinnerKetegori.setAdapter(arrayAdapter);
         binding.spinnerKetegori.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -150,6 +151,7 @@ public class ByDiagnosaFragment extends Fragment {
         endDatePicker.getWindow().setBackgroundDrawableResource(R.drawable.rounded_box_white);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getHistory(Date dateStart, Date dateEnd) {
         listHistory.clear();
         CollectionReference dbRef = db.collection("history_pasien_all");

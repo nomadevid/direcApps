@@ -80,15 +80,34 @@ public class DialogDeleteDataActiivity extends DialogFragment {
 
     private void deleteData() {
         DocumentReference dbPasien = db.collection("pasien").document(id_pasien).collection("history").document(id_data);
+        DocumentReference dbHistory = db.collection("history_pasien_all").document(id_data);
 
         dbPasien.delete().addOnCompleteListener(task -> {
             if (task.isComplete()) deleteHistory();
         });
 
+        dbHistory.delete().addOnCompleteListener(task -> {
+            if (task.isComplete()) deleteHistory();
+        });
+
+        StorageReference deleteFileScheme = FirebaseStorage.getInstance().getReference().child(id_data).child("scheme");
         StorageReference deleteFileImage = FirebaseStorage.getInstance().getReference().child(id_data);
 
-        deleteFileImage.delete().addOnSuccessListener(unused -> Log.d("SUCCESS", "onSuccess: Data Storage Dihapus"))
-                .addOnFailureListener(e -> Log.e("FAIL", "deleteData: ", e));
+        deleteFileScheme.listAll().addOnSuccessListener(listResult -> {
+            for (int i = 0; i< listResult.getItems().size(); i++){
+                listResult.getItems().get(i).delete();
+            }
+            Log.d("SUCCESS", "onSuccess: Data Storage Dihapus");
+        }).addOnFailureListener(e -> Log.e("FAIL", "deleteData: ", e));
+
+        deleteFileImage.listAll().addOnSuccessListener(listResult -> {
+            for (int i = 0; i< listResult.getItems().size(); i++){
+                listResult.getItems().get(i).delete();
+            }
+            Log.d("SUCCESS", "onSuccess: Data Storage Dihapus");
+        }).addOnFailureListener(e -> Log.e("FAIL", "deleteData: ", e));
+//        deleteFileImage.delete().addOnSuccessListener(unused -> Log.d("SUCCESS", "onSuccess: Data Storage Dihapus"))
+//                .addOnFailureListener(e -> Log.e("FAIL", "deleteData: ", e));
 
         if (getDialog() != null) {
             getDialog().dismiss();

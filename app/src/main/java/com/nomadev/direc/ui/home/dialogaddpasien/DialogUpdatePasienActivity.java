@@ -170,13 +170,12 @@ public class DialogUpdatePasienActivity extends DialogFragment {
                 "kelamin", updatedPasienModel.getKelamin(),
                 "telepon", updatedPasienModel.getTelepon(),
                 "alamat", updatedPasienModel.getAlamat(),
-                "tanggalLahir", updatedPasienModel.getTanggalLahir()
-        ).addOnSuccessListener(unused -> {
-            Log.d("SUCCESS", "Data terkirim: " + nama + kelamin + telepon + alamat + tanggalLahir);
-        }).addOnFailureListener(e -> {
-            Log.d("GAGAL", "Error: " + e.toString());
-            Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
-        });
+                "tanggalLahir", updatedPasienModel.getTanggalLahir())
+                .addOnSuccessListener(unused -> Log.d("SUCCESS", "Data terkirim"))
+                .addOnFailureListener(e -> {
+                    Log.d("GAGAL", "Error: " + e.toString());
+                    Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void getPasienData() {

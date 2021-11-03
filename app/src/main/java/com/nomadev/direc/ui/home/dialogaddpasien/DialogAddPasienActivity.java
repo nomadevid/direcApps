@@ -150,12 +150,12 @@ public class DialogAddPasienActivity extends DialogFragment {
 
         dbData.set(map).addOnSuccessListener(unused -> {
             Log.d("id", id);
-            Objects.requireNonNull(getDialog()).dismiss();
-            intentToDetail(nama, kelamin, telepon, alamat, tanggalLahir, id);
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
-            Objects.requireNonNull(getDialog()).dismiss();
         });
+
+        Objects.requireNonNull(getDialog()).dismiss();
+        intentToDetail(nama, kelamin, telepon, alamat, tanggalLahir, id);
     }
 
     private void intentToDetail(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, String id) {

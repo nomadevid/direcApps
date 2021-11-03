@@ -292,7 +292,6 @@ public class DetailActivity extends AppCompatActivity implements
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + folderName);
         if (!file.exists()) {
             file.mkdirs();
-            Toast.makeText(getApplicationContext(), "FOLDER CREATED", Toast.LENGTH_LONG).show();
         }
 
         FileOutputStream outputStream = null;

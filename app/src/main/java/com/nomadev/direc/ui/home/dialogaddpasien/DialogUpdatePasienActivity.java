@@ -119,6 +119,13 @@ public class DialogUpdatePasienActivity extends DialogFragment {
             }
 
             updateData(nama, kelamin, telepon, alamat, tanggal_lahir, kelaminInteger);
+
+            if (getDialog() != null) {
+                getDialog().dismiss();
+            }
+            if (getActivity() != null) {
+                getActivity().recreate();
+            }
         });
 
         binding.btnDelete.setVisibility(View.VISIBLE);
@@ -155,14 +162,9 @@ public class DialogUpdatePasienActivity extends DialogFragment {
     }
 
     private void updateData(String nama, String kelamin, String telepon, String alamat, String tanggalLahir, int kelaminInteger) {
-        // creating a collection reference
-        // for our Firebase Firetore database.
         DocumentReference dbPasien = db.collection("pasien").document(id);
-
-        // adding our data to our courses object class.
         PasienModel updatedPasienModel = new PasienModel(nama, kelaminInteger, telepon, alamat, tanggalLahir, false);
 
-        // UPDATE TO "id" DOCUMENT
         dbPasien.update(
                 "nama", updatedPasienModel.getNama(),
                 "kelamin", updatedPasienModel.getKelamin(),
@@ -171,19 +173,9 @@ public class DialogUpdatePasienActivity extends DialogFragment {
                 "tanggalLahir", updatedPasienModel.getTanggalLahir()
         ).addOnSuccessListener(unused -> {
             Log.d("SUCCESS", "Data terkirim: " + nama + kelamin + telepon + alamat + tanggalLahir);
-            Toast.makeText(getActivity(), "Data terkirim.", Toast.LENGTH_SHORT).show();
-            if (getDialog() != null) {
-                getDialog().dismiss();
-            }
-            if (getActivity() != null) {
-                getActivity().recreate();
-            }
         }).addOnFailureListener(e -> {
             Log.d("GAGAL", "Error: " + e.toString());
             Toast.makeText(getActivity(), "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
-            if (getDialog() != null) {
-                getDialog().dismiss();
-            }
         });
     }
 

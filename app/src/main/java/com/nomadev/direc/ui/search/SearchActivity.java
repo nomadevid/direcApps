@@ -114,7 +114,7 @@ public class SearchActivity extends AppCompatActivity {
         try {
             for (int i = 0; i < list.size(); i++) {
                 int genderInt = list.get(i).getKelamin();
-                String gender = "";
+                String gender;
                 if (genderInt == 0) {
                     gender = "Laki-laki";
                 } else {

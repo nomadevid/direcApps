@@ -43,8 +43,8 @@ public class DialogFotoActivity extends DialogFragment {
         binding.tvTanggal.setText(tanggal);
         Picasso.get().load(url).into(binding.pvFotoFull);
 
-        int width = (int) (getResources().getDisplayMetrics().widthPixels);
-        int height = (int) (getResources().getDisplayMetrics().heightPixels);
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
 
         if (getDialog() != null) {
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));

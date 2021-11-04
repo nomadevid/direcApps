@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.nomadev.direc.BuildConfig;
 
@@ -46,7 +45,6 @@ public class MailAPI extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         mProgressDialog.dismiss();
-        Toast.makeText(mContext, "Message Sent", Toast.LENGTH_SHORT).show();
     }
 
     @Override

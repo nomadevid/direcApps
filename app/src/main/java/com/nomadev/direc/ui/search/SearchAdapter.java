@@ -16,16 +16,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+    private final List<PasienModel> searchList;
 
-    private final ArrayList<String> idList;
-    private final ArrayList<PasienModel> searchList;
-
-    public SearchAdapter(ArrayList<PasienModel> searchList, ArrayList<String> idList) {
+    public SearchAdapter(List<PasienModel> searchList) {
         this.searchList = searchList;
-        this.idList = idList;
     }
 
     @NonNull
@@ -36,12 +34,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull SearchAdapter.ViewHolder holder, int position) {
-        holder.bind(searchList.get(position), idList.get(position));
+        holder.bind(searchList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return idList.size();
+        return searchList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -54,14 +52,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             this.binding = binding;
         }
 
-        public void bind(PasienModel data, String id) {
+        public void bind(PasienModel data) {
             calculateAge(data.getTanggalLahir());
             binding.tvNama.setText(data.getNama());
             binding.tvTelepon.setText(data.getTelepon());
             binding.tvAlamat.setText(data.getAlamat());
             binding.getRoot().setOnClickListener(v -> {
                 Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
-                intent.putExtra(ID, id);
+                intent.putExtra(ID, data.getId());
                 itemView.getContext().startActivity(intent);
             });
         }

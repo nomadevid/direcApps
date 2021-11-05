@@ -8,21 +8,15 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.algolia.search.saas.Client;
-import com.algolia.search.saas.Index;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.nomadev.direc.BuildConfig;
 import com.nomadev.direc.databinding.ActivitySearchBinding;
 import com.nomadev.direc.model.PasienModel;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +24,9 @@ import java.util.List;
 public class SearchActivity extends AppCompatActivity {
 
     private ActivitySearchBinding binding;
-    private ArrayList<PasienModel> searchList;
-    private ArrayList<String> idList;
     private SearchAdapter adapter;
     private FirebaseFirestore db;
+    private SearchViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +35,12 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         db = FirebaseFirestore.getInstance();
-        searchList = new ArrayList<>();
-        idList = new ArrayList<>();
-        adapter = new SearchAdapter(searchList, idList);
-        Client client = new Client(BuildConfig.ALGOLIA_APP_ID, BuildConfig.ALGOLIA_ADMIN_API_KEY);
-        Index index = client.getIndex("pasien");
+        viewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         showProgressBar(false);
 
         binding.etSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                searchAlgolia(binding.etSearch.getText().toString());
+                searchPasien(binding.etSearch.getText().toString());
             }
             return false;
         });
@@ -70,19 +59,15 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 showProgressBar(false);
-                searchAlgolia(s.toString());
+                searchPasien(s.toString());
             }
         });
 
-        clearAlgolia(index);
+        getPasienData();
     }
 
-    private void clearAlgolia(Index index) {
-        index.clearIndexAsync(null);
-        getPasienData(index);
-    }
 
-    private void getPasienData(Index index) {
+    private void getPasienData() {
         CollectionReference dbPasien = db.collection("pasien");
         Query query = dbPasien.orderBy("nama", Query.Direction.ASCENDING);
         ArrayList<PasienModel> listPasien = new ArrayList<>();
@@ -101,7 +86,7 @@ public class SearchActivity extends AppCompatActivity {
                         listPasien.add(pasienModel);
                     }
                 }
-                postAlgolia(index, listPasien);
+                addPasienLocal(listPasien);
                 Log.d("FEEDBACK", "Berhasil Mengambil Data.");
             } else {
                 Log.d("FEEDBACK", "Data Kosong.");
@@ -109,76 +94,38 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    private void postAlgolia(Index index, List<PasienModel> list) {
-        ArrayList<JSONObject> array = new ArrayList<>();
-        try {
-            for (int i = 0; i < list.size(); i++) {
-                int genderInt = list.get(i).getKelamin();
-                String gender;
-                if (genderInt == 0) {
-                    gender = "Laki-laki";
-                } else {
-                    gender = "Perempuan";
-                }
-                array.add(
-                        new JSONObject()
-                                .put("objectID", list.get(i).getId())
-                                .put("nama", list.get(i).getNama())
-                                .put("kelamin", gender)
-                                .put("tanggalLahir", list.get(i).getTanggalLahir())
-                                .put("telepon", list.get(i).getTelepon())
-                                .put("alamat", list.get(i).getAlamat())
-                );
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        index.addObjectsAsync(new JSONArray(array), null);
+    private void addPasienLocal(List<PasienModel> list) {
+        viewModel.addPasien(list);
     }
 
-    private void searchAlgolia(String input) {
-        Client client = new Client(BuildConfig.ALGOLIA_APP_ID, BuildConfig.ALGOLIA_ADMIN_API_KEY);
-        Index index = client.getIndex("pasien");
-        com.algolia.search.saas.Query query = new com.algolia.search.saas.Query(input)
-                .setAttributesToRetrieve("nama", "alamat", "telepon")
-                .setHitsPerPage(50);
-        index.searchAsync(query, (jsonObject, e) -> {
-            try {
-                idList.clear();
-                searchList.clear();
-                showProgressBar(false);
-                JSONArray hits;
-                if (jsonObject != null) {
-                    hits = jsonObject.getJSONArray("hits");
-                    if (hits.length() > 0) {
-                        Log.d("hits", hits.toString());
-                        for (int i = 0; i < hits.length(); i++) {
-                            JSONObject data = hits.getJSONObject(i);
-                            String id = data.getString("objectID");
-                            String nama = data.getString("nama");
-                            String telepon = data.getString("telepon");
-                            String alamat = data.getString("alamat");
-                            Log.d("nama", i + 1 + ". " + nama);
-
-                            PasienModel pasienModel = new PasienModel(nama, 0, telepon, alamat, "", false);
-                            searchList.add(pasienModel);
-                            idList.add(id);
-                        }
-                        Log.d("idList", idList.toString());
-                        Log.d("searchList", searchList.toString());
-                        showRecyclerView();
-                        showSearchInfo(false);
-                    } else {
-                        showSearchInfo(true);
-                        binding.rvSearch.setVisibility(View.GONE);
-                    }
+    private void searchPasien(String query) {
+        String searchQuery = "%" + query + "%";
+        List<String> listId = new ArrayList<>();
+        viewModel.searchPatient(searchQuery).observe(this, list -> {
+            if (!list.isEmpty()) {
+                listId.clear();
+                for (int i = 0; i < list.size(); i++) {
+                    listId.add(list.get(i).getId());
                 }
-            } catch (JSONException jsonException) {
-                jsonException.printStackTrace();
+                Log.d("SearchActivity", listId.toString());
+                getSearchPasien(listId);
+                showSearchInfo(false);
+            } else {
+                showSearchInfo(true);
+                binding.rvSearch.setVisibility(View.GONE);
             }
         });
     }
+
+    private void getSearchPasien(List<String> listId) {
+        viewModel.getSearchPatients(listId).observe(this, list -> {
+            if (list.size() > 0) {
+                adapter = new SearchAdapter(list);
+                showRecyclerView();
+            }
+        });
+    }
+
 
     private void showRecyclerView() {
         binding.rvSearch.setVisibility(View.VISIBLE);
